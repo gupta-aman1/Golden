@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:id="@+id/layout1"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@drawable/blue_back"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:id="@+id/main_wallet_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+
+            app:layout_constraintEnd_toStartOf="@+id/aeps_wallet_layout">
+
+            <ImageView
+                android:id="@+id/img_main_wallet"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/rupee" />
+
+            <TextView
+                android:id="@+id/tvMainBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00.00"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Main Wallet"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/move_to_bank_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+           >
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/bank"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Move To Bank"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/aeps_wallet_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+           >
+
+            <ImageView
+                android:id="@+id/img_aeps_wallet"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/rupee" />
+
+            <TextView
+                android:id="@+id/tv_aeps_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00.00"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aeps Wallet"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/sc"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_bar_layout"
+        app:layout_constraintTop_toBottomOf="@+id/layout1">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="@+id/bottom_bar_layout"
+                app:layout_constraintStart_toStartOf="@+id/bottom_bar_layout"
+                app:layout_constraintTop_toTopOf="@+id/layout1"
+                tools:ignore="NotSibling">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/green_back"
+                    android:fontFamily="@font/cutive"
+                    android:gravity="center"
+                    android:text="Welcome to \10GoldenFish Family"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/bottom_bar_layout"
+                    app:layout_constraintEnd_toEndOf="@+id/bottom_bar_layout"
+                    app:layout_constraintStart_toStartOf="@+id/bottom_bar_layout"
+                    app:layout_constraintTop_toTopOf="@+id/bottom_bar_layout" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/text_services"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Our Services"
+                android:textColor="@color/blue"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/card_view"
+                app:layout_constraintStart_toStartOf="@+id/card_view"
+                app:layout_constraintTop_toBottomOf="@+id/card_view" />
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="120dp"
+                android:layout_marginEnd="120dp"
+                android:background="@color/blue"
+                app:layout_constraintTop_toBottomOf="@+id/text_services" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="140dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="140dp"
+                android:background="@color/blue"
+                app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/prepaid_card"
+                android:layout_width="0dp"
+                android:layout_marginLeft="4dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/dth_card"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/blue_back"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/prepaid" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Prepaid"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/dth_card"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/postpaid_card"
+                app:layout_constraintStart_toEndOf="@+id/prepaid_card"
+                app:layout_constraintTop_toBottomOf="@+id/view2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/blue_back"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/dish" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="DTH"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/postpaid_card"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="4dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/dth_card"
+                app:layout_constraintTop_toBottomOf="@+id/view2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/blue_back"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/postpaid" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Postpaid"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/money_transfer_card"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/dth_card"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/prepaid_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/blue_back"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/money_transfer" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Money Transfer"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/btn_aeps"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="#00000000"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/aeps_card"
+                app:layout_constraintEnd_toEndOf="@+id/aeps_card"
+                app:layout_constraintStart_toStartOf="@+id/aeps_card"
+                app:layout_constraintTop_toTopOf="@+id/aeps_card" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/aeps_card"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="4dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/broad_band_card"
+                app:layout_constraintStart_toEndOf="@+id/money_transfer_card"
+                app:layout_constraintTop_toBottomOf="@+id/prepaid_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/blue_back"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/aeps" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="AEPS"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/broad_band_card"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/aeps_card"
+                app:layout_constraintTop_toBottomOf="@+id/prepaid_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/blue_back"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/broadband" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Broadband"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/bus_card"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/hotel_card"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/money_transfer_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/blue_back"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/bus" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Bus"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/hotel_card"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="4dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/flight_card"
+                app:layout_constraintStart_toEndOf="@+id/bus_card"
+                app:layout_constraintTop_toBottomOf="@+id/money_transfer_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/blue_back"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/hotel" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Hotel"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/flight_card"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/hotel_card"
+                app:layout_constraintTop_toBottomOf="@+id/money_transfer_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/blue_back"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/flight" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Flight"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/electricity_card"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/water_card"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bus_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/blue_back"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/electricity" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Electricity"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/water_card"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/gas_card"
+                app:layout_constraintStart_toEndOf="@+id/electricity_card"
+                app:layout_constraintTop_toBottomOf="@+id/bus_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/blue_back"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/water" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Water"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/gas_card"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/water_card"
+                app:layout_constraintTop_toBottomOf="@+id/bus_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/blue_back"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/gas" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Gas"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottom_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:elevation="6dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_gravity="center"
+                android:src="@drawable/home"
+                app:tint="@color/green" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Home"
+                android:textColor="@color/green" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_history_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_gravity="center"
+                android:src="@drawable/report1"
+                app:tint="@color/green" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="History"
+                android:textColor="@color/green" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_profile_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_gravity="center"
+                android:src="@drawable/profile"
+                app:tint="@color/green" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Profile"
+                android:textColor="@color/green" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

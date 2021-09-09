@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:aapt="http://schemas.android.com/aapt">
+    <group android:id="@+id/nav_home" android:checkableBehavior="single">
+        <item android:icon="@drawable/home" android:title="Home"/>
+    </group>
+    <group android:id="@+id/nav_fund_request" android:checkableBehavior="single">
+        <item android:icon="@drawable/fund_request" android:title="Add Fund"/>
+    </group>
+    <group android:id="@+id/nav_all_report" android:checkableBehavior="single">
+        <item android:icon="@drawable/report4" android:title="All Report"/>
+    </group>
+    <group android:id="@+id/nav_move_to_bank" android:checkableBehavior="single">
+        <item android:icon="@drawable/report4" android:title="Move to bank"/>
+    </group>
+    <group android:id="@+id/nav_aeps_report" android:checkableBehavior="single">
+        <item android:icon="@drawable/report5" android:title="AEPS Report"/>
+    </group>
+    <group android:id="@+id/nav_settlement_report" android:checkableBehavior="single">
+        <item android:icon="@drawable/report5" android:title="Settlement Report"/>
+    </group>
+    <group android:id="@+id/nav_aeps_ledger_report" android:checkableBehavior="single">
+        <item android:icon="@drawable/report6" android:title="AEPS Ledger Report"/>
+    </group>
+    <group android:id="@+id/nav_credit_report" android:checkableBehavior="single">
+        <item android:icon="@drawable/report1" android:title="Credit Report"/>
+    </group>
+    <group android:id="@+id/nav_debit_report" android:checkableBehavior="single">
+        <item android:icon="@drawable/report2" android:title="Debit Report"/>
+    </group>
+    <group android:id="@+id/nav_ledger_report" android:checkableBehavior="single">
+        <item android:icon="@drawable/report3" android:title="Ledger Report"/>
+    </group>
+    <group android:id="@+id/nav_complaint" android:checkableBehavior="single">
+        <item android:icon="@drawable/complaint" android:title="Complaint"/>
+    </group>
+    <group android:id="@+id/nav_share_app" android:checkableBehavior="single">
+        <item android:icon="@drawable/share" android:title="Share App"/>
+    </group>
+    <group android:id="@+id/nav_support" android:checkableBehavior="single">
+        <item android:icon="@drawable/complaint" android:title="Customer Care"/>
+    </group>
+    <group android:id="@+id/nav_change_password" android:checkableBehavior="single">
+        <item android:icon="@drawable/lock" android:title="Change Password"/>
+    </group>
+    <group android:id="@+id/nav_log_out" android:checkableBehavior="single">
+        <item android:icon="@drawable/logout" android:title="Logout"/>
+    </group>
+</menu>

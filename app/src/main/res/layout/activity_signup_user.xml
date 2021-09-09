@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/loginLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blue_gradient">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/img_logo"
+                android:layout_width="150dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="150dp"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/text_welcome"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="New User Registartion"
+                            android:layout_gravity="center_horizontal"
+                            android:textColor="@color/blue"
+                            android:textSize="19sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/img_logo" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/_30dp"
+                android:layout_marginLeft="@dimen/_30dp"
+                android:layout_marginRight="@dimen/_30dp"
+                android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/et_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:hint="Enter User Name"
+                android:inputType="text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_welcome"
+                />
+
+            <EditText
+                android:id="@+id/et_shop_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:layout_marginTop="15dp"
+                android:hint="Enter Shop Name"
+                />
+            <EditText
+                android:id="@+id/et_select_dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:hint="Select DOB"
+                />
+
+            <Spinner
+                android:id="@+id/et_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                             />
+
+            <EditText
+                android:id="@+id/et_pan_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:hint="Enter PAN No."
+                />
+            <EditText
+                android:id="@+id/et_Aadhaar_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:hint="Enter Aadhaar No."
+                />
+            <EditText
+                android:id="@+id/et_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:hint="Enter Address"
+                />
+            <Spinner
+                android:id="@+id/et_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                />
+            <Spinner
+                android:id="@+id/et_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                />
+            <EditText
+                android:id="@+id/et_pincode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:hint="Enter Address"
+                />
+            <EditText
+                android:id="@+id/et_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:inputType="number"
+                android:maxLength="10"
+                android:hint="Enter Mobile No."
+                />
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:inputType="textEmailAddress"
+                android:hint="Enter Email"
+                />
+            <Spinner
+                android:id="@+id/et_joinas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="40dp"
+                android:onClick="Login"
+                android:layout_marginEnd="60dp"
+                android:background="@drawable/green_back"
+                android:text="Singup"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_forget_password" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:text="Already a member ? LogIn"
+                android:textColor="@color/black"
+                android:onClick="ClickLogin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
