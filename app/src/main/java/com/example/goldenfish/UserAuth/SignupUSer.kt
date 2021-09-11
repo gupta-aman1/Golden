@@ -14,6 +14,7 @@ class SignupUSer : AppCompatActivity() {
         setContentView(R.layout.activity_signup_user)
 
        // var arr:ArrayList<String>
+        System.out.println("TEST USER")
         val gender_list = arrayListOf<String>()
         gender_list.add("Select Gender")
         gender_list.add("Male")
