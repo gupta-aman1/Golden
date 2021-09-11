@@ -19,7 +19,7 @@ class SignupUSer : AppCompatActivity() {
         gender_list.add("Male")
         gender_list.add("Female")
         val adapter = ArrayAdapter(this,
-            android.R.layout.simple_spinner_item, gender_list)
+            android.R.layout.simple_spinner_dropdown_item, gender_list)
         et_gender.adapter = adapter
     }
 
