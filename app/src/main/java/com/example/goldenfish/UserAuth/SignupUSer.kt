@@ -14,12 +14,13 @@ class SignupUSer : AppCompatActivity() {
         setContentView(R.layout.activity_signup_user)
 
        // var arr:ArrayList<String>
+        System.out.println("TEST USER")
         val gender_list = arrayListOf<String>()
         gender_list.add("Select Gender")
         gender_list.add("Male")
         gender_list.add("Female")
         val adapter = ArrayAdapter(this,
-            android.R.layout.simple_spinner_item, gender_list)
+            android.R.layout.simple_spinner_dropdown_item, gender_list)
         et_gender.adapter = adapter
     }
 
