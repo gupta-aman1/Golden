@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.goldenfish"
-        minSdk 21
+        minSdk 23
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -57,4 +57,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+
+    // sharedpreference library for encryption
+    implementation "androidx.security:security-crypto:1.0.0-alpha02"
+
+    // dexter runtime permissions
+    implementation 'com.karumi:dexter:4.2.0'
 }

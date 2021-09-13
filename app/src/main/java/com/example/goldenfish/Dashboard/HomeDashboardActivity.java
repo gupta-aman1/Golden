@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import com.example.goldenfish.R;
@@ -28,6 +29,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +49,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.example.goldenfish.Utilities.GeoLocation;
+import com.example.goldenfish.Utilities.GpsInterface;
+import com.example.goldenfish.Utilities.GpsListener;
+import com.example.goldenfish.Utilities.OnDataReceiverListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -64,7 +71,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class HomeDashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeDashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnDataReceiverListener, GpsInterface {
     int PERMISSION_ID = 44;
     String address;
     String aepsBalance = "00.00";
@@ -82,6 +89,11 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     String lat = "0.0";
     String longi = "0.0";
     FusedLocationProviderClient mFusedLocationClient;
+    GeoLocation geoLocation;
+    private GpsListener gpsListener;
+    private boolean isGpsOn;
+    private boolean onecall=false;
+    private boolean faslecall=false;
     private LocationCallback mLocationCallback = new LocationCallback() {
         public void onLocationResult(LocationResult locationResult) {
             Location mLastLocation = locationResult.getLastLocation();
@@ -268,6 +280,13 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 HomeDashboardActivity.this.startActivity(intent);
             }
         });*/
+
+        geoLocation= new GeoLocation(HomeDashboardActivity.this,HomeDashboardActivity.this);
+
+        IntentFilter mfilter = new IntentFilter(
+                "android.location.PROVIDERS_CHANGED");
+        gpsListener = new GpsListener(HomeDashboardActivity.this, this);
+        registerReceiver(gpsListener, mfilter);
     }
 
     /* access modifiers changed from: private */
@@ -360,6 +379,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     /* access modifiers changed from: protected */
     public void onResume() {
         super.onResume();
+        geoLocation.startLocationButtonClick();
        // checkForPackageAvailable();
        // SimpleChromeCustomTabs.getInstance().connectTo(this);
     }
@@ -647,5 +667,52 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
+    }
+
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        geoLocation.stopLocationUpdates();
+    }
+
+
+    @Override
+    public void onGpsStatusChanged(boolean gpsStatus) {
+        isGpsOn = gpsStatus;
+        if(isGpsOn) {
+
+            faslecall=false;
+            if(onecall==false)
+            {
+                onecall=true;
+                //  Toast.makeText(this, "GPS on", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else
+        {
+            onecall=false;
+
+            if(faslecall==false)
+            {
+                faslecall=true;
+                //   Toast.makeText(this, "GPS OFF", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(gpsListener);
+    }
+
+    @Override
+    public void onDataReceived(String myData, Double latitude, Double longitude) {
+
     }
 }

@@ -28,9 +28,11 @@ import com.example.goldenfish.Dashboard.HomeDashboardActivity;
 import com.example.goldenfish.R;
 import com.example.goldenfish.Retrofit.RetrofitClient;
 import com.example.goldenfish.Utilities.MyUtils;
+import com.example.goldenfish.Utilities.SharedPref;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -66,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
     String username;
     String usertype;
     //WebServiceInterface webServiceInterface;
-
+    SharedPref sharedPref;
     /* access modifiers changed from: protected */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -196,7 +198,7 @@ public class LoginActivity extends AppCompatActivity {
                         String stCode= jsonObject1.getString(Constant.StatusCode);
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))
                         {
-                            LoginActivity.this.showOtpDialog();
+                            LoginActivity.this.showOtpDialog(jsonObject1.getString(Constant.Data));
                            // LoginActivity.this.msg = jsonObject1.getString(NotificationCompat.CATEGORY_MESSAGE);
                             Toast.makeText(LoginActivity.this, "OTP sent", Toast.LENGTH_SHORT).show();
 
@@ -286,7 +288,7 @@ public class LoginActivity extends AppCompatActivity {
     }*/
 
     /* access modifiers changed from: private */
-    public void showOtpDialog() {
+    public void showOtpDialog(String mobile) {
         View addSenderOTPDialogView = getLayoutInflater().inflate(R.layout.add_sender_otp_dialog, (ViewGroup) null, false);
         final AlertDialog addSenderOTPDialog = new AlertDialog.Builder(this).create();
         ((Window) Objects.requireNonNull(addSenderOTPDialog.getWindow())).setBackgroundDrawable(new ColorDrawable(0));
@@ -307,7 +309,7 @@ public class LoginActivity extends AppCompatActivity {
         ((Button) addSenderOTPDialogView.findViewById(R.id.btn_submit)).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(etOTP.getText())) {
-                   // LoginActivity.this.verifyOtp(etOTP.getText().toString().trim());
+                    LoginActivity.this.verifyOTP(etOTP.getText().toString().trim(),mobile);
                     addSenderOTPDialog.dismiss();
                     return;
                 }
@@ -316,18 +318,19 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void verifyOTP()
+    public void verifyOTP(String otp,String mobile)
     {
         final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Logging In");
+        progressDialog.setTitle("Verifying OTP");
         progressDialog.setMessage("Please wait while logging in...");
         progressDialog.setCancelable(false);
         progressDialog.show();
         JsonObject jsonObject= new JsonObject();
         jsonObject.addProperty("Userid","NA");
-        jsonObject.addProperty("UserName",this.etUserId.getText().toString().trim());
-        jsonObject.addProperty("Password",this.etUserPassword.getText().toString().trim());
-        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("ValidateOTPForLogin",etUserId.getText().toString().trim()+"|"+etUserPassword.getText().toString().trim(),"NA"));
+        jsonObject.addProperty("OTP",otp);
+        jsonObject.addProperty("Mobile",mobile);
+        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("ValidateOTPForLogin",otp+"|"+mobile,"NA"));
+       System.out.println("JSON REQ "+jsonObject);
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().ValidateOTPForLogin(jsonObject);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -338,14 +341,30 @@ public class LoginActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     String fullRes = null;
                     try {
-
                         fullRes = response.body().string();
                         JSONObject jsonObject1= new JSONObject(fullRes);
+
+                       // System.out.println("FINAL RESP1 "+response.body().toString());
                         String stCode= jsonObject1.getString(Constant.StatusCode);
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))
                         {
-                            Toast.makeText(LoginActivity.this, "OTP sent", Toast.LENGTH_SHORT).show();
+                           JSONArray jsonArray= jsonObject1.getJSONArray("Data");
+                            sharedPref.putString(Constant.userId, String.valueOf(jsonArray.getJSONObject(0).getString("Id")));
+                            sharedPref.putString(Constant.ParentId, String.valueOf(jsonArray.getJSONObject(0).getString("ParentId")));
+                            sharedPref.putString(Constant.FOSId, String.valueOf(jsonArray.getJSONObject(0).getString("FOSId")));
+                            sharedPref.putString(Constant.UniqueCode, String.valueOf(jsonArray.getJSONObject(0).getString("UniqueCode")));
+                            sharedPref.putString(Constant.NextNo, String.valueOf(jsonArray.getJSONObject(0).getString("NextNo")));
+                            sharedPref.putString(Constant.Username, String.valueOf(jsonArray.getJSONObject(0).getString("Username")));
+                            sharedPref.putString(Constant.Usertype, String.valueOf(jsonArray.getJSONObject(0).getString("Usertype")));
+                            sharedPref.putString(Constant.AddDate, String.valueOf(jsonArray.getJSONObject(0).getString("AddDate")));
 
+                           // Toast.makeText(LoginActivity.this, "OTP sent", Toast.LENGTH_SHORT).show();
+                           String userId = sharedPref.getStringWithNull(Constant.userId);
+                            String Username = sharedPref.getStringWithNull(Constant.Username);
+
+                            System.out.println("RESP "+userId+ " "+Username);
+                            startActivity(new Intent(LoginActivity.this,HomeDashboardActivity.class));
+                            finishAffinity();
                         }
                         else
                         {
@@ -445,6 +464,7 @@ public class LoginActivity extends AppCompatActivity {
         this.etUserPassword = (EditText) findViewById(R.id.et_user_password);
         this.btnLogin = (Button) findViewById(R.id.btn_login);
         this.tvForgetPassword = (TextView) findViewById(R.id.tv_forget_password);
+        sharedPref = SharedPref.getInstance(LoginActivity.this);
     }
 
     /* access modifiers changed from: private */
