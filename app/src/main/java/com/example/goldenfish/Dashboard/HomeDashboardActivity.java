@@ -172,6 +172,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         this.tvEmailAddress.setText(this.email);
         TextView textView2 = this.tvFirmName;
         textView2.setText("Firm : " + this.firmName);
+        System.out.println("TEST");
        // this.webServiceInterface = (WebServiceInterface) WebServiceInterface.retrofit.create(WebServiceInterface.class);
         if (checkInternetState()) {
          //   getBalance();
