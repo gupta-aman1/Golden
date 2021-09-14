@@ -11,8 +11,11 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
+import com.example.goldenfish.Constants.Constant;
+import com.example.goldenfish.Constants.ConstantsValue;
 import com.example.goldenfish.R;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import android.app.Activity;
@@ -50,10 +53,14 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.goldenfish.Retrofit.RetrofitClient;
+import com.example.goldenfish.UserAuth.LoginActivity;
 import com.example.goldenfish.Utilities.GeoLocation;
 import com.example.goldenfish.Utilities.GpsInterface;
 import com.example.goldenfish.Utilities.GpsListener;
+import com.example.goldenfish.Utilities.MyUtils;
 import com.example.goldenfish.Utilities.OnDataReceiverListener;
+import com.example.goldenfish.Utilities.SharedPref;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -64,11 +71,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.gson.JsonObject;
 
 import java.util.Objects;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 
 public class HomeDashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnDataReceiverListener, GpsInterface {
@@ -143,6 +155,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     TextView tvNavOwnerName;
     String url;
     String userid;
+    SharedPref sharedPref;
     //WebServiceInterface webServiceInterface;
 
     /* access modifiers changed from: protected */
@@ -153,7 +166,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         setSupportActionBar(toolbar);
         ((ActionBar) Objects.requireNonNull(getSupportActionBar())).setDisplayShowTitleEnabled(false);
         inhitViews();
-        SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+       /* SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         this.sharedPreferences = defaultSharedPreferences;
         this.userid = defaultSharedPreferences.getString("userid", (String) null);
         this.ownerName = this.sharedPreferences.getString("ownername", (String) null);
@@ -162,17 +175,17 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         this.name = this.sharedPreferences.getString("ownername", (String) null);
         this.email = this.sharedPreferences.getString("email", (String) null);
         this.address = this.sharedPreferences.getString("address", (String) null);
-        this.firmName = this.sharedPreferences.getString("firmName", (String) null);
+        this.firmName = this.sharedPreferences.getString("firmName", (String) null);*/
         this.mFusedLocationClient = LocationServices.getFusedLocationProviderClient((Activity) this);
         this.url = "http://api.goldenfishdigital.co.in/MAEPS.aspx?Pan=" + this.panCard + "&Name=" + this.name;
-        this.tvNavOwnerName.setText(this.ownerName);
-        TextView textView = this.tvNavMobileNo;
-        textView.setText("Phone : " + this.mobileNo);
-        this.tvLocation.setText(this.address);
-        this.tvEmailAddress.setText(this.email);
-        TextView textView2 = this.tvFirmName;
-        textView2.setText("Firm : " + this.firmName);
-        System.out.println("TEST");
+        //this.tvNavOwnerName.setText(this.ownerName);
+       // TextView textView = this.tvNavMobileNo;
+       // textView.setText("Phone : " + this.mobileNo);
+        //this.tvLocation.setText(this.address);
+        //this.tvEmailAddress.setText(this.email);
+       // TextView textView2 = this.tvFirmName;
+        //textView2.setText("Firm : " + this.firmName);
+       // System.out.println("TEST");
        // this.webServiceInterface = (WebServiceInterface) WebServiceInterface.retrofit.create(WebServiceInterface.class);
         if (checkInternetState()) {
          //   getBalance();
@@ -407,67 +420,135 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         this.bottomProfileLayout = (LinearLayout) findViewById(R.id.bottom_profile_layout);
         this.bottomHistoryLayout = (LinearLayout) findViewById(R.id.bottom_history_layout);
         this.moveToBankLayout = (LinearLayout) findViewById(R.id.move_to_bank_layout);
-    }
+        sharedPref = SharedPref.getInstance(HomeDashboardActivity.this);
+        userid = sharedPref.getStringWithNull(Constant.userId);
+        String FirmName = sharedPref.getStringWithNull(Constant.FirmName);
+        String MobileNo1 = sharedPref.getStringWithNull(Constant.MobileNo1);
+        String OwnerName = sharedPref.getStringWithNull(Constant.OwnerName);
+        String EmailId = sharedPref.getStringWithNull(Constant.EmailId);
 
-   /* public boolean onNavigationItemSelected(MenuItem item) {
+        this.tvFirmName.setText("Firm Name : "+FirmName);
+        this.tvNavMobileNo.setText("Mobile No. : "+MobileNo1);
+        this.tvNavOwnerName.setText(OwnerName);
+        this.tvEmailAddress.setText(EmailId);
+        //this.tvLocation.setText("Babu");
+        getWalletBalance();
+    }
+    private void getWalletBalance()
+    {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Fetching Balance");
+        progressDialog.setMessage("Please wait while logging in...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        JsonObject jsonObject= new JsonObject();
+        jsonObject.addProperty("Userid",userid);
+        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetWalletBalance","",userid));
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().GetWalletBalance(jsonObject);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+
+                if (response.body() != null){
+                    // HideProgress(ctx);
+                    progressDialog.dismiss();
+                    String fullRes = null;
+                    try {
+
+                        fullRes = response.body().string();
+                        JSONObject jsonObject1= new JSONObject(fullRes);
+                        String stCode= jsonObject1.getString(Constant.StatusCode);
+                        if (stCode.equalsIgnoreCase(ConstantsValue.successful))
+                        {
+                            JSONArray jsonArray= jsonObject1.getJSONArray("Data");
+                         String  MainBal= jsonArray.getJSONObject(0).getString("MainBal");
+                           String AepsBal= jsonArray.getJSONObject(0).getString("AepsBal");
+                            tvMainBalance.setText("₹ " +MainBal);
+                            tvAepsBalance.setText("₹ " +AepsBal);
+                        }
+                        else
+                        {
+                            // HideProgress(ctx);
+                            progressDialog.dismiss();
+                            Toast.makeText(HomeDashboardActivity.this, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }else {
+                    progressDialog.dismiss();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(HomeDashboardActivity.this, "Due to Internet Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getGroupId()) {
             case R.id.nav_aeps_ledger_report:
-                this.drawer.closeDrawer((int) GravityCompat.START, false);
+                /*this.drawer.closeDrawer((int) GravityCompat.START, false);
                 Intent intent = new Intent(this, AepsLedgerReportActivity.class);
                 intent.putExtra("title", "AEPS Ledger Report");
-                startActivity(intent);
+                startActivity(intent);*/
                 break;
             case R.id.nav_aeps_report:
-                this.drawer.closeDrawer((int) GravityCompat.START, false);
+                /*this.drawer.closeDrawer((int) GravityCompat.START, false);
                 Intent intent2 = new Intent(this, AepsReportActivity.class);
                 intent2.putExtra("title", "AEPS Report");
-                startActivity(intent2);
+                startActivity(intent2);*/
                 break;
             case R.id.nav_all_report:
-                this.drawer.closeDrawer((int) GravityCompat.START, false);
+               /* this.drawer.closeDrawer((int) GravityCompat.START, false);
                 Intent intent3 = new Intent(this, AllReportsActivity.class);
                 intent3.putExtra("title", "All Report");
-                startActivity(intent3);
+                startActivity(intent3);*/
                 break;
             case R.id.nav_change_password:
-                Intent intent4 = new Intent(this, ChangePasswordActivity.class);
+               /* Intent intent4 = new Intent(this, ChangePasswordActivity.class);
                 intent4.putExtra("title", "Change Password");
                 startActivity(intent4);
-                this.drawer.closeDrawer((int) GravityCompat.START, false);
+                this.drawer.closeDrawer((int) GravityCompat.START, false);*/
                 break;
             case R.id.nav_complaint:
-                this.drawer.closeDrawer((int) GravityCompat.START, false);
+               /* this.drawer.closeDrawer((int) GravityCompat.START, false);
                 Intent intent5 = new Intent(this, ComplaintActivity.class);
                 intent5.putExtra("title", "Make Complaint");
-                startActivity(intent5);
+                startActivity(intent5);*/
                 break;
             case R.id.nav_credit_report:
-                Intent intent6 = new Intent(this, CreditDebitReportActivity.class);
+              /*  Intent intent6 = new Intent(this, CreditDebitReportActivity.class);
                 intent6.putExtra("title", "Credit Report");
                 startActivity(intent6);
-                this.drawer.closeDrawer((int) GravityCompat.START, false);
+                this.drawer.closeDrawer((int) GravityCompat.START, false);*/
                 break;
             case R.id.nav_debit_report:
-                this.drawer.closeDrawer((int) GravityCompat.START, false);
+               /* this.drawer.closeDrawer((int) GravityCompat.START, false);
                 Intent intent7 = new Intent(this, CreditDebitReportActivity.class);
                 intent7.putExtra("title", "Debit Report");
-                startActivity(intent7);
+                startActivity(intent7);*/
                 break;
             case R.id.nav_home:
                 this.drawer.closeDrawer((int) GravityCompat.START, true);
                 break;
             case R.id.nav_ledger_report:
-                Intent intent8 = new Intent(this, LedgerReportActivity.class);
+               /* Intent intent8 = new Intent(this, LedgerReportActivity.class);
                 intent8.putExtra("title", "Ledger Report");
                 startActivity(intent8);
-                this.drawer.closeDrawer((int) GravityCompat.START, true);
+                this.drawer.closeDrawer((int) GravityCompat.START, true);*/
                 break;
             case R.id.nav_log_out:
                 new AlertDialog.Builder(this).setTitle((CharSequence) "Confirmation").setMessage((CharSequence) "Are you sure ?").setPositiveButton((CharSequence) "Yes", (DialogInterface.OnClickListener) new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(HomeDashboardActivity.this).edit();
-                        editor.clear();
-                        editor.apply();
+                      sharedPref.clearData();
                         HomeDashboardActivity.this.startActivity(new Intent(HomeDashboardActivity.this, LoginActivity.class));
                         HomeDashboardActivity.this.finish();
                     }
@@ -475,22 +556,22 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 this.drawer.closeDrawer((int) GravityCompat.START);
                 break;
             case R.id.nav_move_to_bank:
-                this.drawer.closeDrawer((int) GravityCompat.START, false);
-                startActivity(new Intent(this, MoveToBankActivity.class));
+                /*this.drawer.closeDrawer((int) GravityCompat.START, false);
+                startActivity(new Intent(this, MoveToBankActivity.class));*/
                 break;
             case R.id.nav_settlement_report:
-                this.drawer.closeDrawer((int) GravityCompat.START, false);
+                /*this.drawer.closeDrawer((int) GravityCompat.START, false);
                 Intent intent9 = new Intent(this, SettlementReportActivity.class);
                 intent9.putExtra("title", "Settlement Report");
-                startActivity(intent9);
+                startActivity(intent9);*/
                 break;
             case R.id.nav_support:
-                showSupportDialog();
+               // showSupportDialog();
                 this.drawer.closeDrawer((int) GravityCompat.START, false);
                 break;
-        }*/
-        /*return false;
-    }*/
+        }
+        return false;
+    }
 
    /* private void showSupportDialog() {
         View view1 = LayoutInflater.from(this).inflate(R.layout.support_dialog, (ViewGroup) null, false);
@@ -665,10 +746,6 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         }
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
-    }
 
 
 
@@ -713,7 +790,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     }
 
     @Override
-    public void onDataReceived(String myData, Double latitude, Double longitude) {
-
+    public void onDataReceived(String myData, Double latitude, Double longitude,String address) {
+        this.tvLocation.setText(address);
     }
 }

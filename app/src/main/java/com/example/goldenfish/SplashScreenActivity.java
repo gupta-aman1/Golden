@@ -14,13 +14,15 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.goldenfish.Constants.Constant;
 import com.example.goldenfish.Dashboard.HomeDashboardActivity;
 import com.example.goldenfish.UserAuth.LoginActivity;
+import com.example.goldenfish.Utilities.SharedPref;
 
 public class SplashScreenActivity extends AppCompatActivity {
-    SharedPreferences sharedPreferences;
+   // SharedPreferences sharedPreferences;
     String user;
-
+    SharedPref sharedPref;
     /* access modifiers changed from: protected */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +31,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         requestWindowFeature(1);
         getWindow().setFlags(1024, 1024);
         setContentView((int) R.layout.activity_splash_screen);
-        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPref = SharedPref.getInstance(SplashScreenActivity.this);
+       // this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         RotateAnimation rotate = new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(2200);
         rotate.setInterpolator(new LinearInterpolator());
@@ -40,15 +43,19 @@ public class SplashScreenActivity extends AppCompatActivity {
         System.out.println("Hello main");
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                SplashScreenActivity splashScreenActivity = SplashScreenActivity.this;
-                splashScreenActivity.user = splashScreenActivity.sharedPreferences.getString("username", (String) null);
-                if (SplashScreenActivity.this.user != null) {
+               // SplashScreenActivity splashScreenActivity = SplashScreenActivity.this;
+               // splashScreenActivity.user = splashScreenActivity.sharedPreferences.getString("username", (String) null);
+               String userid = sharedPref.getStringWithNull(Constant.userId);
+                if (userid == null || userid.equalsIgnoreCase("") ) {
+                    SplashScreenActivity.this.startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                    SplashScreenActivity.this.finish();
+
+                  //  return;
+                }
+                else {
                     SplashScreenActivity.this.startActivity(new Intent(SplashScreenActivity.this, HomeDashboardActivity.class));
                     SplashScreenActivity.this.finish();
-                    return;
                 }
-                SplashScreenActivity.this.startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-                SplashScreenActivity.this.finish();
             }
         }, (long) 2500);
     }

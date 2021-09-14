@@ -21,4 +21,10 @@ public interface interfaceAPI {
     @POST("ValidateOTPForLogin")
     Call<ResponseBody> ValidateOTPForLogin(@Body JsonObject object);
 
+    @POST("GetWalletBalance")
+    Call<ResponseBody> GetWalletBalance(@Body JsonObject object);
+
+    @POST("ForgetPassword")
+    Call<ResponseBody> ForgetPassword(@Body JsonObject object);
+
 }

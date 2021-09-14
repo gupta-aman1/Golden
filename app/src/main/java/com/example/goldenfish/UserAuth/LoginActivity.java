@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
@@ -118,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                     LoginActivity loginActivity2 = LoginActivity.this;
                     loginActivity2.forgetMobile = loginActivity2.etForgetMobile.getText().toString().trim();
                     LoginActivity loginActivity3 = LoginActivity.this;
-                   // loginActivity3.forgetPasswordCallback(loginActivity3.forgetUsername, LoginActivity.this.forgetMobile);
+                    loginActivity3.forgotPassword(loginActivity3.forgetUsername, LoginActivity.this.forgetMobile);
                 }
             }
         });
@@ -170,7 +171,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    public void login()
+    private void login()
     {
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Logging In");
@@ -217,6 +218,67 @@ public class LoginActivity extends AppCompatActivity {
 
                 }else {
                    progressDialog.dismiss();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(LoginActivity.this, "Due to Internet Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void forgotPassword(String username,String mobile)
+    {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Requesting.....");
+       // progressDialog.setMessage("Please wait while logging in...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        JsonObject jsonObject= new JsonObject();
+        jsonObject.addProperty("Userid","NA");
+        jsonObject.addProperty("UserName",username);
+        jsonObject.addProperty("Mobile",mobile);
+        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("ForgetPassword",username+"|"+mobile,"NA"));
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().ForgetPassword(jsonObject);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+
+                if (response.body() != null){
+                    // HideProgress(ctx);
+                    progressDialog.dismiss();
+                    String fullRes = null;
+                    try {
+
+                        fullRes = response.body().string();
+                        JSONObject jsonObject1= new JSONObject(fullRes);
+                        String stCode= jsonObject1.getString(Constant.StatusCode);
+                        if (stCode.equalsIgnoreCase(ConstantsValue.successful))
+                        {
+                            new AlertDialog.Builder(LoginActivity.this).setTitle((CharSequence) "Message").setMessage(jsonObject1.getString("Message")).setPositiveButton((CharSequence) "OK", (DialogInterface.OnClickListener) new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    LoginActivity.this.builder.dismiss();
+                                }
+                            }).show();
+                        }
+                        else
+                        {
+                            // HideProgress(ctx);
+                            progressDialog.dismiss();
+                            Toast.makeText(LoginActivity.this, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }else {
+                    progressDialog.dismiss();
 
                 }
 
@@ -330,7 +392,7 @@ public class LoginActivity extends AppCompatActivity {
         jsonObject.addProperty("OTP",otp);
         jsonObject.addProperty("Mobile",mobile);
         jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("ValidateOTPForLogin",otp+"|"+mobile,"NA"));
-       System.out.println("JSON REQ "+jsonObject);
+     //  System.out.println("JSON REQ "+jsonObject);
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().ValidateOTPForLogin(jsonObject);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -357,12 +419,17 @@ public class LoginActivity extends AppCompatActivity {
                             sharedPref.putString(Constant.Username, String.valueOf(jsonArray.getJSONObject(0).getString("Username")));
                             sharedPref.putString(Constant.Usertype, String.valueOf(jsonArray.getJSONObject(0).getString("Usertype")));
                             sharedPref.putString(Constant.AddDate, String.valueOf(jsonArray.getJSONObject(0).getString("AddDate")));
+                            sharedPref.putString(Constant.FirmName, String.valueOf(jsonArray.getJSONObject(0).getString("FirmName")));
+                            sharedPref.putString(Constant.MobileNo1, String.valueOf(jsonArray.getJSONObject(0).getString("MobileNo1")));
+                                sharedPref.putString(Constant.EmailId, String.valueOf(jsonArray.getJSONObject(0).getString("EmailId")));
+                                sharedPref.putString(Constant.OwnerName, String.valueOf(jsonArray.getJSONObject(0).getString("OwnerName")));
 
                            // Toast.makeText(LoginActivity.this, "OTP sent", Toast.LENGTH_SHORT).show();
                            String userId = sharedPref.getStringWithNull(Constant.userId);
                             String Username = sharedPref.getStringWithNull(Constant.Username);
 
-                            System.out.println("RESP "+userId+ " "+Username);
+                           // System.out.println("RESP "+userId+ " "+Username);
+                            //System.out.println("RESP1 "+jsonObject1.getJSONArray("Data"));
                             startActivity(new Intent(LoginActivity.this,HomeDashboardActivity.class));
                             finishAffinity();
                         }

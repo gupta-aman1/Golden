@@ -141,7 +141,7 @@ public class GeoLocation extends AppCompatActivity {
                     String subadmin = addresses.get(0).getSubAdminArea();
                     String knownName = addresses.get(0).getFeatureName();
                     try {
-                        onDataReceiveListener.onDataReceived(pincode,mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
+                        onDataReceiveListener.onDataReceived(pincode,mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude(),address+" "+subadmin+ " "+knownName+" ,"+city);
                     }
                     catch (Exception e)
                     {

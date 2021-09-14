@@ -12,5 +12,9 @@ public class Constant {
     public static final String Username="Username";
     public static final String Usertype="Usertype";
     public static final String AddDate="AddDate";
+    public static final String FirmName="FirmName";
+    public static final String MobileNo1="MobileNo1";
+    public static final String EmailId="EmailId";
+    public static final String OwnerName="OwnerName";
 
 }
