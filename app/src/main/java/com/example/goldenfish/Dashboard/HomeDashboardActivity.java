@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
+import com.example.goldenfish.Aeps.WebviewAeps;
 import com.example.goldenfish.Constants.Constant;
 import com.example.goldenfish.Constants.ConstantsValue;
 import com.example.goldenfish.R;
@@ -54,6 +55,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.goldenfish.Retrofit.RetrofitClient;
+import com.example.goldenfish.Sidebar.AllReports.AllReportsActivity;
 import com.example.goldenfish.UserAuth.LoginActivity;
 import com.example.goldenfish.Utilities.GeoLocation;
 import com.example.goldenfish.Utilities.GpsInterface;
@@ -156,6 +158,8 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     String url;
     String userid;
     SharedPref sharedPref;
+    private String OwnerName;
+    private String PANCard;
     //WebServiceInterface webServiceInterface;
 
     /* access modifiers changed from: protected */
@@ -228,10 +232,19 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 intent.putExtra("aepsBalance", HomeDashboardActivity.this.aepsBalance);
                 HomeDashboardActivity.this.startActivity(intent);
             }
-        });
+        });*/
         this.aepsCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                View view1 = LayoutInflater.from(HomeDashboardActivity.this).inflate(R.layout.select_aeps_layout, (ViewGroup) null, false);
+                String webViewURL="https://uat.goldenfishdigital.co.in/ApesLogin.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+              //  String webViewURL="https://uat.goldenfishdigital.co.in/ApesLogin.aspx?UserName=AMIT%20SAHANI&PanNo=EQZPS7002H";
+                String url = webViewURL.replaceAll(" ","%20");
+                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+                intent.putExtra("url",webViewURL);
+                startActivity(intent);
+               /* Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(webViewURL));
+                startActivity(i);*/
+               /* View view1 = LayoutInflater.from(HomeDashboardActivity.this).inflate(R.layout.select_aeps_layout, (ViewGroup) null, false);
                 final AlertDialog builder = new AlertDialog.Builder(HomeDashboardActivity.this).create();
                 builder.getWindow().setBackgroundDrawable(new ColorDrawable(0));
                 builder.setView(view1);
@@ -245,16 +258,16 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                         }
                         HomeDashboardActivity.this.startActivity(i);
                     }
-                });
-                ((LinearLayout) view1.findViewById(R.id.aeps_layout2)).setOnClickListener(new View.OnClickListener() {
+                });*/
+               /* ((LinearLayout) view1.findViewById(R.id.aeps_layout2)).setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
                         builder.dismiss();
                         HomeDashboardActivity.this.getLastLocation();
                     }
-                });
+                });*/
             }
         });
-        this.moveToBankLayout.setOnClickListener(new View.OnClickListener() {
+      /*  this.moveToBankLayout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 HomeDashboardActivity.this.startActivity(new Intent(HomeDashboardActivity.this, MoveToBankActivity.class));
             }
@@ -424,7 +437,8 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         userid = sharedPref.getStringWithNull(Constant.userId);
         String FirmName = sharedPref.getStringWithNull(Constant.FirmName);
         String MobileNo1 = sharedPref.getStringWithNull(Constant.MobileNo1);
-        String OwnerName = sharedPref.getStringWithNull(Constant.OwnerName);
+         OwnerName = sharedPref.getStringWithNull(Constant.OwnerName);
+        PANCard = sharedPref.getStringWithNull(Constant.PANCard);
         String EmailId = sharedPref.getStringWithNull(Constant.EmailId);
 
         this.tvFirmName.setText("Firm Name : "+FirmName);
@@ -507,10 +521,10 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 startActivity(intent2);*/
                 break;
             case R.id.nav_all_report:
-               /* this.drawer.closeDrawer((int) GravityCompat.START, false);
+                this.drawer.closeDrawer((int) GravityCompat.START, false);
                 Intent intent3 = new Intent(this, AllReportsActivity.class);
-                intent3.putExtra("title", "All Report");
-                startActivity(intent3);*/
+                //intent3.putExtra("title", "All Report");
+                startActivity(intent3);
                 break;
             case R.id.nav_change_password:
                /* Intent intent4 = new Intent(this, ChangePasswordActivity.class);

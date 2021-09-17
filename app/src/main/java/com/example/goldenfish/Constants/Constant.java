@@ -16,5 +16,6 @@ public class Constant {
     public static final String MobileNo1="MobileNo1";
     public static final String EmailId="EmailId";
     public static final String OwnerName="OwnerName";
+    public static final String PANCard="PANCard";
 
 }

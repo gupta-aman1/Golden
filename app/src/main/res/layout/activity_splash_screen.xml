@@ -14,7 +14,8 @@
         android:src="@drawable/logo"
         app:layout_constraintBottom_toBottomOf="@+id/progressBar" />
     <LinearLayout
-        android:layout_marginTop="@dimen/_30dp"
+        android:id="@+id/icon"
+        android:layout_marginTop="80dp"
         android:layout_below="@+id/splash_logo"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -23,29 +24,38 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:src="@drawable/prepaid"
-            android:layout_height="30dp"></ImageView>
+            android:layout_height="40dp"></ImageView>
         <ImageView
             android:layout_width="0dp"
             android:src="@drawable/aeps"
             android:layout_weight="1"
-            android:layout_height="30dp"></ImageView>
+            android:layout_height="40dp"></ImageView>
         <ImageView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:src="@drawable/electricity"
-            android:layout_height="30dp"></ImageView>
+            android:layout_height="40dp"></ImageView>
         <ImageView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:src="@drawable/bus"
-            android:layout_height="30dp"></ImageView>
+            android:layout_height="40dp"></ImageView>
         <ImageView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:src="@drawable/hotel"
             android:layout_height="30dp"></ImageView>
     </LinearLayout>
-
+<TextView
+    android:gravity="center"
+    android:id="@+id/version"
+    android:layout_marginTop="15dp"
+    android:layout_below="@+id/icon"
+    android:textSize="16sp"
+    android:textColor="@color/colorPrimary"
+    android:textStyle="bold"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"></TextView>
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="30dp"

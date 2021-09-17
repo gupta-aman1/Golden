@@ -11,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,6 +24,7 @@ public class SplashScreenActivity extends AppCompatActivity {
    // SharedPreferences sharedPreferences;
     String user;
     SharedPref sharedPref;
+    TextView version;
     /* access modifiers changed from: protected */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +33,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         requestWindowFeature(1);
         getWindow().setFlags(1024, 1024);
         setContentView((int) R.layout.activity_splash_screen);
+        version=findViewById(R.id.version);
         sharedPref = SharedPref.getInstance(SplashScreenActivity.this);
        // this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         RotateAnimation rotate = new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -38,7 +41,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         rotate.setInterpolator(new LinearInterpolator());
 
         ImageView image= (ImageView) findViewById(R.id.splash_logo);
-
+        version.setText("Version : "+BuildConfig.VERSION_NAME);
         image.startAnimation(rotate);
         System.out.println("Hello main");
         new Handler().postDelayed(new Runnable() {

@@ -423,6 +423,7 @@ public class LoginActivity extends AppCompatActivity {
                             sharedPref.putString(Constant.MobileNo1, String.valueOf(jsonArray.getJSONObject(0).getString("MobileNo1")));
                                 sharedPref.putString(Constant.EmailId, String.valueOf(jsonArray.getJSONObject(0).getString("EmailId")));
                                 sharedPref.putString(Constant.OwnerName, String.valueOf(jsonArray.getJSONObject(0).getString("OwnerName")));
+                                sharedPref.putString(Constant.PANCard, String.valueOf(jsonArray.getJSONObject(0).getString("PANCard")));
 
                            // Toast.makeText(LoginActivity.this, "OTP sent", Toast.LENGTH_SHORT).show();
                            String userId = sharedPref.getStringWithNull(Constant.userId);
