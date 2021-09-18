@@ -15,6 +15,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.GeolocationPermissions;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -55,8 +58,10 @@ public class WebviewAeps extends AppCompatActivity {
         try {
             finalpaymentWebView.getSettings().setLoadsImagesAutomatically(true);
             finalpaymentWebView.getSettings().setJavaScriptEnabled(true);
+            WebSettings webSettings = finalpaymentWebView.getSettings();
+            webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
             finalpaymentWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-            finalpaymentWebView.loadUrl(loadUrl);
+            //finalpaymentWebView.loadUrl(loadUrl);
             progressDialog = new ProgressDialog(WebviewAeps.this, R.style.MyTheme);
             progressDialog.setTitle("Loading....");
             progressDialog.setMessage("Please wait while preparing..");
@@ -64,6 +69,31 @@ public class WebviewAeps extends AppCompatActivity {
             progressDialog.setCancelable(false);
             progressDialog.show();
             finalpaymentWebView.setWebViewClient(new MyWebViewClient(this));
+
+            //WebSettings webSettings = finalpaymentWebView.getSettings();
+            //webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+
+           /* finalpaymentWebView.setWebViewClient(new WebViewClient(){
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+                    view.loadUrl(url);
+                    return true;
+                }
+            });*/
+            //webSettings.setJavaScriptEnabled(true);
+            webSettings.setGeolocationEnabled(true);
+
+            finalpaymentWebView.setWebChromeClient(new WebChromeClient(){
+                @Override
+                public void onGeolocationPermissionsShowPrompt(String origin,
+                                                               GeolocationPermissions.Callback callback) {
+
+                    callback.invoke(origin, true, false);
+                }
+            });
+
+            finalpaymentWebView.loadUrl(loadUrl);
         }
         catch (Exception e)
         {
