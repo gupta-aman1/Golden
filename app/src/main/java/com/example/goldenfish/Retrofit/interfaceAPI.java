@@ -1,5 +1,6 @@
 package com.example.goldenfish.Retrofit;
 
+import com.example.goldenfish.Sidebar.AllReports.ModelAllReports.ModelMainClass;
 import com.google.gson.JsonObject;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -21,4 +22,18 @@ public interface interfaceAPI {
     @POST("ValidateOTPForLogin")
     Call<ResponseBody> ValidateOTPForLogin(@Body JsonObject object);
 
+    @POST("GetWalletBalance")
+    Call<ResponseBody> GetWalletBalance(@Body JsonObject object);
+
+    @POST("ForgetPassword")
+    Call<ResponseBody> ForgetPassword(@Body JsonObject object);
+
+    @POST("GetALLReports")
+    Call<ModelMainClass> GetALLReports(@Body JsonObject object);
+
+    @POST("GetStateListDetails")
+    Call<ResponseBody> GetStateListDetails(@Body JsonObject object);
+
+    @POST("GetCityListDetails")
+    Call<ResponseBody> GetCityListDetails(@Body JsonObject object);
 }
