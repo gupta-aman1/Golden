@@ -14,6 +14,8 @@ import android.os.Bundle;
 import com.example.goldenfish.Aeps.WebviewAeps;
 import com.example.goldenfish.Constants.Constant;
 import com.example.goldenfish.Constants.ConstantsValue;
+import com.example.goldenfish.MoveToBank.MoveToBankActivity;
+import com.example.goldenfish.PayoutAc.AddPayoutAcc;
 import com.example.goldenfish.R;
 
 import java.io.IOException;
@@ -269,12 +271,12 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 });*/
             }
         });
-      /*  this.moveToBankLayout.setOnClickListener(new View.OnClickListener() {
+        this.moveToBankLayout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 HomeDashboardActivity.this.startActivity(new Intent(HomeDashboardActivity.this, MoveToBankActivity.class));
             }
         });
-        this.moneyTransferCard.setOnClickListener(new View.OnClickListener() {
+       /* this.moneyTransferCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 HomeDashboardActivity.this.startActivity(new Intent(HomeDashboardActivity.this, DMTActivity.class));
             }
@@ -301,14 +303,14 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
             public void onClick(View v) {
                 HomeDashboardActivity.this.startActivity(new Intent(HomeDashboardActivity.this, ProfileActivity.class));
             }
-        });
+        });*/
         this.bottomHistoryLayout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(HomeDashboardActivity.this, AllReportsActivity.class);
                 intent.putExtra("title", "All Report");
                 HomeDashboardActivity.this.startActivity(intent);
             }
-        });*/
+        });
 
         geoLocation= new GeoLocation(HomeDashboardActivity.this,HomeDashboardActivity.this);
 
@@ -572,8 +574,8 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 this.drawer.closeDrawer((int) GravityCompat.START);
                 break;
             case R.id.nav_move_to_bank:
-                /*this.drawer.closeDrawer((int) GravityCompat.START, false);
-                startActivity(new Intent(this, MoveToBankActivity.class));*/
+                this.drawer.closeDrawer((int) GravityCompat.START, false);
+                startActivity(new Intent(this, MoveToBankActivity.class));
                 break;
             case R.id.nav_settlement_report:
                 /*this.drawer.closeDrawer((int) GravityCompat.START, false);
@@ -584,6 +586,11 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
             case R.id.nav_support:
                // showSupportDialog();
                 this.drawer.closeDrawer((int) GravityCompat.START, false);
+                break;
+
+            case R.id.nav_add_payout:
+                this.drawer.closeDrawer((int) GravityCompat.START, false);
+                startActivity(new Intent(this, AddPayoutAcc.class));
                 break;
         }
         return false;

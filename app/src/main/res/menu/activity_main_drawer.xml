@@ -12,6 +12,9 @@
     <group android:id="@+id/nav_move_to_bank" android:checkableBehavior="single">
         <item android:icon="@drawable/report4" android:title="Move to bank"/>
     </group>
+    <group android:id="@+id/nav_add_payout" android:checkableBehavior="single">
+        <item android:icon="@drawable/report4" android:title="Add Payout A/C"/>
+    </group>
     <group android:id="@+id/nav_aeps_report" android:checkableBehavior="single">
         <item android:icon="@drawable/report5" android:title="AEPS Report"/>
     </group>

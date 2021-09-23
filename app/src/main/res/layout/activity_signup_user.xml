@@ -65,6 +65,33 @@
                  android:layout_marginTop="15dp"
                 android:hint="Enter Shop Name"
                 />
+
+                <EditText
+                    android:id="@+id/et_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:hint="Enter Mobile No."
+                    />
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:inputType="textEmailAddress"
+                    android:hint="Enter Email"
+                    />
+
+                <EditText
+                    android:id="@+id/et_pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:inputType="textEmailAddress"
+                    android:hint="Enter Password"
+                    />
             <EditText
                 android:id="@+id/et_select_dob"
                 android:layout_width="match_parent"
@@ -86,6 +113,7 @@
                 android:id="@+id/et_pan_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="10"
                 android:layout_marginTop="15dp"
                 android:hint="Enter PAN No."
                 />
@@ -94,6 +122,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:maxLength="12"
+                android:inputType="number"
                 android:hint="Enter Aadhaar No."
                 />
             <EditText
@@ -122,30 +152,17 @@
                 android:id="@+id/et_pincode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:hint="Enter Address"
-                />
-            <EditText
-                android:id="@+id/et_mobile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:maxLength="6"
                 android:inputType="number"
-                android:maxLength="10"
-                android:hint="Enter Mobile No."
-                />
-            <EditText
-                android:id="@+id/et_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:inputType="textEmailAddress"
-                android:hint="Enter Email"
+                android:hint="Enter PinCode"
                 />
+
             <Spinner
                 android:id="@+id/et_joinas"
+                style="@style/SpinnerTheme1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginTop="15dp"
                 />
             </LinearLayout>

@@ -36,4 +36,7 @@ public interface interfaceAPI {
 
     @POST("GetCityListDetails")
     Call<ResponseBody> GetCityListDetails(@Body JsonObject object);
+
+    @POST("NewUserRegistration")
+    Call<ResponseBody> NewUserRegistration(@Body JsonObject object);
 }
