@@ -97,7 +97,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     LinearLayout bottomProfileLayout;
     Button btnAeps;
     DrawerLayout drawer;
-    CardView dthCard;
+    CardView dthCard,bus_card;
     String email;
     String firmName;
     ImageView imgAepsWallet;
@@ -148,7 +148,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     };*/
     String panCard;
     CardView postpaidCard;
-    CardView prepaidCard;
+    CardView prepaidCard,broad_band_card,hotel_card,flight_card,electricity_card,water_card,gas_card;
     SharedPreferences sharedPreferences;
     TextView tvAepsBalance;
     TextView tvEmailAddress;
@@ -183,7 +183,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         this.address = this.sharedPreferences.getString("address", (String) null);
         this.firmName = this.sharedPreferences.getString("firmName", (String) null);*/
         this.mFusedLocationClient = LocationServices.getFusedLocationProviderClient((Activity) this);
-        this.url = "http://api.goldenfishdigital.co.in/MAEPS.aspx?Pan=" + this.panCard + "&Name=" + this.name;
+       // this.url = "http://api.goldenfishdigital.co.in/MAEPS.aspx?Pan=" + this.panCard + "&Name=" + this.name;
         //this.tvNavOwnerName.setText(this.ownerName);
        // TextView textView = this.tvNavMobileNo;
        // textView.setText("Phone : " + this.mobileNo);
@@ -205,36 +205,130 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         this.drawer.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         //actionBarDrawerToggle.getDrawerArrowDrawable().setColor(getResources().getColor(17170443));
-       /* this.prepaidCard.setOnClickListener(new View.OnClickListener() {
+        this.prepaidCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(HomeDashboardActivity.this, RechargeActivity.class);
+               /* Intent intent = new Intent(HomeDashboardActivity.this, RechargeActivity.class);
                 intent.putExtra("title", "Prepaid Recharge");
                 intent.putExtra(NotificationCompat.CATEGORY_SERVICE, "Mobile");
                 intent.putExtra("mainBalance", HomeDashboardActivity.this.balance);
                 intent.putExtra("aepsBalance", HomeDashboardActivity.this.aepsBalance);
-                HomeDashboardActivity.this.startActivity(intent);
+                HomeDashboardActivity.this.startActivity(intent);*/
+
+                String webViewURL="https://uat.goldenfishdigital.co.in/PrepaidRecharge.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+                String url = webViewURL.replaceAll(" ","%20");
+                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+                intent.putExtra("url",url);
+                startActivity(intent);
             }
         });
         this.postpaidCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(HomeDashboardActivity.this, RechargeActivity.class);
+               /* Intent intent = new Intent(HomeDashboardActivity.this, RechargeActivity.class);
                 intent.putExtra("title", "Postpaid Recharge");
                 intent.putExtra(NotificationCompat.CATEGORY_SERVICE, "Postpaid");
                 intent.putExtra("mainBalance", HomeDashboardActivity.this.balance);
                 intent.putExtra("aepsBalance", HomeDashboardActivity.this.aepsBalance);
-                HomeDashboardActivity.this.startActivity(intent);
+                HomeDashboardActivity.this.startActivity(intent);*/
+
+                String webViewURL="https://uat.goldenfishdigital.co.in/PostPaidRecharge.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+                String url = webViewURL.replaceAll(" ","%20");
+                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+                intent.putExtra("url",url);
+                startActivity(intent);
             }
         });
         this.dthCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(HomeDashboardActivity.this, RechargeActivity.class);
+              /*  Intent intent = new Intent(HomeDashboardActivity.this, RechargeActivity.class);
                 intent.putExtra("title", "DTH Recharge");
                 intent.putExtra(NotificationCompat.CATEGORY_SERVICE, "DTH");
                 intent.putExtra("mainBalance", HomeDashboardActivity.this.balance);
                 intent.putExtra("aepsBalance", HomeDashboardActivity.this.aepsBalance);
-                HomeDashboardActivity.this.startActivity(intent);
+                HomeDashboardActivity.this.startActivity(intent);*/
+                String webViewURL="https://uat.goldenfishdigital.co.in/DTHRecharge.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+                String url = webViewURL.replaceAll(" ","%20");
+                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+                intent.putExtra("url",url);
+                startActivity(intent);
             }
-        });*/
+        });
+
+        this.broad_band_card.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                String webViewURL="https://uat.goldenfishdigital.co.in/BroadBandRecharge.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+                String url = webViewURL.replaceAll(" ","%20");
+                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+                intent.putExtra("url",url);
+                startActivity(intent);
+            }
+        });
+
+        this.moneyTransferCard.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                String webViewURL="https://uat.goldenfishdigital.co.in/MoneyTransfer.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+                String url = webViewURL.replaceAll(" ","%20");
+                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+                intent.putExtra("url",url);
+                startActivity(intent);
+            }
+        });
+
+        this.bus_card.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                String webViewURL="https://uat.goldenfishdigital.co.in/BusBooking.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+                String url = webViewURL.replaceAll(" ","%20");
+                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+                intent.putExtra("url",url);
+                startActivity(intent);
+            }
+        });
+
+        this.hotel_card.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                String webViewURL="https://uat.goldenfishdigital.co.in/HotelBooking.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+                String url = webViewURL.replaceAll(" ","%20");
+                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+                intent.putExtra("url",url);
+                startActivity(intent);
+            }
+        });
+
+        this.electricity_card.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                String webViewURL="https://uat.goldenfishdigital.co.in/Electricity.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+                String url = webViewURL.replaceAll(" ","%20");
+                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+                intent.putExtra("url",url);
+                startActivity(intent);
+            }
+        });
+
+        this.gas_card.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                String webViewURL="https://uat.goldenfishdigital.co.in/Gas.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+                String url = webViewURL.replaceAll(" ","%20");
+                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+                intent.putExtra("url",url);
+                startActivity(intent);
+            }
+        });
+
+        this.water_card.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                String webViewURL="https://uat.goldenfishdigital.co.in/Water.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+                String url = webViewURL.replaceAll(" ","%20");
+                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+                intent.putExtra("url",url);
+                startActivity(intent);
+            }
+        });
         this.aepsCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String webViewURL="https://uat.goldenfishdigital.co.in/ApesLogin.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
@@ -423,7 +517,14 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         this.postpaidCard = (CardView) findViewById(R.id.postpaid_card);
         this.dthCard = (CardView) findViewById(R.id.dth_card);
         this.aepsCard = (CardView) findViewById(R.id.aeps_card);
+        broad_band_card=findViewById(R.id.broad_band_card);
         this.moneyTransferCard = (CardView) findViewById(R.id.money_transfer_card);
+        hotel_card=findViewById(R.id.hotel_card);
+        water_card=findViewById(R.id.water_card);
+        gas_card=findViewById(R.id.gas_card);
+        bus_card=findViewById(R.id.bus_card);
+        flight_card=findViewById(R.id.flight_card);
+        electricity_card=findViewById(R.id.electricity_card);
         this.tvMainBalance = (TextView) findViewById(R.id.tvMainBalance);
         this.tvAepsBalance = (TextView) findViewById(R.id.tv_aeps_balance);
         this.imgMainWallet = (ImageView) findViewById(R.id.img_main_wallet);

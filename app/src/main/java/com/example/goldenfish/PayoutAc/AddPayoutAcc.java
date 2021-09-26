@@ -1,22 +1,30 @@
 package com.example.goldenfish.PayoutAc;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -28,6 +36,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.goldenfish.Common.CommonApi;
 import com.example.goldenfish.Constants.Constant;
 import com.example.goldenfish.Constants.ConstantsValue;
 import com.example.goldenfish.MoveToBank.ModelBank;
@@ -73,6 +82,8 @@ public class AddPayoutAcc extends AppCompatActivity {
     private int PICK_IMAGE_REQUEST = 1;
     private static final int PICK_IMAGE = 100;
     private static final int CAMERA_REQUEST = 1888;
+    private String PassbookPath;
+    ImageView img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +92,7 @@ public class AddPayoutAcc extends AppCompatActivity {
         userid = sharedPref.getStringWithNull(Constant.userId);
         et_bank=findViewById(R.id.et_bank);
         et_accno=findViewById(R.id.et_accno);
+        img=findViewById(R.id.img);
         et_ifsc=findViewById(R.id.et_ifsc);
         et_acc_name=findViewById(R.id.et_acc_name);
         et_accounttype=findViewById(R.id.et_accounttype);
@@ -126,7 +138,7 @@ public class AddPayoutAcc extends AppCompatActivity {
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))
                         {
                             JSONArray rootarr=jsonObject1.getJSONArray("Data");
-                                System.out.println("DATA "+rootarr);
+                               // System.out.println("DATA "+rootarr);
 
                             for (int i=0;i<rootarr.length();i++)
                             {
@@ -252,7 +264,7 @@ public class AddPayoutAcc extends AppCompatActivity {
 
     public void chooseImage() {
 
-      /*  photoPaths = new ArrayList<>();
+        photoPaths = new ArrayList<>();
         FilePickerBuilder.getInstance()
                 .setSelectedFiles(photoPaths)
                 .setActivityTitle("Please select media")
@@ -264,14 +276,64 @@ public class AddPayoutAcc extends AppCompatActivity {
                 .enableImagePicker(true)
                 .setCameraPlaceholder(R.drawable.ic_camera)
                 .withOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                .pickPhoto(this, PICK_IMAGE_REQUEST);*/
+                .pickPhoto(this, PICK_IMAGE_REQUEST);
 
-        Intent i = new Intent(Intent.ACTION_PICK);
-        i.setType("image/*");
-        startActivityForResult(i, PICK_IMAGE_REQUEST);
+       /* Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"),1);*/
+      //  someActivityResultLauncher.launch(intent);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
+            Uri selectedImage = data.getData();
+            try {
+                photoPaths.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA));
+                String path = photoPaths.get(0);
+                File file = new File(path);
+
+                CommonApi.serverUpload(file, AddPayoutAcc.this, new CommonApi.OnResponse() {
+
+
+                    @Override
+                    public void onSuccess(String result) {
+                        //   Toast.makeText(Completesignup4.this, "hello", Toast.LENGTH_SHORT).show();
+
+                        PassbookPath=result;
+                        img.setBackgroundResource(R.drawable.checked);
+                       // Toast.makeText(AddPayoutAcc.this, ""+result, Toast.LENGTH_SHORT).show();
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+                //Toast.makeText(AddPayoutAcc.this, "hello baby", Toast.LENGTH_SHORT).show();
+               // uploadFileToServer(file);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        else if (CAMERA_REQUEST == requestCode && resultCode == RESULT_OK) {
+            try {
+                photoPaths.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA));
+                String path = photoPaths.get(0);
+                File file = new File(path);
+              //  uploadFileToServer(file);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
     private void showSettingsDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(AddPayoutAcc.this);
         builder.setTitle("Need Permissions");
@@ -421,6 +483,10 @@ public class AddPayoutAcc extends AppCompatActivity {
         else if(accounttype.equalsIgnoreCase("Select Account"))
         {
             Toast.makeText(AddPayoutAcc.this, "Select Account", Toast.LENGTH_SHORT).show();
+        }
+        else if(PassbookPath==null)
+        {
+            img.setBackgroundResource(R.drawable.ic_hotel_failed);
         }
         else {
             showMpinDialog();
