@@ -43,7 +43,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Main Wallet"
+                android:text="Wallet 1"
                 android:textColor="@color/white" />
         </LinearLayout>
 
@@ -92,7 +92,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Aeps Wallet"
+                android:text="Wallet 2"
                 android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>

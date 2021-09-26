@@ -1,6 +1,7 @@
 package com.example.goldenfish.Retrofit;
 
 import com.example.goldenfish.Sidebar.AllReports.ModelAllReports.ModelMainClass;
+import com.example.goldenfish.Utilities.UploadFile;
 import com.google.gson.JsonObject;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -39,4 +40,28 @@ public interface interfaceAPI {
 
     @POST("NewUserRegistration")
     Call<ResponseBody> NewUserRegistration(@Body JsonObject object);
+
+    @POST("GetUsersActivePayoutAccount")
+    Call<ResponseBody> GetUsersActivePayoutAccount(@Body JsonObject object);
+
+    @POST("GetMoveToBankSurCharge")
+    Call<ResponseBody> GetMoveToBankSurCharge(@Body JsonObject object);
+
+    @POST("MoveToBank")
+    Call<ResponseBody> MoveToBank(@Body JsonObject object);
+
+    @POST("GetAllBankList")
+    Call<ResponseBody> GetAllBankList(@Body JsonObject object);
+
+
+    @Multipart
+    //  @Headers({"Accept: application/json"})
+    @POST("UploadUsersPassbook")
+    Call<UploadFile> uploadfile(@Part MultipartBody.Part file);
+
+    @POST("ValidateMpinForTransaction")
+    Call<ResponseBody> ValidateMpinForTransaction(@Body JsonObject object);
+
+    @POST("AddPayoutAccount")
+    Call<ResponseBody> AddPayoutAccount(@Body JsonObject object);
 }

@@ -23,7 +23,7 @@
         android:background="@color/colorPrimaryDark"
         android:gravity="center"
         android:padding="5dp"
-        android:text="OTP Verification"
+        android:text="MPIN Verification"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
         android:background="@drawable/commission_list_back"
         android:elevation="6dp"
         android:gravity="center"
-        android:hint="OTP"
+        android:hint="MPIN"
         android:inputType="number"
         android:singleLine="true"
         android:textColor="@color/black"
@@ -63,7 +63,7 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_otp" />
+        app:layout_constraintTop_toBottomOf="@+id/et_mpin" />
 
     <Button
         android:id="@+id/btn_cancel"
@@ -79,5 +79,5 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_otp" />
+        app:layout_constraintTop_toBottomOf="@+id/et_mpin" />
 </androidx.constraintlayout.widget.ConstraintLayout>
