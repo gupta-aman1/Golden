@@ -41,7 +41,7 @@
         android:elevation="6dp"
         android:gravity="center"
         android:hint="MPIN"
-        android:inputType="number"
+        android:inputType="numberPassword"
         android:singleLine="true"
         android:textColor="@color/black"
         android:textSize="24sp"

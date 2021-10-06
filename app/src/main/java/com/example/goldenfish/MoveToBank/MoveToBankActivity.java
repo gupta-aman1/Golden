@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import com.example.goldenfish.Retrofit.RetrofitClient;
 import com.example.goldenfish.UserAuth.LoginActivity;
 import com.example.goldenfish.Utilities.MyUtils;
 import com.example.goldenfish.Utilities.SharedPref;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -43,6 +45,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Objects;
 
 import okhttp3.ResponseBody;
@@ -316,8 +319,33 @@ EditText et_amount;
                         String stCode= jsonObject1.getString(Constant.StatusCode);
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))
                         {
+                            ArrayList<DetailedData> array = new ArrayList<DetailedData>();
+                            JSONArray out_arr= jsonObject1.getJSONArray("Data");
 
-                            AlertDialog.Builder builder1 = new AlertDialog.Builder(MoveToBankActivity.this);
+                            for (int i = 0; i < out_arr.length(); i++) {
+
+                                JSONObject inn_obj=out_arr.getJSONObject(i);
+
+                                Iterator key = inn_obj.keys();
+                                while (key.hasNext()) {
+                                    String k = key.next().toString();
+                                    System.out.println("Key : " + k + ", value : "
+                                            + inn_obj.getString(k));
+
+                                     array.add(new DetailedData(k,inn_obj.getString(k)));
+//                                    model.setKey(k);
+//                                    model.setValue(inn_obj.getString(k));
+//                                        array.add(model);
+
+
+                                }
+                            }
+
+                            System.out.println("Array Data "+array);
+                            Intent intent = new Intent(MoveToBankActivity.this, SuceessScreen.class);
+                            intent.putExtra("list_data", new Gson().toJson(array));
+                            startActivity(intent);
+                           /* AlertDialog.Builder builder1 = new AlertDialog.Builder(MoveToBankActivity.this);
                             builder1.setMessage(jsonObject1.getString("Message"));
                             builder1.setCancelable(true);
 
@@ -332,7 +360,7 @@ EditText et_amount;
 
 
                             AlertDialog alert11 = builder1.create();
-                            alert11.show();
+                            alert11.show();*/
 
                         }
                         else

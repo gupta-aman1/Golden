@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/img_close" />
 
     <EditText
-        android:id="@+id/et_mpin"
+        android:id="@+id/et_otp"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_marginStart="20dp"
