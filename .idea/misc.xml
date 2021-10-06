@@ -29,10 +29,13 @@
         <entry key="..\:/GoldenNew/Golden/app/src/main/res/drawable-v24/blueroundbtn.xml" value="0.11822916666666666" />
         <entry key="..\:/GoldenNew/Golden/app/src/main/res/drawable/abc_btn_borderless_material.xml" value="0.11822916666666666" />
         <entry key="..\:/GoldenNew/Golden/app/src/main/res/drawable/abc_btn_check_material.xml" value="0.11822916666666666" />
+        <entry key="..\:/GoldenNew/Golden/app/src/main/res/drawable/aeps.xml" value="0.159375" />
         <entry key="..\:/GoldenNew/Golden/app/src/main/res/drawable/blueroundbtn.xml" value="0.11822916666666666" />
         <entry key="..\:/GoldenNew/Golden/app/src/main/res/drawable/button_back.xml" value="0.2125" />
+        <entry key="..\:/GoldenNew/Golden/app/src/main/res/drawable/electricity.xml" value="0.159375" />
         <entry key="..\:/GoldenNew/Golden/app/src/main/res/drawable/gradient_sucess.xml" value="0.11822916666666666" />
         <entry key="..\:/GoldenNew/Golden/app/src/main/res/drawable/ic_hotel_failed.xml" value="0.2125" />
+        <entry key="..\:/GoldenNew/Golden/app/src/main/res/drawable/postpaid.xml" value="0.159375" />
         <entry key="..\:/GoldenNew/Golden/app/src/main/res/layout/activity_add_payout_acc.xml" value="0.17255434782608695" />
         <entry key="..\:/GoldenNew/Golden/app/src/main/res/layout/activity_all_reports.xml" value="0.11" />
         <entry key="..\:/GoldenNew/Golden/app/src/main/res/layout/activity_home_dashboard.xml" value="0.1068840579710145" />
@@ -44,6 +47,7 @@
         <entry key="..\:/GoldenNew/Golden/app/src/main/res/layout/content_main.xml" value="0.17" />
         <entry key="..\:/GoldenNew/Golden/app/src/main/res/layout/fragment_all_report.xml" value="0.12" />
         <entry key="..\:/GoldenNew/Golden/app/src/main/res/layout/layout_allreports.xml" value="0.1" />
+        <entry key="..\:/GoldenNew/Golden/app/src/main/res/layout/layout_dashboard.xml" value="0.21" />
         <entry key="..\:/GoldenNew/Golden/app/src/main/res/layout/layout_mpin.xml" value="0.15" />
         <entry key="..\:/GoldenNew/Golden/app/src/main/res/layout/layout_success.xml" value="0.1" />
         <entry key="..\:/GoldenNew/Golden/app/src/main/res/layout/movetobankdialog.xml" value="0.16757246376811594" />

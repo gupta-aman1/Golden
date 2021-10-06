@@ -11,4 +11,8 @@ public interface CommonInterface {
     {
 
     }
+    default void dashboardClick(String val)
+    {
+
+    }
 }
