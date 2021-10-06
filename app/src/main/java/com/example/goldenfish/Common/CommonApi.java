@@ -102,7 +102,63 @@ public class CommonApi {
         });
     }
 
+    public static void getBalanceWalletWise(Activity activity, JsonObject jsonObject,CommonInterface commonInterface)
+    {
+        final ProgressDialog progressDialog = new ProgressDialog(activity);
+        progressDialog.setTitle("Loading.....");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        //JsonObject jsonObject= new JsonObject();
+        //jsonObject.addProperty("Userid",userid);
+        //jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetUsersActivePayoutAccount","",userid));
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().GetWalletBalanceWalletWise(jsonObject);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
 
+                if (response.body() != null){
+                    // HideProgress(ctx);
+                    progressDialog.dismiss();
+                    String fullRes = null;
+                    try {
+
+                        fullRes = response.body().string();
+                        JSONObject jsonObject1= new JSONObject(fullRes);
+                        String stCode= jsonObject1.getString(Constant.StatusCode);
+                        if (stCode.equalsIgnoreCase(ConstantsValue.successful))
+                        {
+
+                           JSONObject data= jsonObject1.getJSONObject("Data");
+                          String bal= data.getString("Bal");
+                                commonInterface.getWalletBalance(bal);
+
+
+
+                        }
+                        else
+                        {
+                            // HideProgress(ctx);
+                            progressDialog.dismiss();
+                            Toast.makeText(activity, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+
+                    }
+
+                }else {
+                    progressDialog.dismiss();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(activity, "Due to Internet Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     public static void serverUpload(File myfile, final Context context, final OnResponse listener, String... args) {
         for(String s:args)
         {

@@ -64,4 +64,8 @@ public interface interfaceAPI {
 
     @POST("AddPayoutAccount")
     Call<ResponseBody> AddPayoutAccount(@Body JsonObject object);
+
+
+    @POST("GetWalletBalanceWalletWise")
+    Call<ResponseBody> GetWalletBalanceWalletWise(@Body JsonObject object);
 }

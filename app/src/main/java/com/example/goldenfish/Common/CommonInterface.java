@@ -6,4 +6,9 @@ public interface CommonInterface {
     {
 
     }
+
+    default void getWalletBalance(String bal)
+    {
+
+    }
 }

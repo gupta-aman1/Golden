@@ -36,7 +36,6 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:id="@+id/animation_view"
-        app:lottie_rawRes="@raw/sucess_json"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"/>
 
@@ -45,16 +44,16 @@
         android:layout_width="match_parent"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/txt_green"
-        android:text="Payment Sucessfull"
+        android:id="@+id/head2"
         android:layout_height="wrap_content"/>
     <TextView
         android:layout_marginTop="7dp"
         android:gravity="center_horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:textSize="13sp"
+        android:layout_gravity="center"
         android:textColor="#a6a6a6"
-        android:text="Your Payment has been done\nDetails of transaction are included below"
+        android:id="@+id/head3"
         android:layout_height="wrap_content"/>
     <View
         android:layout_marginLeft="20dp"
@@ -67,8 +66,8 @@
     <TextView
         android:layout_marginTop="20dp"
         android:textColor="@color/txt_sucess"
-        android:text="Transaction Number : 123456"
         android:textSize="16sp"
+        android:id="@+id/txn_id"
         android:layout_width="match_parent"
         android:gravity="center_horizontal"
         android:layout_height="wrap_content"/>

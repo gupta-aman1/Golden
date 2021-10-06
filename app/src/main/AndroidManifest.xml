@@ -25,7 +25,6 @@
         android:theme="@style/Theme.GoldenFish"
         android:usesCleartextTraffic="true">
         <activity
-            android:label="Payment Confirmation"
             android:name=".MoveToBank.SuceessScreen"
             android:exported="true">
 

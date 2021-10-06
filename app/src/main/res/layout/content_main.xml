@@ -168,6 +168,14 @@
                 android:background="@color/blue"
                 app:layout_constraintTop_toBottomOf="@+id/view1" />
 
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:id="@+id/recycler"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/view2"
+                android:layout_height="wrap_content"/>
             <androidx.cardview.widget.CardView
                 android:id="@+id/prepaid_card"
                 android:layout_width="0dp"
@@ -177,7 +185,7 @@
                 app:cardCornerRadius="10dp"
                 app:layout_constraintEnd_toStartOf="@+id/dth_card"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view2">
+                app:layout_constraintTop_toBottomOf="@+id/recycler">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -209,7 +217,7 @@
                 app:cardCornerRadius="10dp"
                 app:layout_constraintEnd_toStartOf="@+id/postpaid_card"
                 app:layout_constraintStart_toEndOf="@+id/prepaid_card"
-                app:layout_constraintTop_toBottomOf="@+id/view2">
+                app:layout_constraintTop_toBottomOf="@+id/recycler">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -242,7 +250,7 @@
                 app:cardCornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/dth_card"
-                app:layout_constraintTop_toBottomOf="@+id/view2">
+                app:layout_constraintTop_toBottomOf="@+id/recycler">
 
                 <LinearLayout
                     android:layout_width="match_parent"

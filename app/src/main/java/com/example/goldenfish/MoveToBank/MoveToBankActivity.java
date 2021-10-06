@@ -43,7 +43,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Objects;
@@ -58,7 +61,8 @@ public class MoveToBankActivity extends AppCompatActivity implements CommonInter
     SharedPref sharedPref;
     Spinner et_acc,et_wallet,et_mode;
     HashMap<String,String> acc_hashmap= new HashMap<>();
-EditText et_amount;
+    EditText et_amount;
+    TextView show_bal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +71,7 @@ EditText et_amount;
         et_wallet=findViewById(R.id.et_wallet);
         et_mode=findViewById(R.id.et_mode);
         et_amount=findViewById(R.id.et_amount);
+        show_bal=findViewById(R.id.show_bal);
         sharedPref = SharedPref.getInstance(MoveToBankActivity.this);
         userid = sharedPref.getStringWithNull(Constant.userId);
 
@@ -92,6 +97,22 @@ EditText et_amount;
         getActiveAccounts();
 
         SpinnerValue();
+
+
+        /*//SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+       // SimpleDateFormat destFormat = new SimpleDateFormat("dd MMM yyyy hh:mm:ss a"); //here 'a' for AM/PM
+        SimpleDateFormat destFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a");
+
+        Date date = null;
+        try {
+            date = sourceFormat.parse("2021-10-07T00:47:06");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String formattedDate = destFormat.format(date);
+System.out.println(formattedDate.replace("am", "AM").replace("pm","PM"));
+       // Toast.makeText(this, formattedDate, Toast.LENGTH_SHORT).show();*/
     }
 
     private void getActiveAccounts()
@@ -180,6 +201,7 @@ EditText et_amount;
               String value= adapterView.getItemAtPosition(i).toString();
 
                selectedAccountId= acc_hashmap.get(value);
+
            }
 
            @Override
@@ -192,6 +214,19 @@ EditText et_amount;
            @Override
            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                selectedWallet= adapterView.getItemAtPosition(i).toString();
+
+               if(!selectedWallet.equalsIgnoreCase("Select Wallet"))
+               {
+                   JsonObject jsonObject= new JsonObject();
+                   jsonObject.addProperty("Userid",userid);
+                   jsonObject.addProperty("WalletType",selectedWallet);
+                   jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetWalletBalanceWalletWise",selectedWallet,userid));
+                   CommonApi.getBalanceWalletWise(MoveToBankActivity.this,jsonObject,MoveToBankActivity.this);
+               }
+               else
+               {
+                   show_bal.setText("");
+               }
            }
 
            @Override
@@ -319,6 +354,9 @@ EditText et_amount;
                         String stCode= jsonObject1.getString(Constant.StatusCode);
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))
                         {
+                            String Head1= jsonObject1.getString("Head1");
+                            String Head2= jsonObject1.getString("Head2");
+                            String Head3= jsonObject1.getString("Head3");
                             ArrayList<DetailedData> array = new ArrayList<DetailedData>();
                             JSONArray out_arr= jsonObject1.getJSONArray("Data");
 
@@ -332,11 +370,27 @@ EditText et_amount;
                                     System.out.println("Key : " + k + ", value : "
                                             + inn_obj.getString(k));
 
-                                     array.add(new DetailedData(k,inn_obj.getString(k)));
+                                    if(k.equalsIgnoreCase("ReqDate"))
+                                    {
+                                        SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                                        // SimpleDateFormat destFormat = new SimpleDateFormat("dd MMM yyyy hh:mm:ss a"); //here 'a' for AM/PM
+                                        SimpleDateFormat destFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a");
+
+                                        Date date = null;
+                                        try {
+                                            date = sourceFormat.parse(inn_obj.getString(k));
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        String formattedDate = destFormat.format(date);
+                                        array.add(new DetailedData(k,formattedDate.replace("am", "AM").replace("pm","PM")));
+                                    }
+                                    else {
+                                        array.add(new DetailedData(k, inn_obj.getString(k)));
+                                    }
 //                                    model.setKey(k);
 //                                    model.setValue(inn_obj.getString(k));
 //                                        array.add(model);
-
 
                                 }
                             }
@@ -344,6 +398,10 @@ EditText et_amount;
                             System.out.println("Array Data "+array);
                             Intent intent = new Intent(MoveToBankActivity.this, SuceessScreen.class);
                             intent.putExtra("list_data", new Gson().toJson(array));
+                            intent.putExtra("Head1",Head1);
+                            intent.putExtra("Head2",Head2);
+                            intent.putExtra("Head3",Head3);
+                            intent.putExtra("type","success");
                             startActivity(intent);
                            /* AlertDialog.Builder builder1 = new AlertDialog.Builder(MoveToBankActivity.this);
                             builder1.setMessage(jsonObject1.getString("Message"));
@@ -457,6 +515,7 @@ EditText et_amount;
             }
         });
     }
+
     public void showMpinDialog() {
         View addSenderOTPDialogView = getLayoutInflater().inflate(R.layout.layout_mpin, (ViewGroup) null, false);
         final androidx.appcompat.app.AlertDialog addSenderOTPDialog = new androidx.appcompat.app.AlertDialog.Builder(this).create();
@@ -487,4 +546,9 @@ EditText et_amount;
         });
     }
 
+    @Override
+    public void getWalletBalance(String bal) {
+       // System.out.println("BAL "+bal);
+        show_bal.setText(bal);
+    }
 }
