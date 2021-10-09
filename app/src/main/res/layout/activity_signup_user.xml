@@ -51,7 +51,6 @@
                 android:id="@+id/et_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:hint="Enter User Name"
                 android:inputType="text"
                 app:layout_constraintStart_toStartOf="parent"
@@ -117,6 +116,7 @@
                 android:layout_marginTop="15dp"
                 android:hint="Enter PAN No."
                 />
+
             <EditText
                 android:id="@+id/et_Aadhaar_no"
                 android:layout_width="match_parent"
@@ -126,6 +126,7 @@
                 android:inputType="number"
                 android:hint="Enter Aadhaar No."
                 />
+
             <EditText
                 android:id="@+id/et_add"
                 android:layout_width="match_parent"
@@ -133,6 +134,7 @@
                 android:layout_marginTop="15dp"
                 android:hint="Enter Address"
                 />
+
             <Spinner
                 android:id="@+id/et_state"
                 style="@style/SpinnerTheme1"
@@ -140,6 +142,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="15dp"
                 />
+
             <Spinner
                 android:id="@+id/et_city"
                 android:visibility="gone"
@@ -148,6 +151,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="15dp"
                 />
+
             <EditText
                 android:id="@+id/et_pincode"
                 android:layout_width="match_parent"

@@ -506,7 +506,7 @@ public class AddPayoutAcc extends AppCompatActivity {
         jsonObject.addProperty("IFSCCode",et_ifsc.getText().toString());
         jsonObject.addProperty("BankId",selectedBankId);
         jsonObject.addProperty("AccountType",accounttype);
-        jsonObject.addProperty("PassbookCopy","");
+        jsonObject.addProperty("PassbookCopy",PassbookPath);
         jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("AddPayoutAccount",et_accno.getText().toString()+"|"+et_acc_name.getText().toString()+"|"+et_ifsc.getText().toString()+"|"+selectedBankId+"|"+accounttype,userid));
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().AddPayoutAccount(jsonObject);
         call.enqueue(new Callback<ResponseBody>() {

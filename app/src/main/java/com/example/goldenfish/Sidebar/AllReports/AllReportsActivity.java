@@ -50,7 +50,7 @@ ArrayList<AllReport> allReports;
     private TabLayout tabLayout;
     LinearLayout to_date_layout,from_date_layout;
     final Calendar myCalendar = Calendar.getInstance();
-    String choosedate="";
+    String choosedate="",toDate="",fromDate="";
     TextView tv_to_date,tv_from_date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +79,12 @@ ArrayList<AllReport> allReports;
                 if(choosedate.equals("todate")) {
 
                     tv_to_date.setText(dayOfMonth + "-" + monthOfYear + "-" + year);
+                    toDate=dayOfMonth + "-" + monthOfYear + "-" + year;
                 }
                 else
                 {
                     tv_from_date.setText(dayOfMonth + "-" + monthOfYear + "-" + year);
+                    fromDate=dayOfMonth + "-" + monthOfYear + "-" + year;
                 }
             }
         };
@@ -132,10 +134,9 @@ ArrayList<AllReport> allReports;
                     progressDialog.dismiss();
                     String fullRes = null;
                     try {
-
                         fullRes = response.body().getMessage();
                         //System.out.println("FULL RESP "+fullRes);
-
+                  //  allReports.clear();
                        allReports= (ArrayList<AllReport>) response.body().getData();
 
                        for(int i=0;i<allReports.size();i++)

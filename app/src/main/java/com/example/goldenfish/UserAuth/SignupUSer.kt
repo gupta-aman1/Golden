@@ -403,6 +403,10 @@ class SignupUSer : AppCompatActivity() {
                     et_city.visibility=View.VISIBLE
                     getCity(selectedStateId)
                 }
+                else
+                {
+                    et_city.visibility=View.GONE
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}

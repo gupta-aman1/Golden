@@ -5,9 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/scroll"
     android:isScrollContainer="true"
     android:measureAllChildren="true"
-
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MoveToBank.SuceessScreen">
 
@@ -31,14 +31,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
     </RelativeLayout>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:id="@+id/animation_view"
         app:lottie_autoPlay="true"
-        app:lottie_loop="true"/>
+        app:lottie_loop="true" />
 
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:onClick="share"
+        android:id="@+id/shareReceipt"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_baseline_share_24"
+        android:layout_height="wrap_content"
+        tools:ignore="OnClick" />
+</RelativeLayout>
     <TextView
         android:gravity="center_horizontal"
         android:layout_width="match_parent"

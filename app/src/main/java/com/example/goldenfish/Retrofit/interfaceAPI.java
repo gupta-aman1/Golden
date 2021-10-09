@@ -68,4 +68,13 @@ public interface interfaceAPI {
 
     @POST("GetWalletBalanceWalletWise")
     Call<ResponseBody> GetWalletBalanceWalletWise(@Body JsonObject object);
+
+    @POST("GetChildsUserType")
+    Call<ResponseBody> GetChildsUserType(@Body JsonObject object);
+
+    @POST("GetChildUserSchemeDetails")
+    Call<ResponseBody> GetChildUserSchemeDetails(@Body JsonObject object);
+
+    @POST("AddChildUser")
+    Call<ResponseBody> AddChildUser(@Body JsonObject object);
 }

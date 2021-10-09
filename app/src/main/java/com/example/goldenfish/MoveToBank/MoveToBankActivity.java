@@ -141,6 +141,7 @@ System.out.println(formattedDate.replace("am", "AM").replace("pm","PM"));
 
                         fullRes = response.body().string();
                         JSONObject jsonObject1= new JSONObject(fullRes);
+                        System.out.println(""+fullRes);
                         String stCode= jsonObject1.getString(Constant.StatusCode);
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))
                         {

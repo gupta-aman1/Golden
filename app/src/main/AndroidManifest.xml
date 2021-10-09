@@ -25,6 +25,12 @@
         android:theme="@style/Theme.GoldenFish"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".AddUser.AddUserActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true">
+
+        </activity>
+        <activity
             android:name=".MoveToBank.SuceessScreen"
             android:exported="true">
 
@@ -59,6 +65,7 @@
             android:name=".SplashScreenActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

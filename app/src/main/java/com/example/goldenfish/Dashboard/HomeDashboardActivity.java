@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
+import com.example.goldenfish.AddUser.AddUserActivity;
 import com.example.goldenfish.Aeps.WebviewAeps;
 import com.example.goldenfish.Common.CommonInterface;
 import com.example.goldenfish.Constants.Constant;
@@ -1050,6 +1051,12 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
             String url = webViewURL.replaceAll(" ","%20");
             Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
             intent.putExtra("url",url);
+            startActivity(intent);
+        }
+        else if(val.equalsIgnoreCase("Add User"))
+        {
+            Intent intent = new Intent(HomeDashboardActivity.this, AddUserActivity.class);
+           // intent.putExtra("url",url);
             startActivity(intent);
         }
     }
