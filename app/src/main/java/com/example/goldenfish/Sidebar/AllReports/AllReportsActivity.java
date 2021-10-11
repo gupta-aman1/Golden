@@ -71,9 +71,7 @@ ArrayList<AllReport> allReports;
         userid = sharedPref.getStringWithNull(Constant.userId);
 
         CommonFun.requestStoragePermission(AllReportsActivity.this,AllReportsActivity.this);
-
-
-
+        
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
