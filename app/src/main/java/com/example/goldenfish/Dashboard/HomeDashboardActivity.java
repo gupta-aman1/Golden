@@ -13,6 +13,7 @@ import android.os.Bundle;
 
 import com.example.goldenfish.AddUser.AddUserActivity;
 import com.example.goldenfish.Aeps.WebviewAeps;
+import com.example.goldenfish.ChangePassword.ChangePasswordActivity;
 import com.example.goldenfish.Common.CommonInterface;
 import com.example.goldenfish.Constants.Constant;
 import com.example.goldenfish.Constants.ConstantsValue;
@@ -155,11 +156,11 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     CardView postpaidCard;
     CardView prepaidCard,broad_band_card,hotel_card,flight_card,electricity_card,water_card,gas_card;
     SharedPreferences sharedPreferences;
-    TextView tvAepsBalance;
+    public static TextView tvAepsBalance;
     TextView tvEmailAddress;
     TextView tvFirmName;
     TextView tvLocation;
-    TextView tvMainBalance;
+   public static TextView tvMainBalance;
     TextView tvNavMobileNo;
     TextView tvNavOwnerName;
     String url;
@@ -172,6 +173,16 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     //WebServiceInterface webServiceInterface;
 
     /* access modifiers changed from: protected */
+        public static String apiStatus="";
+
+    public static void recivedSms(String message)
+    {
+        apiStatus=message;
+        //tvMainBalance.setText(message);
+       // tvAepsBalance.setText(message);
+
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView((int) R.layout.activity_home_dashboard);
@@ -179,6 +190,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         setSupportActionBar(toolbar);
         ((ActionBar) Objects.requireNonNull(getSupportActionBar())).setDisplayShowTitleEnabled(false);
         inhitViews();
+
        /* SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         this.sharedPreferences = defaultSharedPreferences;
         this.userid = defaultSharedPreferences.getString("userid", (String) null);
@@ -421,6 +433,10 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         registerReceiver(gpsListener, mfilter);
     }
 
+   /* public HomeDashboardActivity(Context context)
+    {
+
+    }*/
     /* access modifiers changed from: private */
     public void getLastLocation() {
         if (!checkPermissions()) {
@@ -512,6 +528,11 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     public void onResume() {
         super.onResume();
         geoLocation.startLocationButtonClick();
+        System.out.println("Hello");
+        if(apiStatus.equalsIgnoreCase(ConstantsValue.CallApiBal))
+        {
+            getWalletBalance();
+        }
        // checkForPackageAvailable();
        // SimpleChromeCustomTabs.getInstance().connectTo(this);
     }
@@ -553,6 +574,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
          OwnerName = sharedPref.getStringWithNull(Constant.OwnerName);
         PANCard = sharedPref.getStringWithNull(Constant.PANCard);
         String EmailId = sharedPref.getStringWithNull(Constant.EmailId);
+        String UserType = sharedPref.getStringWithNull(Constant.Usertype);
 
         this.tvFirmName.setText("Firm Name : "+FirmName);
         this.tvNavMobileNo.setText("Mobile No. : "+MobileNo1);
@@ -575,7 +597,10 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         recyclerDataArrayList.add(new ModelDashboard("Purchase Coupon",R.drawable.gas,"",""));
         recyclerDataArrayList.add(new ModelDashboard("Insurance",R.drawable.gas,"",""));
         recyclerDataArrayList.add(new ModelDashboard("PSA Registration",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("Add User",R.drawable.gas,"",""));
+        if(!UserType.equalsIgnoreCase("Retailer"))
+        {
+            recyclerDataArrayList.add(new ModelDashboard("Add User",R.drawable.gas,"",""));
+        }
         recyclerDataArrayList.add(new ModelDashboard("Education Fee",R.drawable.gas,"",""));
         recyclerDataArrayList.add(new ModelDashboard("ATM",R.drawable.gas,"",""));
         recyclerDataArrayList.add(new ModelDashboard("NSDL Authorized Pan Card",R.drawable.gas,"",""));
@@ -620,6 +645,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                         String stCode= jsonObject1.getString(Constant.StatusCode);
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))
                         {
+                            apiStatus="";
                             JSONArray jsonArray= jsonObject1.getJSONArray("Data");
                          String  MainBal= jsonArray.getJSONObject(0).getString("MainBal");
                            String AepsBal= jsonArray.getJSONObject(0).getString("AepsBal");
@@ -628,6 +654,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                         }
                         else
                         {
+                           // apiStatus="";
                             // HideProgress(ctx);
                             progressDialog.dismiss();
                             Toast.makeText(HomeDashboardActivity.this, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
@@ -652,6 +679,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
             }
         });
     }
+
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getGroupId()) {
             case R.id.nav_aeps_ledger_report:
@@ -673,10 +701,10 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 startActivity(intent3);
                 break;
             case R.id.nav_change_password:
-               /* Intent intent4 = new Intent(this, ChangePasswordActivity.class);
+                Intent intent4 = new Intent(this, ChangePasswordActivity.class);
                 intent4.putExtra("title", "Change Password");
                 startActivity(intent4);
-                this.drawer.closeDrawer((int) GravityCompat.START, false);*/
+                this.drawer.closeDrawer((int) GravityCompat.START, false);
                 break;
             case R.id.nav_complaint:
                /* this.drawer.closeDrawer((int) GravityCompat.START, false);
@@ -998,8 +1026,12 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         else if(val.equalsIgnoreCase("AEPS"))
         {
             String webViewURL="https://uat.goldenfishdigital.co.in/ApesLogin.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webViewURL));
-            startActivity(browserIntent);
+            /*Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webViewURL));
+            startActivity(browserIntent);*/
+            String url = webViewURL.replaceAll(" ","%20");
+            Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+            intent.putExtra("url",url);
+            startActivity(intent);
         }
         else if(val.equalsIgnoreCase("Broadband"))
         {
@@ -1059,5 +1091,10 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
            // intent.putExtra("url",url);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void walletBal(String status) {
+        System.out.println("MY BAL "+status);
     }
 }

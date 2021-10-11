@@ -28,6 +28,8 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.goldenfish.Common.CommonFun;
 import com.example.goldenfish.Common.CommonInterface;
+import com.example.goldenfish.Constants.ConstantsValue;
+import com.example.goldenfish.Dashboard.HomeDashboardActivity;
 import com.example.goldenfish.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -58,9 +60,12 @@ NestedScrollView scroll;
         animation_view=findViewById(R.id.animation_view);
         shareReceipt=findViewById(R.id.shareReceipt);
         scroll=findViewById(R.id.scroll);
+        //commonInterface=this;
         if(getIntent().getExtras()!=null)
         {
-
+            //ConstantsValue.string1 = "Desired String";
+            HomeDashboardActivity bal = new HomeDashboardActivity();
+            bal.recivedSms(ConstantsValue.CallApiBal);
            String Head1= getIntent().getStringExtra("Head1");
             String Head2= getIntent().getStringExtra("Head2");
             String Head3= getIntent().getStringExtra("Head3");
@@ -184,4 +189,5 @@ NestedScrollView scroll;
             CommonFun.showSettingsDialog(SuceessScreen.this);
         }
     }
+
 }

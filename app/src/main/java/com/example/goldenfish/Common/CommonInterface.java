@@ -23,8 +23,9 @@ public interface CommonInterface {
 
     }
 
-    default void requestPermission1(boolean status, AllReportAdapterNew.ViewHolder viewHolder)
+    default void walletBal(String status)
     {
 
     }
+
 }
