@@ -11,11 +11,13 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.GeolocationPermissions;
+import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -61,6 +63,9 @@ public class WebviewAeps extends AppCompatActivity {
             WebSettings webSettings = finalpaymentWebView.getSettings();
             webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
             finalpaymentWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+           // finalpaymentWebView.getSettings().setPluginState(true);
+           // finalpaymentWebView.getSettings().setAllowFileAccess(true);
+           // webSettings.setDomStorageEnabled(true);
             //finalpaymentWebView.loadUrl(loadUrl);
             progressDialog = new ProgressDialog(WebviewAeps.this, R.style.MyTheme);
             progressDialog.setTitle("Loading....");
@@ -91,9 +96,17 @@ public class WebviewAeps extends AppCompatActivity {
 
                     callback.invoke(origin, true, false);
                 }
+
+                /*@Override
+                public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+                    return super.onJsAlert(view, url, message, result);
+                }*/
             });
 
             finalpaymentWebView.loadUrl(loadUrl);
+
+
+
         }
         catch (Exception e)
         {

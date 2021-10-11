@@ -6,8 +6,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.goldenfish.Constants.Constant;
@@ -28,6 +33,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,17 +48,67 @@ ArrayList<AllReport> allReports;
     public ArrayList<String> allReportsHead= new ArrayList<>();
     public ViewPager viewPager;
     private TabLayout tabLayout;
+    LinearLayout to_date_layout,from_date_layout;
+    final Calendar myCalendar = Calendar.getInstance();
+    String choosedate="",toDate="",fromDate="";
+    TextView tv_to_date,tv_from_date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_reports);
-
+        to_date_layout=findViewById(R.id.to_date_layout);
+         tv_to_date = findViewById(R.id.tv_to_date);
+         tv_from_date = findViewById(R.id.tv_from_date);
+        from_date_layout=findViewById(R.id.from_date_layout);
         viewPager = findViewById(R.id.viewPager);
         viewPager.setOffscreenPageLimit(1);
         tabLayout = findViewById(R.id.tabLayout);
        SharedPref sharedPref = SharedPref.getInstance(AllReportsActivity.this);
         userid = sharedPref.getStringWithNull(Constant.userId);
         getAllReports();
+
+
+        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                if(choosedate.equals("todate")) {
+
+                    tv_to_date.setText(dayOfMonth + "-" + monthOfYear + "-" + year);
+                    toDate=dayOfMonth + "-" + monthOfYear + "-" + year;
+                }
+                else
+                {
+                    tv_from_date.setText(dayOfMonth + "-" + monthOfYear + "-" + year);
+                    fromDate=dayOfMonth + "-" + monthOfYear + "-" + year;
+                }
+            }
+        };
+
+        to_date_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                choosedate="todate";
+                DatePickerDialog datePickerDialog=  new DatePickerDialog(AllReportsActivity.this,R.style.AlertDialogTheme, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
+
+        from_date_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                choosedate="fromdate";
+                DatePickerDialog datePickerDialog=  new DatePickerDialog(AllReportsActivity.this,R.style.AlertDialogTheme, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
+
     }
 
     private void getAllReports()
@@ -78,10 +134,9 @@ ArrayList<AllReport> allReports;
                     progressDialog.dismiss();
                     String fullRes = null;
                     try {
-
                         fullRes = response.body().getMessage();
                         //System.out.println("FULL RESP "+fullRes);
-
+                  //  allReports.clear();
                        allReports= (ArrayList<AllReport>) response.body().getData();
 
                        for(int i=0;i<allReports.size();i++)

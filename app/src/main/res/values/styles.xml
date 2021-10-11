@@ -85,7 +85,11 @@
     <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/blue</item>
     </style>
-
+    <style name="MyTimePickerDialogTheme" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorOnPrimary">@color/black</item>
+    </style>
     <style name="MyTextViewStyle" parent="android:Widget.TextView">
         <item name="android:textColor">#bfbfbf</item>
         <item name="android:layout_width">wrap_content</item>

@@ -51,7 +51,6 @@
                 android:id="@+id/et_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:hint="Enter User Name"
                 android:inputType="text"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,11 +64,39 @@
                  android:layout_marginTop="15dp"
                 android:hint="Enter Shop Name"
                 />
+
+                <EditText
+                    android:id="@+id/et_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:hint="Enter Mobile No."
+                    />
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:inputType="textEmailAddress"
+                    android:hint="Enter Email"
+                    />
+
+                <EditText
+                    android:id="@+id/et_pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:inputType="textEmailAddress"
+                    android:hint="Enter Password"
+                    />
             <EditText
                 android:id="@+id/et_select_dob"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:focusable="false"
                 android:hint="Select DOB"
                 />
 
@@ -85,16 +112,21 @@
                 android:id="@+id/et_pan_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="10"
                 android:layout_marginTop="15dp"
                 android:hint="Enter PAN No."
                 />
+
             <EditText
                 android:id="@+id/et_Aadhaar_no"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:maxLength="12"
+                android:inputType="number"
                 android:hint="Enter Aadhaar No."
                 />
+
             <EditText
                 android:id="@+id/et_add"
                 android:layout_width="match_parent"
@@ -102,46 +134,39 @@
                 android:layout_marginTop="15dp"
                 android:hint="Enter Address"
                 />
+
             <Spinner
                 android:id="@+id/et_state"
+                style="@style/SpinnerTheme1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginTop="15dp"
                 />
+
             <Spinner
                 android:id="@+id/et_city"
+                android:visibility="gone"
+                style="@style/SpinnerTheme1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginTop="15dp"
                 />
+
             <EditText
                 android:id="@+id/et_pincode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:hint="Enter Address"
-                />
-            <EditText
-                android:id="@+id/et_mobile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:maxLength="6"
                 android:inputType="number"
-                android:maxLength="10"
-                android:hint="Enter Mobile No."
-                />
-            <EditText
-                android:id="@+id/et_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:inputType="textEmailAddress"
-                android:hint="Enter Email"
+                android:hint="Enter PinCode"
                 />
+
             <Spinner
                 android:id="@+id/et_joinas"
+                style="@style/SpinnerTheme1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginTop="15dp"
                 />
             </LinearLayout>
@@ -152,7 +177,7 @@
                 android:layout_height="45dp"
                 android:layout_marginStart="60dp"
                 android:layout_marginTop="40dp"
-                android:onClick="Login"
+                android:onClick="SignupUser"
                 android:layout_marginEnd="60dp"
                 android:background="@drawable/green_back"
                 android:text="Singup"

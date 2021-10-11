@@ -3,6 +3,7 @@ package com.example.goldenfish.Sidebar.AllReports;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -44,25 +45,33 @@ public class AllReportFragment extends Fragment {
         View v= inflater.inflate(R.layout.fragment_all_report, container, false);
         credit_Report_listview=v.findViewById(R.id.credit_Report_listview);
         String plan_type=  ((AllReportsActivity)getActivity()).allReportsHead.get(myval);
-
         List<AllReport> allLists=  ((AllReportsActivity)getActivity()).allReports;
 
-
-                    for(int i=0;i<2;i++)
+                    for(int i=0;i<allLists.size();i++)
                     {
-//                        if(allLists.get(i).getStype().equalsIgnoreCase(plan_type))
-//                        {
+                       if(allLists.get(i).getStype().equalsIgnoreCase(plan_type))
+                        {
                              name= allLists.get(i).getAgentname();
                              amount= allLists.get(i).getAmount();
                              Stype= allLists.get(i).getStype();
-
-//                        }
+                             String txnid= allLists.get(i).getTransactionid();
+                             String opname= allLists.get(i).getOpname();
+                             String number= allLists.get(i).getNumber();
+                             String comm= allLists.get(i).getComm();
+                             String cost= allLists.get(i).getCost();
+                             String bal = allLists.get(i).getBalance();
+                             String datetime = allLists.get(i).getTdatetime();
+                             String status = allLists.get(i).getStatus();
+                            listItems.add(new AllReport(name,Stype,amount,txnid,opname,number,comm,cost,bal,datetime,status));
+                       }
                         //System.out.println("FULL RESPONSE1 "+name);
-                        listItems.add(new AllReport(name,Stype,amount));
+
 
                     }
-    //    System.out.println("FULL RESPONSE "+listItems);
+
         allReportsAdapter = new AllReportAdapterNew(getActivity(),listItems);
+        LinearLayoutManager verticalLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        credit_Report_listview.setLayoutManager(verticalLayoutManager);
        // allReportsAdapter.notifyDataSetChanged();
         credit_Report_listview.setAdapter(allReportsAdapter);
         return v;

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/scroll"
+    android:isScrollContainer="true"
+    android:measureAllChildren="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MoveToBank.SuceessScreen">
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:background="@drawable/gradient_sucess"
+        android:layout_height="80dp">
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:text="Payment Confirmation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    </RelativeLayout>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
+
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:onClick="share"
+        android:id="@+id/shareReceipt"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_baseline_share_24"
+        android:layout_height="wrap_content"
+        tools:ignore="OnClick" />
+</RelativeLayout>
+    <TextView
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:id="@+id/head2"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_marginTop="7dp"
+        android:gravity="center_horizontal"
+        android:layout_width="250dp"
+        android:textSize="13sp"
+        android:layout_gravity="center"
+        android:textColor="#a6a6a6"
+        android:id="@+id/head3"
+        android:layout_height="wrap_content"/>
+    <View
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#c0c0c0"/>
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:textColor="@color/txt_sucess"
+        android:textSize="16sp"
+        android:id="@+id/txn_id"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+<!--        <LinearLayout-->
+<!--            android:orientation="horizontal"-->
+<!--            android:weightSum="2"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:textColor="@color/sub_txt"-->
+<!--                android:text="Total Amount Paid"-->
+<!--                android:layout_height="wrap_content"/>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:text="Rs. 200"-->
+<!--                android:gravity="right"-->
+<!--                android:layout_height="wrap_content"/>-->
+<!--        </LinearLayout>-->
+<!--        <View-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:background="#c0c0c0"/>-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:weightSum="2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:textColor="@color/sub_txt"-->
+<!--                android:text="Transaction Date"-->
+<!--                android:layout_height="wrap_content"/>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:text="Rs. 200"-->
+<!--                android:gravity="right"-->
+<!--                android:layout_height="wrap_content"/>-->
+<!--        </LinearLayout>-->
+<!--        <View-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:background="#c0c0c0"/>-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fastScrollEnabled="true"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
+            android:overScrollMode="never"
+            android:splitMotionEvents="false"
+            android:verticalScrollbarPosition="right"
+            android:id="@+id/list" />
+    </LinearLayout>
+</LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>
