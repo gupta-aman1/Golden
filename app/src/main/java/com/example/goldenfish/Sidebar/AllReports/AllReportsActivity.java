@@ -8,6 +8,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -15,9 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.goldenfish.Common.CommonFun;
+import com.example.goldenfish.Common.CommonInterface;
 import com.example.goldenfish.Constants.Constant;
 import com.example.goldenfish.Constants.ConstantsValue;
 import com.example.goldenfish.Dashboard.HomeDashboardActivity;
+import com.example.goldenfish.MoveToBank.SuceessScreen;
 import com.example.goldenfish.R;
 import com.example.goldenfish.Retrofit.RetrofitClient;
 import com.example.goldenfish.Sidebar.AllReports.ModelAllReports.AllReport;
@@ -42,7 +46,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class AllReportsActivity extends AppCompatActivity {
+public class AllReportsActivity extends AppCompatActivity implements CommonInterface {
 private String userid;
 ArrayList<AllReport> allReports;
     public ArrayList<String> allReportsHead= new ArrayList<>();
@@ -65,7 +69,9 @@ ArrayList<AllReport> allReports;
         tabLayout = findViewById(R.id.tabLayout);
        SharedPref sharedPref = SharedPref.getInstance(AllReportsActivity.this);
         userid = sharedPref.getStringWithNull(Constant.userId);
-        getAllReports();
+
+        CommonFun.requestStoragePermission(AllReportsActivity.this,AllReportsActivity.this);
+
 
 
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -251,5 +257,17 @@ ArrayList<AllReport> allReports;
         }
 
 
+    }
+
+    @Override
+    public void requestPermission(boolean status) {
+        if(status)
+        {
+            getAllReports();
+        }
+        else
+        {
+            CommonFun.showSettingsDialog(AllReportsActivity.this);
+        }
     }
 }

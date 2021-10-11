@@ -225,6 +225,7 @@ public class AddPayoutAcc extends AppCompatActivity {
 
         requestStoragePermission();
     }
+
     private void requestStoragePermission() {
         Dexter.withActivity(this)
                 .withPermissions(
