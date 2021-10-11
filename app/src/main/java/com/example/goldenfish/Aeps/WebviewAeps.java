@@ -52,7 +52,7 @@ public class WebviewAeps extends AppCompatActivity {
         if(getIntent().getExtras()!=null)
         {
             loadUrl= getIntent().getStringExtra("url");
-            System.out.println("Webview url11 "+loadUrl);
+            System.out.println("Webview url111 "+loadUrl);
 
         }
         try {
