@@ -77,4 +77,7 @@ public interface interfaceAPI {
 
     @POST("AddChildUser")
     Call<ResponseBody> AddChildUser(@Body JsonObject object);
+
+    @POST("ChangeUserPassword")
+    Call<ResponseBody> ChangeUserPassword(@Body JsonObject object);
 }

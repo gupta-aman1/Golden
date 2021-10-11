@@ -13,6 +13,7 @@ import android.os.Bundle;
 
 import com.example.goldenfish.AddUser.AddUserActivity;
 import com.example.goldenfish.Aeps.WebviewAeps;
+import com.example.goldenfish.ChangePassword.ChangePasswordActivity;
 import com.example.goldenfish.Common.CommonInterface;
 import com.example.goldenfish.Constants.Constant;
 import com.example.goldenfish.Constants.ConstantsValue;
@@ -553,6 +554,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
          OwnerName = sharedPref.getStringWithNull(Constant.OwnerName);
         PANCard = sharedPref.getStringWithNull(Constant.PANCard);
         String EmailId = sharedPref.getStringWithNull(Constant.EmailId);
+        String UserType = sharedPref.getStringWithNull(Constant.Usertype);
 
         this.tvFirmName.setText("Firm Name : "+FirmName);
         this.tvNavMobileNo.setText("Mobile No. : "+MobileNo1);
@@ -575,7 +577,10 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         recyclerDataArrayList.add(new ModelDashboard("Purchase Coupon",R.drawable.gas,"",""));
         recyclerDataArrayList.add(new ModelDashboard("Insurance",R.drawable.gas,"",""));
         recyclerDataArrayList.add(new ModelDashboard("PSA Registration",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("Add User",R.drawable.gas,"",""));
+        if(!UserType.equalsIgnoreCase("Retailer"))
+        {
+            recyclerDataArrayList.add(new ModelDashboard("Add User",R.drawable.gas,"",""));
+        }
         recyclerDataArrayList.add(new ModelDashboard("Education Fee",R.drawable.gas,"",""));
         recyclerDataArrayList.add(new ModelDashboard("ATM",R.drawable.gas,"",""));
         recyclerDataArrayList.add(new ModelDashboard("NSDL Authorized Pan Card",R.drawable.gas,"",""));
@@ -673,10 +678,10 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 startActivity(intent3);
                 break;
             case R.id.nav_change_password:
-               /* Intent intent4 = new Intent(this, ChangePasswordActivity.class);
+                Intent intent4 = new Intent(this, ChangePasswordActivity.class);
                 intent4.putExtra("title", "Change Password");
                 startActivity(intent4);
-                this.drawer.closeDrawer((int) GravityCompat.START, false);*/
+                this.drawer.closeDrawer((int) GravityCompat.START, false);
                 break;
             case R.id.nav_complaint:
                /* this.drawer.closeDrawer((int) GravityCompat.START, false);
@@ -998,8 +1003,12 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         else if(val.equalsIgnoreCase("AEPS"))
         {
             String webViewURL="https://uat.goldenfishdigital.co.in/ApesLogin.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webViewURL));
-            startActivity(browserIntent);
+            /*Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webViewURL));
+            startActivity(browserIntent);*/
+            String url = webViewURL.replaceAll(" ","%20");
+            Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+            intent.putExtra("url",url);
+            startActivity(intent);
         }
         else if(val.equalsIgnoreCase("Broadband"))
         {

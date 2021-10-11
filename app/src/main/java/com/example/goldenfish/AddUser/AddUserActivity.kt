@@ -511,7 +511,7 @@ class AddUserActivity : AppCompatActivity() {
         {
             Toast.makeText(this@AddUserActivity,"Select City",Toast.LENGTH_SHORT).show()
         }
-        else if(et_pincode.text.toString().trim().equals(""))
+        else if(et_pincode.text.toString().trim().equals("") || et_pincode.text.toString().length!=6)
         {
             et_pincode.setError("Required")
         }
@@ -554,7 +554,9 @@ class AddUserActivity : AppCompatActivity() {
         jsonObject.addProperty("Pincode", et_pincode.text.toString())
         jsonObject.addProperty("UserType",et_userType.getSelectedItem().toString())
         jsonObject.addProperty("SchemeId",selectedschemeId)
-        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("AddChildUser", et_user_name.text.toString()+"|"+et_shop_name.text.toString()+"|"+et_mobile.text.toString(), "13598"))
+        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("AddChildUser", et_user_name.text.toString()+"|"+et_shop_name.text.toString()+"|"+et_mobile.text.toString(),userid))
+
+       // System.out.println("ADD CHILD "+jsonObject)
         val call = RetrofitClient.getInstance().api.AddChildUser(jsonObject)
         call.enqueue(object : Callback<ResponseBody?> {
             override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {

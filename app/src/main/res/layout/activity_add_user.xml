@@ -77,11 +77,12 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:id="@+id/et_pass"
+                android:maxLength="15"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@drawable/bordered_back"
                 android:layout_marginTop="15dp"
-                android:inputType="textEmailAddress"
+                android:inputType="textPassword"
                 android:hint="Enter Password"
                 />
 

@@ -32,8 +32,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -52,6 +55,7 @@ ArrayList<AllReport> allReports;
     final Calendar myCalendar = Calendar.getInstance();
     String choosedate="",toDate="",fromDate="";
     TextView tv_to_date,tv_from_date;
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +69,12 @@ ArrayList<AllReport> allReports;
         tabLayout = findViewById(R.id.tabLayout);
        SharedPref sharedPref = SharedPref.getInstance(AllReportsActivity.this);
         userid = sharedPref.getStringWithNull(Constant.userId);
+
+
+        Date date1 = new Date();
+       fromDate= formatter.format(date1);
+       toDate= formatter.format(date1);
+
         getAllReports();
 
 
@@ -73,18 +83,74 @@ ArrayList<AllReport> allReports;
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-                myCalendar.set(Calendar.YEAR, year);
+              /*  myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);*/
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                int month= monthOfYear+1;
+                String fm=""+month;
+                String fd=""+dayOfMonth;
+                if(month<10){
+                    fm ="0"+month;
+                }
+                if (dayOfMonth<10){
+                    fd="0"+dayOfMonth;
+                }
+                String date= ""+year+"-"+fm+"-"+fd;
                 if(choosedate.equals("todate")) {
 
-                    tv_to_date.setText(dayOfMonth + "-" + monthOfYear + "-" + year);
-                    toDate=dayOfMonth + "-" + monthOfYear + "-" + year;
+                    tv_to_date.setText(date);
+                    toDate=date.trim();
+
+                    if(tv_from_date.getText().toString().trim().equalsIgnoreCase("Select Date"))
+                    {
+                        Toast.makeText(AllReportsActivity.this, "Please choose From Date", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        try {
+                            Date date1 = sdf.parse(fromDate);
+                            Date date2 = sdf.parse(toDate);
+                            if(date1.compareTo(date2) < 0)
+                            {
+                                getAllReports();
+                            }
+                            else
+                            {
+                                Toast.makeText(AllReportsActivity.this, "To Date must be greater than From Date", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
                 else
                 {
-                    tv_from_date.setText(dayOfMonth + "-" + monthOfYear + "-" + year);
-                    fromDate=dayOfMonth + "-" + monthOfYear + "-" + year;
+                    tv_from_date.setText(date);
+                    fromDate=date.trim();
+                    if(tv_to_date.getText().toString().trim().equalsIgnoreCase("Select date"))
+                    {
+                        Toast.makeText(AllReportsActivity.this, "Please choose To Date", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        try {
+                            Date date1 = sdf.parse(fromDate);
+                            Date date2 = sdf.parse(toDate);
+                            if(date1.compareTo(date2) > 0)
+                            {
+                                Toast.makeText(AllReportsActivity.this, "From Date must be less than To Date", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                getAllReports();
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
                 }
             }
         };
@@ -119,12 +185,14 @@ ArrayList<AllReport> allReports;
         progressDialog.setCancelable(false);
         progressDialog.show();
         JsonObject jsonObject= new JsonObject();
-        jsonObject.addProperty("Userid","6178");
+        jsonObject.addProperty("Userid",userid);
         jsonObject.addProperty("Filterby","ALL");
-        jsonObject.addProperty("FromDate","2021-09-10");
-        jsonObject.addProperty("ToDate","2021-09-10");
-        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetALLReports","ALL"+"|"+"2021-09-10"+"|"+"2021-09-10","6178"));
+        jsonObject.addProperty("FromDate",fromDate);
+        jsonObject.addProperty("ToDate",toDate);
+        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetALLReports","ALL"+"|"+fromDate+"|"+toDate,userid));
         Call<ModelMainClass> call = RetrofitClient.getInstance().getApi().GetALLReports(jsonObject);
+
+        System.out.println("Req "+jsonObject);
         call.enqueue(new Callback<ModelMainClass>() {
             @Override
             public void onResponse(Call<ModelMainClass> call, retrofit2.Response<ModelMainClass> response) {
@@ -132,18 +200,18 @@ ArrayList<AllReport> allReports;
                 if (response.body() != null){
                     // HideProgress(ctx);
                     progressDialog.dismiss();
-                    String fullRes = null;
+                    String st = null;
                     try {
-                        fullRes = response.body().getMessage();
-                        //System.out.println("FULL RESP "+fullRes);
-                  //  allReports.clear();
+                        st = response.body().getStatuscode();
+
+                        if(st.equalsIgnoreCase(ConstantsValue.successful))
+                        {
                        allReports= (ArrayList<AllReport>) response.body().getData();
 
                        for(int i=0;i<allReports.size();i++)
                        {
                           String type= allReports.get(i).getStype();
                            allReportsHead.add(type);
-                         //  System.out.println("FULL RESP1 "+type);
                        }
 
                         Set<String> set = new HashSet<>(allReportsHead);
@@ -151,6 +219,17 @@ ArrayList<AllReport> allReports;
                         allReportsHead.addAll(set);
 
                         setupViewPagers(viewPager,allReportsHead);
+                        }
+                        else
+                        {
+                            Toast.makeText(AllReportsActivity.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                        //System.out.println("FULL RESP "+fullRes);
+                  //  allReports.clear();
+
+
+
+
                       //  JSONObject jsonObject1= new JSONObject(fullRes);
                         //String stCode= jsonObject1.getString(Constant.StatusCode);
                         /*if (stCode.equalsIgnoreCase(ConstantsValue.successful))
@@ -166,7 +245,7 @@ ArrayList<AllReport> allReports;
                         {
                             // HideProgress(ctx);
                             progressDialog.dismiss();
-                          //  Toast.makeText(AllReportsActivity.this, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
+
                         }*/
                   //  }
                 catch (Exception e) {
@@ -183,7 +262,7 @@ ArrayList<AllReport> allReports;
             @Override
             public void onFailure(Call<ModelMainClass> call, Throwable t) {
                 progressDialog.dismiss();
-                Toast.makeText(AllReportsActivity.this, "Due to Internet Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AllReportsActivity.this, "Due to Internet Error"+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -36,6 +36,7 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_margin="@dimen/_20dp"
         android:inputType="number"
+        android:maxLength="30"
         android:background="@drawable/bordered_back"
         android:hint="Account Number"
         android:paddingStart="10dp"
