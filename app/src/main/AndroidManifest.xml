@@ -24,17 +24,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoldenFish"
         android:usesCleartextTraffic="true">
+        <activity android:name=".PanCard.PurchaseCouponActivity"></activity>
         <activity
             android:name=".ChangePassword.ChangePasswordActivity"
-            android:label="Change Password"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Change Password" />
         <activity
             android:name=".AddUser.AddUserActivity"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MoveToBank.SuceessScreen"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".PayoutAc.AddPayoutAcc"
             android:exported="true"
