@@ -24,7 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoldenFish"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PanCard.PurchaseCouponActivity"></activity>
+        <activity android:name=".PanCard.PurchaseCouponActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ChangePassword.ChangePasswordActivity"
             android:exported="true"

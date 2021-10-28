@@ -281,14 +281,11 @@ System.out.println(formattedDate.replace("am", "AM").replace("pm","PM"));
 
     @Override
     public void getMoveToBankSurcharge(String CommPer, String CommType, String ChargePer, String ChargeType) {
-
        // System.out.println("SURCARGE "+ChargeType+ "|"+ ChargePer);
         final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(MoveToBankActivity.this).create();
         LayoutInflater inflater = getLayoutInflater();
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         View dialogView = inflater.inflate(R.layout.movetobankdialog,null);
-
-
 
         TextView head = (TextView) dialogView.findViewById(R.id.head);
         TextView subhead1 = (TextView) dialogView.findViewById(R.id.subhead1);

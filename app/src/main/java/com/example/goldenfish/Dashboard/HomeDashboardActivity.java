@@ -18,6 +18,7 @@ import com.example.goldenfish.Common.CommonInterface;
 import com.example.goldenfish.Constants.Constant;
 import com.example.goldenfish.Constants.ConstantsValue;
 import com.example.goldenfish.MoveToBank.MoveToBankActivity;
+import com.example.goldenfish.PanCard.PurchaseCouponActivity;
 import com.example.goldenfish.PayoutAc.AddPayoutAcc;
 import com.example.goldenfish.R;
 
@@ -91,7 +92,6 @@ import org.json.JSONObject;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-
 
 public class HomeDashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnDataReceiverListener, GpsInterface, CommonInterface {
     int PERMISSION_ID = 44;
@@ -1089,6 +1089,12 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         {
             Intent intent = new Intent(HomeDashboardActivity.this, AddUserActivity.class);
            // intent.putExtra("url",url);
+            startActivity(intent);
+        }
+        else if(val.equalsIgnoreCase("Purchase Coupon"))
+        {
+            Intent intent = new Intent(HomeDashboardActivity.this, PurchaseCouponActivity.class);
+            // intent.putExtra("url",url);
             startActivity(intent);
         }
     }

@@ -35,7 +35,7 @@ import retrofit2.Response;
 
 public class CommonApi {
 
-    public   static void getSurcharge(Activity activity, JsonObject jsonObject,CommonInterface commonInterface)
+    public static void getSurcharge(Activity activity, JsonObject jsonObject,CommonInterface commonInterface)
     {
 
         final ProgressDialog progressDialog = new ProgressDialog(activity);
@@ -101,7 +101,67 @@ public class CommonApi {
             }
         });
     }
+    public static void getSurchargeByOperator(Activity activity, JsonObject jsonObject,CommonInterface commonInterface)
+    {
+        final ProgressDialog progressDialog = new ProgressDialog(activity);
+        progressDialog.setTitle("Loading.....");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().GetSurchargeUsingOpId(jsonObject);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
 
+                if (response.body() != null){
+                    // HideProgress(ctx);
+                    progressDialog.dismiss();
+                    String fullRes = null;
+                    try {
+
+                        fullRes = response.body().string();
+                        JSONObject jsonObject1= new JSONObject(fullRes);
+                        String stCode= jsonObject1.getString(Constant.StatusCode);
+                        if (stCode.equalsIgnoreCase(ConstantsValue.successful))
+                        {
+                            JSONArray rootarr=jsonObject1.getJSONArray("Data");
+
+
+                            for (int i=0;i<rootarr.length();i++)
+                            {
+                                JSONObject innerobj= rootarr.getJSONObject(i);
+                                String CommPer=innerobj.getString("CommPer");
+                                String CommType=innerobj.getString("CommType");
+                                String ChargePer=innerobj.getString("ChargePer");
+                                String ChargeType=innerobj.getString("ChargeType");
+                                commonInterface.getMoveToBankSurcharge(CommPer,CommType,ChargePer,ChargeType);
+                            }
+
+
+                        }
+                        else
+                        {
+                            // HideProgress(ctx);
+                            progressDialog.dismiss();
+                            Toast.makeText(activity, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+
+                    }
+
+                }else {
+                    progressDialog.dismiss();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(activity, "Due to Internet Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     public static void getBalanceWalletWise(Activity activity, JsonObject jsonObject,CommonInterface commonInterface)
     {
         final ProgressDialog progressDialog = new ProgressDialog(activity);
