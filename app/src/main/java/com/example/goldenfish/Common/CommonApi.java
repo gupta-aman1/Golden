@@ -3,9 +3,12 @@ package com.example.goldenfish.Common;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.example.goldenfish.Constants.Constant;
 import com.example.goldenfish.Constants.ConstantsValue;
@@ -37,7 +40,6 @@ public class CommonApi {
 
     public static void getSurcharge(Activity activity, JsonObject jsonObject,CommonInterface commonInterface)
     {
-
         final ProgressDialog progressDialog = new ProgressDialog(activity);
         progressDialog.setTitle("Loading.....");
         progressDialog.setCancelable(false);
@@ -101,6 +103,7 @@ public class CommonApi {
             }
         });
     }
+
     public static void getSurchargeByOperator(Activity activity, JsonObject jsonObject,CommonInterface commonInterface)
     {
         final ProgressDialog progressDialog = new ProgressDialog(activity);
@@ -143,6 +146,213 @@ public class CommonApi {
                             // HideProgress(ctx);
                             progressDialog.dismiss();
                             Toast.makeText(activity, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+
+                    }
+
+                }else {
+                    progressDialog.dismiss();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(activity, "Due to Internet Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public static void getState(Activity activity,CommonInterface commonInterface)
+    {
+        final ProgressDialog progressDialog = new ProgressDialog(activity);
+        progressDialog.setTitle("Loading States...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("Userid", "13598");
+        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetStateListDetails", "", "13598"));
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().GetStateListDetails(jsonObject);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+
+                if (response.body() != null){
+                    // HideProgress(ctx);
+                    progressDialog.dismiss();
+                    String fullRes = null;
+                    ArrayList al1 = new ArrayList<String>();
+                    ArrayList  al2 = new ArrayList<String>();
+                    al1.add("Select State");
+                    al2.add("-2");
+                    try {
+
+                        fullRes = response.body().string();
+                        JSONObject jsonObject1= new JSONObject(fullRes);
+                        String stCode= jsonObject1.getString(Constant.StatusCode);
+                        if (stCode.equalsIgnoreCase(ConstantsValue.successful))
+                        {
+                            JSONArray rootarr=jsonObject1.getJSONArray("Data");
+
+
+                            for (int i=0;i<rootarr.length();i++)
+                            {
+                                JSONObject innerobj= rootarr.getJSONObject(i);
+                                String StateName=innerobj.getString("StateName");
+                                String Id=innerobj.getString("Id");
+                                al1.add(StateName);
+                                al2.add(Id);
+                                commonInterface.getStates(al1,al2);
+                            }
+
+
+                        }
+                        else
+                        {
+                            // HideProgress(ctx);
+                            progressDialog.dismiss();
+                            Toast.makeText(activity, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+
+                    }
+
+                }else {
+                    progressDialog.dismiss();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(activity, "Due to Internet Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public static void getCity(Activity activity,CommonInterface commonInterface,String state_id)
+    {
+        final ProgressDialog progressDialog = new ProgressDialog(activity);
+        progressDialog.setTitle("Loading City...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("Userid", "13598");
+        jsonObject.addProperty("StateId", state_id);
+        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetCityListDetails", state_id, "13598"));
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().GetCityListDetails(jsonObject);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+
+                if (response.body() != null){
+                    // HideProgress(ctx);
+                    progressDialog.dismiss();
+                    String fullRes = null;
+                    ArrayList al1 = new ArrayList<String>();
+                    ArrayList  al2 = new ArrayList<String>();
+                    al1.add("Select City");
+                    al2.add("-2");
+                    try {
+
+                        fullRes = response.body().string();
+                        JSONObject jsonObject1= new JSONObject(fullRes);
+                        String stCode= jsonObject1.getString(Constant.StatusCode);
+                        if (stCode.equalsIgnoreCase(ConstantsValue.successful))
+                        {
+                            JSONArray rootarr=jsonObject1.getJSONArray("Data");
+
+
+                            for (int i=0;i<rootarr.length();i++)
+                            {
+                                JSONObject innerobj= rootarr.getJSONObject(i);
+                                String StateName=innerobj.getString("CityName");
+                                String Id=innerobj.getString("Id");
+                                al1.add(StateName);
+                                al2.add(Id);
+                                commonInterface.getCity(al1,al2);
+                            }
+
+
+                        }
+                        else
+                        {
+                            // HideProgress(ctx);
+                            progressDialog.dismiss();
+                            Toast.makeText(activity, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+
+                    }
+
+                }else {
+                    progressDialog.dismiss();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(activity, "Due to Internet Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public static void verifyMPIN(Activity activity,String mpin,String userId,CommonInterface commonInterface)
+    {
+        final ProgressDialog progressDialog = new ProgressDialog(activity);
+        progressDialog.setTitle("Loading.....");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        JsonObject jsonObject= new JsonObject();
+        jsonObject.addProperty("Userid",userId);
+        jsonObject.addProperty("Mpin",mpin);
+        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("ValidateMpinForTransaction",mpin,userId));
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().ValidateMpinForTransaction(jsonObject);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+
+                if (response.body() != null){
+                    // HideProgress(ctx);
+                    progressDialog.dismiss();
+                    String fullRes = null;
+
+                    try {
+
+                        fullRes = response.body().string();
+                        JSONObject jsonObject1= new JSONObject(fullRes);
+                        String stCode= jsonObject1.getString(Constant.StatusCode);
+                        if (stCode.equalsIgnoreCase(ConstantsValue.successful))
+                        {
+                            commonInterface.MpinStatus(true);
+                        }
+                        else
+                        {
+                            // HideProgress(ctx);
+                            progressDialog.dismiss();
+
+                            androidx.appcompat.app.AlertDialog.Builder builder1 = new androidx.appcompat.app.AlertDialog.Builder(activity);
+                            builder1.setMessage(jsonObject1.getString("Message"));
+                            builder1.setCancelable(true);
+
+                            builder1.setPositiveButton(
+                                    "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                            // finish();
+                                        }
+                                    });
+                            AlertDialog alert11 = builder1.create();
+                            alert11.show();
+                            //Toast.makeText(MoveToBankActivity.this, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
 
@@ -219,6 +429,7 @@ public class CommonApi {
             }
         });
     }
+
     public static void serverUpload(File myfile, final Context context, final OnResponse listener, String... args) {
         for(String s:args)
         {
@@ -295,6 +506,7 @@ public class CommonApi {
             System.out.println("FINALSTATUS "+e.getMessage());
         }
     }
+
     public interface OnResponse {
         void onSuccess(String result);
 

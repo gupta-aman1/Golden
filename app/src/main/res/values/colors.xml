@@ -159,4 +159,5 @@
     <color name="txt_green">#4CAF50</color>
     <color name="txt_red">#F44336</color>
     <color name="sub_txt">#999999</color>
+    <color name="sub_test">#FFFFFF</color>
 </resources>

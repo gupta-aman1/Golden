@@ -18,6 +18,7 @@ import com.example.goldenfish.Common.CommonInterface;
 import com.example.goldenfish.Constants.Constant;
 import com.example.goldenfish.Constants.ConstantsValue;
 import com.example.goldenfish.MoveToBank.MoveToBankActivity;
+import com.example.goldenfish.PanCard.PsaRegistrationActivity;
 import com.example.goldenfish.PanCard.PurchaseCouponActivity;
 import com.example.goldenfish.PayoutAc.AddPayoutAcc;
 import com.example.goldenfish.R;
@@ -593,19 +594,19 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         recyclerDataArrayList.add(new ModelDashboard("Electricity",R.drawable.electricity,"",""));
         recyclerDataArrayList.add(new ModelDashboard("Water",R.drawable.water,"",""));
         recyclerDataArrayList.add(new ModelDashboard("Gas",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("Loan EMI",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("Purchase Coupon",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("Insurance",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("PSA Registration",R.drawable.gas,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("Loan EMI",R.drawable.loan_emi,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("Purchase Coupon",R.drawable.coupon_pan,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("Insurance",R.drawable.insurance_dash,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("PSA Registration",R.drawable.user_reg_dash,"",""));
         if(!UserType.equalsIgnoreCase("Retailer"))
         {
-            recyclerDataArrayList.add(new ModelDashboard("Add User",R.drawable.gas,"",""));
+            recyclerDataArrayList.add(new ModelDashboard("Add User",R.drawable.add_user_dash,"",""));
         }
-        recyclerDataArrayList.add(new ModelDashboard("Education Fee",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("ATM",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("NSDL Authorized Pan Card",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("Cable TV",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("Fastag",R.drawable.gas,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("Education Fee",R.drawable.edu_dash,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("ATM",R.drawable.atm_dash,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("NSDL Authorized Pan Card",R.drawable.pan_dash,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("Cable TV",R.drawable.cable_tv_dash,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("Fastag",R.drawable.fastag_dash,"",""));
         // added data from arraylist to adapter class.
         RecyclerViewAdapter adapter=new RecyclerViewAdapter(recyclerDataArrayList,this,this);
 
@@ -1094,6 +1095,12 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         else if(val.equalsIgnoreCase("Purchase Coupon"))
         {
             Intent intent = new Intent(HomeDashboardActivity.this, PurchaseCouponActivity.class);
+            // intent.putExtra("url",url);
+            startActivity(intent);
+        }
+        else if(val.equalsIgnoreCase("PSA Registration"))
+        {
+            Intent intent = new Intent(HomeDashboardActivity.this, PsaRegistrationActivity.class);
             // intent.putExtra("url",url);
             startActivity(intent);
         }

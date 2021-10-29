@@ -87,4 +87,13 @@ public interface interfaceAPI {
 
     @POST("GetSurchargeUsingOpId")
     Call<ResponseBody> GetSurchargeUsingOpId(@Body JsonObject object);
+
+    @POST("GetVLEIdForPanCard")
+    Call<ResponseBody> GetVLEIdForPanCard(@Body JsonObject object);
+
+    @POST("PurchaseCouponForPancard")
+    Call<ResponseBody> PurchaseCouponForPancard(@Body JsonObject object);
+
+    @POST("CreatePSAForUsers")
+    Call<ResponseBody> CreatePSAForUsers(@Body JsonObject object);
 }

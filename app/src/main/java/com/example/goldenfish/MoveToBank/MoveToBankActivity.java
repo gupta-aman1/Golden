@@ -141,7 +141,7 @@ System.out.println(formattedDate.replace("am", "AM").replace("pm","PM"));
 
                         fullRes = response.body().string();
                         JSONObject jsonObject1= new JSONObject(fullRes);
-                        System.out.println(""+fullRes);
+                       // System.out.println(""+fullRes);
                         String stCode= jsonObject1.getString(Constant.StatusCode);
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))
                         {
@@ -341,10 +341,10 @@ System.out.println(formattedDate.replace("am", "AM").replace("pm","PM"));
                     // HideProgress(ctx);
                     progressDialog.dismiss();
                     String fullRes = null;
-                    ArrayList<String> acc= new ArrayList<>();
-                    ArrayList<String> acc_id= new ArrayList<>();
-                    acc.add("Select Account");
-                    acc_id.add("-2");
+                  /*//  ArrayList<String> acc= new ArrayList<>();
+                  //  ArrayList<String> acc_id= new ArrayList<>();
+                  //  acc.add("Select Account");
+                  //  acc_id.add("-2");*/
                     try {
 
                         fullRes = response.body().string();
