@@ -298,7 +298,6 @@ public class AddPayoutAcc extends AppCompatActivity {
 
                 CommonApi.serverUpload(file, AddPayoutAcc.this, new CommonApi.OnResponse() {
 
-
                     @Override
                     public void onSuccess(String result) {
                         //   Toast.makeText(Completesignup4.this, "hello", Toast.LENGTH_SHORT).show();
