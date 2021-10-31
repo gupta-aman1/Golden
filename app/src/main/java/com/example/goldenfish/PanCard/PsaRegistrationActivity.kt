@@ -36,8 +36,6 @@ class PsaRegistrationActivity : AppCompatActivity(),CommonInterface {
     var cities = HashMap<String, String>()
     var selectedStateId="";
     var selectedcityId="";
-    var stateValue="";
-    var cityValue="";
     var sharedPref: SharedPref? = null
     var userid: String? = null
     var userName: String? = null
