@@ -1,5 +1,6 @@
 package com.example.goldenfish.Retrofit;
 
+import com.example.goldenfish.PanCard.ModelPan.ModelCouponPan;
 import com.example.goldenfish.Sidebar.AllReports.ModelAllReports.ModelMainClass;
 import com.example.goldenfish.Utilities.UploadFile;
 import com.google.gson.JsonObject;
@@ -80,4 +81,19 @@ public interface interfaceAPI {
 
     @POST("ChangeUserPassword")
     Call<ResponseBody> ChangeUserPassword(@Body JsonObject object);
+
+    @POST("GetPanCardCouponType")
+    Call<ModelCouponPan> GetPanCardCouponType(@Body JsonObject object);
+
+    @POST("GetSurchargeUsingOpId")
+    Call<ResponseBody> GetSurchargeUsingOpId(@Body JsonObject object);
+
+    @POST("GetVLEIdForPanCard")
+    Call<ResponseBody> GetVLEIdForPanCard(@Body JsonObject object);
+
+    @POST("PurchaseCouponForPancard")
+    Call<ResponseBody> PurchaseCouponForPancard(@Body JsonObject object);
+
+    @POST("CreatePSAForUsers")
+    Call<ResponseBody> CreatePSAForUsers(@Body JsonObject object);
 }

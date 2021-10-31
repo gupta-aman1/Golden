@@ -141,7 +141,7 @@ System.out.println(formattedDate.replace("am", "AM").replace("pm","PM"));
 
                         fullRes = response.body().string();
                         JSONObject jsonObject1= new JSONObject(fullRes);
-                        System.out.println(""+fullRes);
+                       // System.out.println(""+fullRes);
                         String stCode= jsonObject1.getString(Constant.StatusCode);
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))
                         {
@@ -281,14 +281,11 @@ System.out.println(formattedDate.replace("am", "AM").replace("pm","PM"));
 
     @Override
     public void getMoveToBankSurcharge(String CommPer, String CommType, String ChargePer, String ChargeType) {
-
        // System.out.println("SURCARGE "+ChargeType+ "|"+ ChargePer);
         final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(MoveToBankActivity.this).create();
         LayoutInflater inflater = getLayoutInflater();
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         View dialogView = inflater.inflate(R.layout.movetobankdialog,null);
-
-
 
         TextView head = (TextView) dialogView.findViewById(R.id.head);
         TextView subhead1 = (TextView) dialogView.findViewById(R.id.subhead1);
@@ -344,10 +341,10 @@ System.out.println(formattedDate.replace("am", "AM").replace("pm","PM"));
                     // HideProgress(ctx);
                     progressDialog.dismiss();
                     String fullRes = null;
-                    ArrayList<String> acc= new ArrayList<>();
-                    ArrayList<String> acc_id= new ArrayList<>();
-                    acc.add("Select Account");
-                    acc_id.add("-2");
+                  /*//  ArrayList<String> acc= new ArrayList<>();
+                  //  ArrayList<String> acc_id= new ArrayList<>();
+                  //  acc.add("Select Account");
+                  //  acc_id.add("-2");*/
                     try {
 
                         fullRes = response.body().string();

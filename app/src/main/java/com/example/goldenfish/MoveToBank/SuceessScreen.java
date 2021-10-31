@@ -6,6 +6,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,6 +26,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.goldenfish.Common.CommonFun;
+import com.example.goldenfish.Common.CommonInterface;
+import com.example.goldenfish.Constants.ConstantsValue;
+import com.example.goldenfish.Dashboard.HomeDashboardActivity;
 import com.example.goldenfish.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -36,7 +41,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SuceessScreen extends AppCompatActivity {
+public class SuceessScreen extends AppCompatActivity implements CommonInterface {
 RecyclerView list;
 TextView h2,h3,txn_id;
 LottieAnimationView animation_view;
@@ -55,9 +60,12 @@ NestedScrollView scroll;
         animation_view=findViewById(R.id.animation_view);
         shareReceipt=findViewById(R.id.shareReceipt);
         scroll=findViewById(R.id.scroll);
+        //commonInterface=this;
         if(getIntent().getExtras()!=null)
         {
-
+            //ConstantsValue.string1 = "Desired String";
+            HomeDashboardActivity bal = new HomeDashboardActivity();
+            bal.recivedSms(ConstantsValue.CallApiBal);
            String Head1= getIntent().getStringExtra("Head1");
             String Head2= getIntent().getStringExtra("Head2");
             String Head3= getIntent().getStringExtra("Head3");
@@ -105,9 +113,8 @@ NestedScrollView scroll;
 
     public void share(View view) {
 
-        shareReceipt.setVisibility(View.GONE);
-        Bitmap bitmap = getBitmapFromView(scroll, scroll.getChildAt(0).getHeight(), scroll.getChildAt(0).getWidth());
-        savetoGallery(bitmap);
+        CommonFun.requestStoragePermission(SuceessScreen.this,SuceessScreen.this);
+
     }
 
     private Bitmap getBitmapFromView(View view, int height, int width) {
@@ -168,4 +175,19 @@ NestedScrollView scroll;
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void requestPermission(boolean status) {
+        if(status)
+        {
+            shareReceipt.setVisibility(View.GONE);
+            Bitmap bitmap = getBitmapFromView(scroll, scroll.getChildAt(0).getHeight(), scroll.getChildAt(0).getWidth());
+            savetoGallery(bitmap);
+        }
+        else
+        {
+            CommonFun.showSettingsDialog(SuceessScreen.this);
+        }
+    }
+
 }

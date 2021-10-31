@@ -18,6 +18,8 @@ import com.example.goldenfish.Common.CommonInterface;
 import com.example.goldenfish.Constants.Constant;
 import com.example.goldenfish.Constants.ConstantsValue;
 import com.example.goldenfish.MoveToBank.MoveToBankActivity;
+import com.example.goldenfish.PanCard.PsaRegistrationActivity;
+import com.example.goldenfish.PanCard.PurchaseCouponActivity;
 import com.example.goldenfish.PayoutAc.AddPayoutAcc;
 import com.example.goldenfish.R;
 
@@ -92,7 +94,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-
 public class HomeDashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnDataReceiverListener, GpsInterface, CommonInterface {
     int PERMISSION_ID = 44;
     String address;
@@ -156,11 +157,11 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     CardView postpaidCard;
     CardView prepaidCard,broad_band_card,hotel_card,flight_card,electricity_card,water_card,gas_card;
     SharedPreferences sharedPreferences;
-    TextView tvAepsBalance;
+    public static TextView tvAepsBalance;
     TextView tvEmailAddress;
     TextView tvFirmName;
     TextView tvLocation;
-    TextView tvMainBalance;
+   public static TextView tvMainBalance;
     TextView tvNavMobileNo;
     TextView tvNavOwnerName;
     String url;
@@ -173,6 +174,16 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     //WebServiceInterface webServiceInterface;
 
     /* access modifiers changed from: protected */
+        public static String apiStatus="";
+
+    public static void recivedSms(String message)
+    {
+        apiStatus=message;
+        //tvMainBalance.setText(message);
+       // tvAepsBalance.setText(message);
+
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView((int) R.layout.activity_home_dashboard);
@@ -180,6 +191,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         setSupportActionBar(toolbar);
         ((ActionBar) Objects.requireNonNull(getSupportActionBar())).setDisplayShowTitleEnabled(false);
         inhitViews();
+
        /* SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         this.sharedPreferences = defaultSharedPreferences;
         this.userid = defaultSharedPreferences.getString("userid", (String) null);
@@ -422,6 +434,10 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         registerReceiver(gpsListener, mfilter);
     }
 
+   /* public HomeDashboardActivity(Context context)
+    {
+
+    }*/
     /* access modifiers changed from: private */
     public void getLastLocation() {
         if (!checkPermissions()) {
@@ -513,6 +529,11 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     public void onResume() {
         super.onResume();
         geoLocation.startLocationButtonClick();
+        System.out.println("Hello");
+        if(apiStatus.equalsIgnoreCase(ConstantsValue.CallApiBal))
+        {
+            getWalletBalance();
+        }
        // checkForPackageAvailable();
        // SimpleChromeCustomTabs.getInstance().connectTo(this);
     }
@@ -573,19 +594,19 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         recyclerDataArrayList.add(new ModelDashboard("Electricity",R.drawable.electricity,"",""));
         recyclerDataArrayList.add(new ModelDashboard("Water",R.drawable.water,"",""));
         recyclerDataArrayList.add(new ModelDashboard("Gas",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("Loan EMI",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("Purchase Coupon",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("Insurance",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("PSA Registration",R.drawable.gas,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("Loan EMI",R.drawable.loan_emi,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("Purchase Coupon",R.drawable.coupon_pan,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("Insurance",R.drawable.insurance_dash,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("PSA Registration",R.drawable.user_reg_dash,"",""));
         if(!UserType.equalsIgnoreCase("Retailer"))
         {
-            recyclerDataArrayList.add(new ModelDashboard("Add User",R.drawable.gas,"",""));
+            recyclerDataArrayList.add(new ModelDashboard("Add User",R.drawable.add_user_dash,"",""));
         }
-        recyclerDataArrayList.add(new ModelDashboard("Education Fee",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("ATM",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("NSDL Authorized Pan Card",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("Cable TV",R.drawable.gas,"",""));
-        recyclerDataArrayList.add(new ModelDashboard("Fastag",R.drawable.gas,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("Education Fee",R.drawable.edu_dash,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("ATM",R.drawable.atm_dash,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("NSDL Authorized Pan Card",R.drawable.pan_dash,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("Cable TV",R.drawable.cable_tv_dash,"",""));
+        recyclerDataArrayList.add(new ModelDashboard("Fastag",R.drawable.fastag_dash,"",""));
         // added data from arraylist to adapter class.
         RecyclerViewAdapter adapter=new RecyclerViewAdapter(recyclerDataArrayList,this,this);
 
@@ -625,6 +646,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                         String stCode= jsonObject1.getString(Constant.StatusCode);
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))
                         {
+                            apiStatus="";
                             JSONArray jsonArray= jsonObject1.getJSONArray("Data");
                          String  MainBal= jsonArray.getJSONObject(0).getString("MainBal");
                            String AepsBal= jsonArray.getJSONObject(0).getString("AepsBal");
@@ -633,6 +655,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                         }
                         else
                         {
+                           // apiStatus="";
                             // HideProgress(ctx);
                             progressDialog.dismiss();
                             Toast.makeText(HomeDashboardActivity.this, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
@@ -657,6 +680,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
             }
         });
     }
+
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getGroupId()) {
             case R.id.nav_aeps_ledger_report:
@@ -1068,5 +1092,22 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
            // intent.putExtra("url",url);
             startActivity(intent);
         }
+        else if(val.equalsIgnoreCase("Purchase Coupon"))
+        {
+            Intent intent = new Intent(HomeDashboardActivity.this, PurchaseCouponActivity.class);
+            // intent.putExtra("url",url);
+            startActivity(intent);
+        }
+        else if(val.equalsIgnoreCase("PSA Registration"))
+        {
+            Intent intent = new Intent(HomeDashboardActivity.this, PsaRegistrationActivity.class);
+            // intent.putExtra("url",url);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void walletBal(String status) {
+        System.out.println("MY BAL "+status);
     }
 }
