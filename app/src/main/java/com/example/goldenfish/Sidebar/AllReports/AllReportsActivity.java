@@ -214,7 +214,7 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
         jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetALLReports", "ALL" + "|" + fromDate + "|" + toDate, userid));
         Call<ModelMainClass> call = RetrofitClient.getInstance().getApi().GetALLReports(jsonObject);
 
-        System.out.println("Req " + jsonObject);
+       // System.out.println("Req " + jsonObject);
         call.enqueue(new Callback<ModelMainClass>() {
             @Override
             public void onResponse(Call<ModelMainClass> call, retrofit2.Response<ModelMainClass> response) {

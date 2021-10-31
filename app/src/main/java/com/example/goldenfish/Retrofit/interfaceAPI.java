@@ -96,4 +96,7 @@ public interface interfaceAPI {
 
     @POST("CreatePSAForUsers")
     Call<ResponseBody> CreatePSAForUsers(@Body JsonObject object);
+
+    @POST("GetPSAStatus")
+    Call<ResponseBody> GetPSAStatus(@Body JsonObject object);
 }

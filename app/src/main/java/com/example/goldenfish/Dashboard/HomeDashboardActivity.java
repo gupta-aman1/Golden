@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.example.goldenfish.AddUser.AddUserActivity;
@@ -47,8 +48,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
@@ -1094,20 +1097,141 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         }
         else if(val.equalsIgnoreCase("Purchase Coupon"))
         {
-            Intent intent = new Intent(HomeDashboardActivity.this, PurchaseCouponActivity.class);
+            /*Intent intent = new Intent(HomeDashboardActivity.this, PurchaseCouponActivity.class);
             // intent.putExtra("url",url);
-            startActivity(intent);
+            startActivity(intent);*/
+            getPsaStatus("purchase");
         }
         else if(val.equalsIgnoreCase("PSA Registration"))
         {
-            Intent intent = new Intent(HomeDashboardActivity.this, PsaRegistrationActivity.class);
-            // intent.putExtra("url",url);
-            startActivity(intent);
+            getPsaStatus("registration");
         }
     }
 
     @Override
     public void walletBal(String status) {
         System.out.println("MY BAL "+status);
+    }
+
+
+    private void getPsaStatus(String type)
+    {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Fetching Data..");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        JsonObject jsonObject= new JsonObject();
+        jsonObject.addProperty("Userid",userid);
+        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetPSAStatus","",userid));
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().GetPSAStatus(jsonObject);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+
+                if (response.body() != null){
+                    // HideProgress(ctx);
+                    progressDialog.dismiss();
+                    String fullRes = null;
+                    try {
+                        fullRes = response.body().string();
+                        System.out.println("FINAL RESP1 "+fullRes);
+                        JSONObject jsonObject1= new JSONObject(fullRes);
+                        String stCode= jsonObject1.getString(Constant.StatusCode);
+                        if (stCode.equalsIgnoreCase(ConstantsValue.successful))
+                        {
+
+                            JSONArray jsonArray= jsonObject1.getJSONArray("Data");
+                            String  status= jsonArray.getJSONObject(0).getString("status");
+                            String VLEId= jsonObject1.getString("VLEId");
+                      if(type.equalsIgnoreCase("registration"))
+                      {
+                          if (status.equalsIgnoreCase("Rejected") || status.equalsIgnoreCase("NA")) {
+                              Intent intent = new Intent(HomeDashboardActivity.this, PsaRegistrationActivity.class);
+                              intent.putExtra("vle_id",VLEId);
+                              startActivity(intent);
+                          } else {
+                              PanDialog(status);
+                          }
+                      }
+                      else if(type.equalsIgnoreCase("purchase"))
+                      {
+                          if (status.equalsIgnoreCase("Approved"))
+                          {
+                              Intent intent = new Intent(HomeDashboardActivity.this, PurchaseCouponActivity.class);
+                              intent.putExtra("vle_id",VLEId);
+                                startActivity(intent);
+                          } else {
+                              PanDialog(status);
+                          }
+                      }
+
+
+                        }
+                        else
+                        {
+
+                            progressDialog.dismiss();
+                            Toast.makeText(HomeDashboardActivity.this, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }else {
+                    progressDialog.dismiss();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(HomeDashboardActivity.this, "Due to Internet Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void PanDialog(String status) {
+        final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(HomeDashboardActivity.this).create();
+        final LayoutInflater inflater = getLayoutInflater();
+        View convertView = inflater.inflate(R.layout.alert_dialog_cmn, null);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button pan_btn = convertView.findViewById(R.id.pan_btn);
+        //ImageView close = convertView.findViewById(R.id.close);
+        final TextView pan_heading = convertView.findViewById(R.id.pan_heading);
+        final TextView pan_status = convertView.findViewById(R.id.pan_status);
+
+        if(status.equalsIgnoreCase("Pending"))
+        {
+            pan_status.setText(status);
+            pan_heading.setText("Your PSA Registartion request is under Process, Please wait.");
+        }
+        else if(status.equalsIgnoreCase("Approved"))
+        {
+            pan_status.setText(status);
+            pan_heading.setText("You are successfully register as PSA.");
+        }
+        else if(status.equalsIgnoreCase("Rejected"))
+        {
+            pan_status.setText(status);
+            pan_heading.setText("Your PSA Registration request is rejected by UTI. Kindly register again with correct information.");
+        }
+        else
+        {
+            pan_status.setText(status);
+            pan_heading.setText("PSA Id is mandatory for Purchase Coupon");
+        }
+        pan_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.setView(convertView);
+        alertDialog.show();
+        alertDialog.setCancelable(false);
     }
 }

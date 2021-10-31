@@ -48,9 +48,33 @@ class PsaRegistrationActivity : AppCompatActivity(),CommonInterface {
         sharedPref = SharedPref.getInstance(this@PsaRegistrationActivity)
         userid = sharedPref!!.getStringWithNull(Constant.userId)
         userName = sharedPref!!.getStringWithNull(Constant.Username)
-        GetVLEIdForPanCard()
-        CommonApi.getState(this@PsaRegistrationActivity, this@PsaRegistrationActivity)
-        spinnervalue()
+       var ownerName = sharedPref!!.getStringWithNull(Constant.OwnerName)
+        var FirmName = sharedPref!!.getStringWithNull(Constant.FirmName)
+        var state = sharedPref!!.getStringWithNull(Constant.state)
+        var city = sharedPref!!.getStringWithNull(Constant.city)
+        var Address = sharedPref!!.getStringWithNull(Constant.Address)
+        var MobileNo1 = sharedPref!!.getStringWithNull(Constant.MobileNo1)
+        var EmailId = sharedPref!!.getStringWithNull(Constant.EmailId)
+        var PANCard = sharedPref!!.getStringWithNull(Constant.PANCard)
+        var Area = sharedPref!!.getStringWithNull(Constant.Area)
+        et_ownerName_pan.setText(ownerName)
+        et_vleName_pan.setText(FirmName)
+        et_state_pan.setText(state)
+        et_city_pan.setText(city)
+        et_address_pan.setText(Address)
+        et_mobile_pan.setText(MobileNo1)
+        et_email_pan.setText(EmailId)
+        et_panno_pan.setText(PANCard)
+        et_picode_pan.setText(Area)
+
+        // GetVLEIdForPanCard();
+        if (intent.extras != null) {
+            VLEId = intent.getStringExtra("vle_id")
+            et_vleid.setText("VLE id -$VLEId")
+        }
+        //GetVLEIdForPanCard()
+        //CommonApi.getState(this@PsaRegistrationActivity, this@PsaRegistrationActivity)
+       // spinnervalue()
     }
 
     fun ProceedToPsaReg(view: View)
@@ -105,7 +129,7 @@ class PsaRegistrationActivity : AppCompatActivity(),CommonInterface {
             }
     }
 
-    override fun getStates(name: ArrayList<String>?, id: ArrayList<String>?) {
+   /* override fun getStates(name: ArrayList<String>?, id: ArrayList<String>?) {
 
         val dataAdapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, name!!)
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -118,7 +142,7 @@ class PsaRegistrationActivity : AppCompatActivity(),CommonInterface {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         et_city_pan.setAdapter(dataAdapter)
         bklcity(name, id!!)
-    }
+    }*/
 
     fun bkl(al1: ArrayList<String>, al2: ArrayList<String>) {
         for (i in al1.indices) states.put(al1[i]!!, al2[i]!!)
@@ -127,7 +151,7 @@ class PsaRegistrationActivity : AppCompatActivity(),CommonInterface {
         for (i in al1.indices) cities.put(al1[i]!!, al2[i]!!)
     }
 
-    fun spinnervalue() {
+    /*fun spinnervalue() {
         et_state_pan.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
 //                if (!isSpinnerTouched)
@@ -159,7 +183,7 @@ class PsaRegistrationActivity : AppCompatActivity(),CommonInterface {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         })
-    }
+    }*/
 
     private fun GetVLEIdForPanCard() {
         val progressDialog = ProgressDialog(this)
@@ -226,8 +250,8 @@ class PsaRegistrationActivity : AppCompatActivity(),CommonInterface {
         jsonObject.addProperty("PancardNo",et_panno_pan.text.toString().trim())
         jsonObject.addProperty("Address",et_address_pan.text.toString().trim())
         jsonObject.addProperty("Pincode",et_picode_pan.text.toString().trim())
-        jsonObject.addProperty("City",cityValue)
-        jsonObject.addProperty("State",stateValue)
+        jsonObject.addProperty("City",et_city_pan.text.toString().trim())
+        jsonObject.addProperty("State",et_state_pan.text.toString().trim())
         jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("CreatePSAForUsers", VLEId+"|"+userName+"|"+et_vleName_pan.getText().toString().trim()+"|"+et_mobile_pan.text.toString().trim(), userid))
         val call = RetrofitClient.getInstance().api.CreatePSAForUsers(jsonObject)
         call.enqueue(object : Callback<ResponseBody?> {

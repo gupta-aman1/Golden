@@ -405,8 +405,6 @@ public class LoginActivity extends AppCompatActivity {
                     try {
                         fullRes = response.body().string();
                         JSONObject jsonObject1= new JSONObject(fullRes);
-
-                       // System.out.println("FINAL RESP1 "+response.body().toString());
                         String stCode= jsonObject1.getString(Constant.StatusCode);
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))
                         {
@@ -424,10 +422,14 @@ public class LoginActivity extends AppCompatActivity {
                                 sharedPref.putString(Constant.EmailId, String.valueOf(jsonArray.getJSONObject(0).getString("EmailId")));
                                 sharedPref.putString(Constant.OwnerName, String.valueOf(jsonArray.getJSONObject(0).getString("OwnerName")));
                                 sharedPref.putString(Constant.PANCard, String.valueOf(jsonArray.getJSONObject(0).getString("PANCard")));
+                                sharedPref.putString(Constant.Address, String.valueOf(jsonArray.getJSONObject(0).getString("Address")));
+                                sharedPref.putString(Constant.state, String.valueOf(jsonArray.getJSONObject(0).getString("state")));
+                                sharedPref.putString(Constant.city, String.valueOf(jsonArray.getJSONObject(0).getString("city")));
+                                sharedPref.putString(Constant.Area, String.valueOf(jsonArray.getJSONObject(0).getString("Area")));
 
                            // Toast.makeText(LoginActivity.this, "OTP sent", Toast.LENGTH_SHORT).show();
-                           String userId = sharedPref.getStringWithNull(Constant.userId);
-                            String Username = sharedPref.getStringWithNull(Constant.Username);
+                          // String userId = sharedPref.getStringWithNull(Constant.userId);
+                           // String Username = sharedPref.getStringWithNull(Constant.Username);
 
                            // System.out.println("RESP "+userId+ " "+Username);
                             //System.out.println("RESP1 "+jsonObject1.getJSONArray("Data"));

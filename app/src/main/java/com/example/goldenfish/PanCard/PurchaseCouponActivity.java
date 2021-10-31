@@ -80,7 +80,13 @@ public class PurchaseCouponActivity extends AppCompatActivity implements CommonI
         show_final=findViewById(R.id.show_final);
         et_vleid=findViewById(R.id.et_vleid);
         et_qty.addTextChangedListener(rateTextWatcher);
-        GetVLEIdForPanCard();
+       // GetVLEIdForPanCard();
+
+        if(getIntent().getExtras()!=null)
+        {
+            VLEId=getIntent().getStringExtra("vle_id");
+            et_vleid.setText("VLE id -"+VLEId);
+        }
         getCouponType();
         SpinnerValue();
 

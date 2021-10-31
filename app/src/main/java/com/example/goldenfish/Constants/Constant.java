@@ -17,5 +17,10 @@ public class Constant {
     public static final String EmailId="EmailId";
     public static final String OwnerName="OwnerName";
     public static final String PANCard="PANCard";
+    public static final String Address="Address";
+    public static final String state="state";
+    public static final String city="city";
+    public static final String Area="Area";
+    //public static final String PANCard="PANCard";
 
 }

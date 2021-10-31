@@ -55,11 +55,13 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_margin="@dimen/_20dp"
+            android:enabled="false"
             android:background="@drawable/bordered_back"
             android:hint="Owner Name"
             android:paddingStart="10dp"
             android:paddingEnd="10dp" />
         <EditText
+            android:enabled="false"
             android:id="@+id/et_vleName_pan"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -68,23 +70,31 @@
             android:hint="VLE Name / Owner Name"
             android:paddingStart="10dp"
             android:paddingEnd="10dp" />
-        <Spinner
+        <EditText
             android:id="@+id/et_state_pan"
-            style="@style/SpinnerTheme1"
-            android:layout_margin="@dimen/_20dp"
+            android:enabled="false"
             android:layout_width="match_parent"
-            android:layout_height="40dp"/>
+            android:layout_height="?attr/actionBarSize"
+            android:layout_margin="@dimen/_20dp"
+            android:background="@drawable/bordered_back"
+            android:hint="State"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"/>
 
-        <Spinner
+        <EditText
+            android:enabled="false"
             android:id="@+id/et_city_pan"
-            style="@style/SpinnerTheme1"
-            android:layout_margin="@dimen/_20dp"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="40dp"/>
+            android:layout_height="?attr/actionBarSize"
+            android:layout_margin="@dimen/_20dp"
+            android:background="@drawable/bordered_back"
+            android:hint="City"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"/>
 
 
         <EditText
+            android:enabled="false"
             android:id="@+id/et_address_pan"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -99,6 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_margin="@dimen/_20dp"
+            android:enabled="false"
             android:background="@drawable/bordered_back"
             android:hint="Pincode"
             android:maxLength="6"
@@ -111,6 +122,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_margin="@dimen/_20dp"
+            android:enabled="false"
             android:background="@drawable/bordered_back"
             android:hint="Mobile Number"
             android:paddingStart="10dp"
@@ -124,10 +136,12 @@
             android:layout_margin="@dimen/_20dp"
             android:background="@drawable/bordered_back"
             android:hint="Email"
+            android:enabled="false"
             android:paddingStart="10dp"
             android:paddingEnd="10dp" />
 
         <EditText
+            android:enabled="false"
             android:id="@+id/et_panno_pan"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
