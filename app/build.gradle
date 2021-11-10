@@ -85,4 +85,12 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 
     implementation 'id.zelory:compressor:1.0.4'
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation files('libs/simple-xml-2.7.1.jar')
+
+    implementation 'me.srodrigo:androidhintspinner:1.0.0'
+  //  implementation 'com.github.MdFarhanRaja:SearchableSpinner:2.0'
+    implementation 'com.github.MdFarhanRaja:SearchableSpinner:2.0'
 }

@@ -14,6 +14,7 @@ import android.os.Bundle;
 
 import com.example.goldenfish.AddUser.AddUserActivity;
 import com.example.goldenfish.Aeps.WebviewAeps;
+import com.example.goldenfish.AepsSdk.WTS_Aeps_Activity;
 import com.example.goldenfish.ChangePassword.ChangePasswordActivity;
 import com.example.goldenfish.Common.CommonInterface;
 import com.example.goldenfish.Constants.Constant;
@@ -114,6 +115,9 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     ImageView imgMainWallet;
     String lat = "0.0";
     String longi = "0.0";
+    double lattitude=0.0;
+    double longitude=0.0;
+
     FusedLocationProviderClient mFusedLocationClient;
     GeoLocation geoLocation;
     private GpsListener gpsListener;
@@ -168,7 +172,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     TextView tvNavMobileNo;
     TextView tvNavOwnerName;
     String url;
-    String userid;
+    String userid,MainBal,AepsBal;
     SharedPref sharedPref;
     private String OwnerName;
     private String PANCard;
@@ -354,14 +358,15 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         });
         this.aepsCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+
                 String webViewURL="https://uat.goldenfishdigital.co.in/ApesLogin.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
               //  String webViewURL="https://uat.goldenfishdigital.co.in/ApesLogin.aspx?UserName=AMIT%20SAHANI&PanNo=EQZPS7002H";
-               /* String url = webViewURL.replaceAll(" ","%20");
+               String url = webViewURL.replaceAll(" ","%20");
                 Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
                 intent.putExtra("url",webViewURL);
-                startActivity(intent);*/
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webViewURL));
-                startActivity(browserIntent);
+                startActivity(intent);
+               /* Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webViewURL));
+                startActivity(browserIntent);*/
                /* Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(webViewURL));
                 startActivity(i);*/
@@ -497,19 +502,19 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     }
 
     /* access modifiers changed from: private */
-   /* public void launchWTSAEPS() {
-        if (this.balance.equalsIgnoreCase("0.00")) {
-            this.balance = "0.0";
+    public void launchWTSAEPS() {
+        if (this.AepsBal.equalsIgnoreCase("0.00")) {
+            this.AepsBal = "0.0";
         }
         Intent intent = new Intent(this, WTS_Aeps_Activity.class);
         intent.putExtra("app_Id", "106");
         intent.putExtra("authorise_Key", "XLbdpgCcdK0rcfwDw3pBIdXZxAozuEirBfqyHNPj66srr2JczEMk4A==");
-        intent.putExtra("main_wallet_bal", this.balance);
-        intent.putExtra("panno", this.panCard);
-        intent.putExtra("lat", this.lat);
-        intent.putExtra("long", this.longi);
+        intent.putExtra("main_wallet_bal", this.AepsBal);
+        intent.putExtra("panno",PANCard);
+        intent.putExtra("lat",String.valueOf(lattitude));
+        intent.putExtra("long",String.valueOf(longitude));
         startActivity(intent);
-    }*/
+    }
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -651,8 +656,8 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                         {
                             apiStatus="";
                             JSONArray jsonArray= jsonObject1.getJSONArray("Data");
-                         String  MainBal= jsonArray.getJSONObject(0).getString("MainBal");
-                           String AepsBal= jsonArray.getJSONObject(0).getString("AepsBal");
+                           MainBal= jsonArray.getJSONObject(0).getString("MainBal");
+                            AepsBal= jsonArray.getJSONObject(0).getString("AepsBal");
                             tvMainBalance.setText("₹ " +MainBal);
                             tvAepsBalance.setText("₹ " +AepsBal);
                         }
@@ -988,6 +993,8 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
 
     @Override
     public void onDataReceived(String myData, Double latitude, Double longitude,String address) {
+        this.lattitude=latitude;
+        this.longitude=longitude;
         this.tvLocation.setText(address);
     }
 
@@ -1029,13 +1036,15 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         }
         else if(val.equalsIgnoreCase("AEPS"))
         {
-            String webViewURL="https://uat.goldenfishdigital.co.in/ApesLogin.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+            /*String webViewURL="https://uat.goldenfishdigital.co.in/ApesLogin.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
             /*Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webViewURL));
             startActivity(browserIntent);*/
-            String url = webViewURL.replaceAll(" ","%20");
+           /* String url = webViewURL.replaceAll(" ","%20");
             Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
             intent.putExtra("url",url);
-            startActivity(intent);
+            startActivity(intent);*/
+
+            launchWTSAEPS();
         }
         else if(val.equalsIgnoreCase("Broadband"))
         {

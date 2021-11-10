@@ -24,12 +24,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoldenFish"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PanCard.PsaRegistrationActivity"
+        <activity android:name=".AepsSdk.MiniStatement_Success"></activity>
+        <activity android:name=".AepsSdk.SuccessScreen_Aeps" />
+        <activity
+            android:name=".AepsSdk.WTS_Aeps_Activity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PanCard.PsaRegistrationActivity"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar">
-
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PanCard.PurchaseCouponActivity"
             android:theme="@style/AppTheme.NoActionBar" />
