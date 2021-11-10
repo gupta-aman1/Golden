@@ -178,6 +178,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity {
         this.amountET = (EditText) findViewById(R.id.amountET);
         this.customerDetailBtn = (Button) findViewById(R.id.nextBtn);
         this.proceedBtn = (Button) findViewById(R.id.proceedBtn);
+System.out.println("");
         this.morpho_Container = (LinearLayout) findViewById(R.id.morpho_Container);
         this.startek_Container = (LinearLayout) findViewById(R.id.startek_Container);
         this.mantra_Container = (LinearLayout) findViewById(R.id.mantra_Container);
