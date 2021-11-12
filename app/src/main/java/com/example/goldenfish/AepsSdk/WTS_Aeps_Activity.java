@@ -29,10 +29,18 @@ import com.example.goldenfish.AepsSdk.device.Param;
 import com.example.goldenfish.AepsSdk.device.PidData;
 import com.example.goldenfish.AepsSdk.device.PidOptions;
 import com.example.goldenfish.AepsSdk.model.AepsModelRequest;
+import com.example.goldenfish.AepsSdk.model.BankModel;
+import com.example.goldenfish.AepsSdk.model.ServerModel;
+import com.example.goldenfish.AepsSdk.model.ServerModel1;
 import com.example.goldenfish.AepsSdk.retrofit.RetrofitClient;
+import com.example.goldenfish.Constants.Constant;
+import com.example.goldenfish.PanCard.PurchaseCouponActivity;
 import com.example.goldenfish.R;
+import com.example.goldenfish.Utilities.MyUtils;
+import com.example.goldenfish.Utilities.SharedPref;
 import com.google.android.material.snackbar.Snackbar;
 //import com.google.firebase.messaging.Constants;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 //import com.wts.wts_aeps_release.device.Opts;
 //import com.wts.wts_aeps_release.device.Param;
@@ -84,14 +92,14 @@ public class WTS_Aeps_Activity extends AppCompatActivity {
     LinearLayout balanceEnquiry_Container;
     ImageView balance_icon;
     ArrayList<String> bankArray = new ArrayList<>();
-    HashMap<String, String> bankMP = new HashMap<>();
+    HashMap<String, BankModel> bankMP = new HashMap<>();
     String bankNameStr;
     String bc_Address;
     LinearLayout cashWithdraw_Container;
     ImageView cash_icon;
     TextView chooseBankET;
     LinearLayout chooseBankLY;
-    String ci;
+    String ci,iCount,pType;
     Context context;
     Button customerDetailBtn;
     String dc;
@@ -108,7 +116,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity {
     TextView five500Btn;
     TextView headerTxt;
     String hmac;
-    String iinBankStr;
+    String iinBankStr,bankId;
     String latitude = "";
     LocationManager locationManager;
     String longitude = "";
@@ -145,14 +153,16 @@ public class WTS_Aeps_Activity extends AppCompatActivity {
     ImageView startek_icon;
     CheckBox terms_and_condition_Check;
     TextView terms_and_condition_Txt;
-    String txnTypeNameStr = "";
+    String txnTypeNameStr = "",userid;
     String walletBalance = "0.00";
-
+    SharedPref sharedPref;
     /* access modifiers changed from: protected */
     @SuppressLint({"SetTextI18n"})
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_w_t_s__aeps_);
+        sharedPref = SharedPref.getInstance(WTS_Aeps_Activity.this);
+        userid = sharedPref.getStringWithNull(Constant.userId);
         this.context = this;
         this.cashWithdraw_Container = (LinearLayout) findViewById(R.id.cashWithdraw_Container);
         this.balanceEnquiry_Container = (LinearLayout) findViewById(R.id.balanceEnquiry_Container);
@@ -178,7 +188,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity {
         this.amountET = (EditText) findViewById(R.id.amountET);
         this.customerDetailBtn = (Button) findViewById(R.id.nextBtn);
         this.proceedBtn = (Button) findViewById(R.id.proceedBtn);
-System.out.println("");
+//System.out.println("");
         this.morpho_Container = (LinearLayout) findViewById(R.id.morpho_Container);
         this.startek_Container = (LinearLayout) findViewById(R.id.startek_Container);
         this.mantra_Container = (LinearLayout) findViewById(R.id.mantra_Container);
@@ -445,13 +455,13 @@ System.out.println("");
     }
 
     public /* synthetic */ void lambda$detailInfoCode$0$WTS_Aeps_Activity(View v) {
-        this.mobileStr = this.mobileET.getText().toString();
-        String bank = this.chooseBankET.getText().toString();
-        this.aadhaarStr = this.aadhaarET.getText().toString();
-        String amount = this.amountET.getText().toString();
-        if (this.mobileStr.equalsIgnoreCase("")) {
+        this.mobileStr = this.mobileET.getText().toString().trim();
+        String bank = this.chooseBankET.getText().toString().trim();
+        this.aadhaarStr = this.aadhaarET.getText().toString().trim();
+        String amount = this.amountET.getText().toString().trim();
+        if (this.mobileStr.equalsIgnoreCase("") || this.mobileStr.length()!=10) {
             snackbar("Enter mobile number");
-        } else if (this.aadhaarStr.equalsIgnoreCase("")) {
+        } else if (this.aadhaarStr.equalsIgnoreCase("") || this.aadhaarStr.length()!=12) {
             snackbar("Enter aadhaar number");
         } else if (bank.equalsIgnoreCase("")) {
             snackbar("Select Bank");
@@ -515,6 +525,7 @@ System.out.println("");
         requestss.setData(datass);
         AepsModelRequest aepsModelRequest = new AepsModelRequest();
         aepsModelRequest.setRequest(requestss);
+        System.out.println("REQ "+aepsModelRequest);
         RetrofitClient.getInstance().getApi().getAepsTransaction(this.app_Id, this.authorise_Key, this.pannoStr, this.latitude, this.longitude, aepsModelRequest).enqueue(new Callback<JsonObject>() {
             /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r14v6, resolved type: java.lang.String} */
             /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r14v7, resolved type: com.wts.wts_aeps_release.WTS_Aeps_Activity$17} */
@@ -957,19 +968,22 @@ System.out.println("");
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
         pDialog.show();
-        RetrofitClient.getInstance().getApi().getBank(this.app_Id, this.authorise_Key).enqueue(new Callback<JsonObject>() {
+        JsonObject jsonObject= new JsonObject();
+        jsonObject.addProperty("Userid",userid);
+        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetAepsbankDetails","",userid));
+        RetrofitClient.getInstance().getApi().GetAepsbankDetails(jsonObject).enqueue(new Callback<JsonObject>() {
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
                     try {
                         JSONObject responseJsonObject = new JSONObject(String.valueOf(response.body()));
                         System.out.println("MY RESP "+responseJsonObject);
-                        String response_code = responseJsonObject.getString("statuscode");
+                        String response_code = responseJsonObject.getString("Statuscode");
                         if (response_code.equalsIgnoreCase("TXN")) {
-                            JSONArray dataArray = responseJsonObject.getJSONArray("data");
+                            JSONArray dataArray = responseJsonObject.getJSONArray("Data");
                             for (int i = 0; i < dataArray.length(); i++) {
                                 JSONObject jsonObject2 = dataArray.getJSONObject(i);
-                                String bankname = jsonObject2.getString("Bank_name");
-                                WTS_Aeps_Activity.this.bankMP.put(bankname, jsonObject2.getString("Bank_iin"));
+                                String bankname = jsonObject2.getString("BankName");
+                                WTS_Aeps_Activity.this.bankMP.put(bankname, new BankModel(jsonObject2.getString("IIN"),jsonObject2.getString("Id")));
                                 WTS_Aeps_Activity.this.bankArray.add(bankname);
                                 WTS_Aeps_Activity wTS_Aeps_Activity = WTS_Aeps_Activity.this;
                                 SpinnerDialog spinnerDialog = null;
@@ -980,7 +994,8 @@ System.out.println("");
                                 WTS_Aeps_Activity.this.spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
                                     public void onClick(String item, int position) {
                                         WTS_Aeps_Activity.this.chooseBankET.setText(item);
-                                        WTS_Aeps_Activity.this.iinBankStr = WTS_Aeps_Activity.this.bankMP.get(item);
+                                        WTS_Aeps_Activity.this.iinBankStr = WTS_Aeps_Activity.this.bankMP.get(item).getIIN();
+                                        WTS_Aeps_Activity.this.bankId = WTS_Aeps_Activity.this.bankMP.get(item).getId();
                                         WTS_Aeps_Activity.this.bankNameStr = item;
                                     }
                                 });
@@ -1084,7 +1099,7 @@ System.out.println("");
                                 Log.e("systemId", params.get(i).value);
                             }
                         }
-                        getTransactionNow();
+                        //getTransactionNow();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -1119,6 +1134,8 @@ System.out.println("");
                         this.qScore = this.pidData._Resp.qScore;
                         this.nmPoints = this.pidData._Resp.nmPoints;
                         this.ci = this.pidData._Skey.ci;
+                        this.iCount = this.pidData._Resp.iCount;
+                        this.pType = this.pidData._Resp.pType;
                         List<Param> params2 = this.pidData._DeviceInfo.add_info.params;
                         for (int i2 = 0; i2 < params2.size(); i2++) {
                             String name2 = params2.get(i2).name;
@@ -1130,6 +1147,45 @@ System.out.println("");
                                 Log.e("systemId", params2.get(i2).value);
                             }
                         }
+
+                        // Passing string s to StringBuilder class object
+                        //System.out.println("LAT "+this.latitude);
+                        ServerModel serverModel= new ServerModel();
+                        serverModel.setUserid(userid);
+                        serverModel.setChecksum(MyUtils.encryption("MakeAepsTransaction", this.mobileET.getText().toString().trim()+"|"+this.aadhaarET.getText().toString().trim()+"|"+this.bankId+"|"+this.iinBankStr+"|"+this.amountET.getText().toString().trim(), userid));
+                        serverModel.setMobile(this.mobileET.getText().toString().trim());
+                        serverModel.setAadhaarUid(this.aadhaarET.getText().toString().trim());
+                        serverModel.setTransactionType(this.selectedItemtxnType);
+                        serverModel.setBankId(this.bankId);
+                        serverModel.setBankIIN(this.iinBankStr);
+                        serverModel.setAmount(this.amountET.getText().toString().trim());
+                        serverModel.setLatitude(this.latitude);
+                        serverModel.setLongitude(this.longitude);
+                        serverModel.setPidDataType("X");
+                        serverModel.setPidData(this.pidData);
+                        serverModel.setCi(this.ci);
+                        serverModel.setDc(this.dc);
+                        serverModel.setDpId(this.dpId);
+                        serverModel.setErrCode(this.errCode);
+                        serverModel.setErrInfo(this.errInfo);
+                        serverModel.setFCount(this.fcount);
+                        serverModel.setTType("null");
+                        serverModel.setHMac(this.hmac);
+                        serverModel.setICount(this.iCount);
+                        serverModel.setMc(this.mc);
+                        serverModel.setMi(this.mi);
+                        serverModel.setNMPoints(this.nmPoints);
+                        serverModel.setPCount(this.pCount);
+                        serverModel.setPType(this.pType);
+                        serverModel.setQScore(this.qScore);
+                        serverModel.setRDSId(this.rdsId);
+                        serverModel.setRDSVer(this.rdsVer);
+                        serverModel.setSessionKey(this.sessionKey);
+                        serverModel.setSrno(this.serialNo);
+                        Gson gson = new Gson();
+                        String json = gson.toJson(serverModel);
+                        Log.d("TEST DATA1", json);
+                        //System.out.println("TEST DATA "+json);
                         getTransactionNow();
                     } catch (Exception e2) {
                         e2.printStackTrace();

@@ -10,7 +10,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RetrofitClient {
     private static RetrofitClient mInstance;
-    String BASE_URL = "https://aeps.wtsnetindia.com/api/";
+//    String BASE_URL = "https://aeps.wtsnetindia.com/api/";
+public static final String BASE_URL = "https://uat.goldenfishdigital.co.in/api/";
     private Retrofit retrofit;
 
     private RetrofitClient() {

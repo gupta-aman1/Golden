@@ -16,10 +16,31 @@ public class AepsModelRequest {
         this.request = request2;
     }
 
+    @Override
+    public String toString() {
+        return "AepsModelRequest{" +
+                "request=" + request +
+                '}';
+    }
+
     public static class Requestss {
         @SerializedName("aadharno")
         @Expose
         private String aadharno;
+
+        @Override
+        public String toString() {
+            return "Requestss{" +
+                    "aadharno='" + aadharno + '\'' +
+                    ", amount='" + amount + '\'' +
+                    ", bankiin='" + bankiin + '\'' +
+                    ", bankname='" + bankname + '\'' +
+                    ", data=" + data +
+                    ", mobileno='" + mobileno + '\'' +
+                    ", spkey='" + spkey + '\'' +
+                    '}';
+        }
+
         @SerializedName("amount")
         @Expose
         private String amount;
@@ -103,6 +124,29 @@ public class AepsModelRequest {
         @SerializedName("dc")
         @Expose
         private String dc;
+
+        @Override
+        public String toString() {
+            return "Datass{" +
+                    "ci='" + ci + '\'' +
+                    ", dc='" + dc + '\'' +
+                    ", dpid='" + dpid + '\'' +
+                    ", errcode='" + errcode + '\'' +
+                    ", errinfo='" + errinfo + '\'' +
+                    ", fcount='" + fcount + '\'' +
+                    ", hmac='" + hmac + '\'' +
+                    ", mc='" + mc + '\'' +
+                    ", mi='" + mi + '\'' +
+                    ", nmpoints='" + nmpoints + '\'' +
+                    ", piddatavalue='" + piddatavalue + '\'' +
+                    ", qscore='" + qscore + '\'' +
+                    ", rdsid='" + rdsid + '\'' +
+                    ", rdsver='" + rdsver + '\'' +
+                    ", sessionKey='" + sessionKey + '\'' +
+                    ", srno='" + srno + '\'' +
+                    '}';
+        }
+
         @SerializedName("dpid")
         @Expose
         private String dpid;
