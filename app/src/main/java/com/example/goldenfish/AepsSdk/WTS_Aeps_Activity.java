@@ -225,7 +225,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
         this.pannoStr = getIntent().getStringExtra("panno");
         this.latitude = getIntent().getDoubleExtra("lat",0.0);
         this.longitude = getIntent().getDoubleExtra("long",0.0);
-        System.out.println("Latititude "+latitude+ " | "+"Longitude "+longitude);
+        System.out.println("Latititude "+latitude+ " | "+"Longitudee "+longitude);
         if (this.app_Id.equalsIgnoreCase("") || this.authorise_Key.equalsIgnoreCase("") || this.pannoStr.equalsIgnoreCase("")) {
           //  if (this.app_Id.equalsIgnoreCase("") || this.authorise_Key.equalsIgnoreCase("") || this.pannoStr.equalsIgnoreCase("") || this.latitude ==0.0 || this.longitude==0.0 || this.walletBalance.equalsIgnoreCase("0.00")) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
