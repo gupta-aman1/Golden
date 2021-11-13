@@ -97,133 +97,18 @@ public class ServerModel {
     private String sessionKey;
 
 
-    public void setPidData(com.example.goldenfish.AepsSdk.device.PidData pidData) {
-        PidData = pidData;
-    }
-
-
-
     @SerializedName("Srno")
     @Expose
     private String srno;
 
-    private PidData PidData;
+    private String PidData;
 
-    @Override
-    public String toString() {
-        return "ServerModel{" +
-                "userid='" + userid + '\'' +
-                ", checksum='" + checksum + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", aadhaarUid='" + aadhaarUid + '\'' +
-                ", transactionType='" + transactionType + '\'' +
-                ", bankId='" + bankId + '\'' +
-                ", bankIIN='" + bankIIN + '\'' +
-                ", amount='" + amount + '\'' +
-                ", latitude='" + latitude + '\'' +
-                ", longitude='" + longitude + '\'' +
-                ", pidDataType='" + pidDataType + '\'' +
-                ", ci='" + ci + '\'' +
-                ", dc='" + dc + '\'' +
-                ", dpId='" + dpId + '\'' +
-                ", errCode='" + errCode + '\'' +
-                ", errInfo='" + errInfo + '\'' +
-                ", fCount='" + fCount + '\'' +
-                ", tType='" + tType + '\'' +
-                ", hMac='" + hMac + '\'' +
-                ", iCount='" + iCount + '\'' +
-                ", mc='" + mc + '\'' +
-                ", mi='" + mi + '\'' +
-                ", nMPoints='" + nMPoints + '\'' +
-                ", pCount='" + pCount + '\'' +
-                ", pType='" + pType + '\'' +
-                ", qScore='" + qScore + '\'' +
-                ", rDSId='" + rDSId + '\'' +
-                ", rDSVer='" + rDSVer + '\'' +
-                ", sessionKey='" + sessionKey + '\'' +
-                ", srno='" + srno + '\'' +
-                ", PidData=" + PidData +
-                '}';
+    public String getPidData() {
+        return PidData;
     }
 
-    public String getfCount() {
-        return fCount;
-    }
-
-    public void setfCount(String fCount) {
-        this.fCount = fCount;
-    }
-
-    public String gettType() {
-        return tType;
-    }
-
-    public void settType(String tType) {
-        this.tType = tType;
-    }
-
-    public String gethMac() {
-        return hMac;
-    }
-
-    public void sethMac(String hMac) {
-        this.hMac = hMac;
-    }
-
-    public String getiCount() {
-        return iCount;
-    }
-
-    public void setiCount(String iCount) {
-        this.iCount = iCount;
-    }
-
-    public String getnMPoints() {
-        return nMPoints;
-    }
-
-    public void setnMPoints(String nMPoints) {
-        this.nMPoints = nMPoints;
-    }
-
-    public String getpCount() {
-        return pCount;
-    }
-
-    public void setpCount(String pCount) {
-        this.pCount = pCount;
-    }
-
-    public String getpType() {
-        return pType;
-    }
-
-    public void setpType(String pType) {
-        this.pType = pType;
-    }
-
-    public String getqScore() {
-        return qScore;
-    }
-
-    public void setqScore(String qScore) {
-        this.qScore = qScore;
-    }
-
-    public String getrDSId() {
-        return rDSId;
-    }
-
-    public void setrDSId(String rDSId) {
-        this.rDSId = rDSId;
-    }
-
-    public String getrDSVer() {
-        return rDSVer;
-    }
-
-    public void setrDSVer(String rDSVer) {
-        this.rDSVer = rDSVer;
+    public void setPidData(String pidData) {
+        PidData = pidData;
     }
 
     public String getUserid() {
@@ -306,10 +191,6 @@ public class ServerModel {
         this.longitude = longitude;
     }
 
-    public com.example.goldenfish.AepsSdk.device.PidData getPidData() {
-        return PidData;
-    }
-
     public String getPidDataType() {
         return pidDataType;
     }
@@ -317,7 +198,6 @@ public class ServerModel {
     public void setPidDataType(String pidDataType) {
         this.pidDataType = pidDataType;
     }
-
 
     public String getCi() {
         return ci;
@@ -359,35 +239,35 @@ public class ServerModel {
         this.errInfo = errInfo;
     }
 
-    public String getFCount() {
+    public String getfCount() {
         return fCount;
     }
 
-    public void setFCount(String fCount) {
+    public void setfCount(String fCount) {
         this.fCount = fCount;
     }
 
-    public String getTType() {
+    public String gettType() {
         return tType;
     }
 
-    public void setTType(String tType) {
+    public void settType(String tType) {
         this.tType = tType;
     }
 
-    public String getHMac() {
+    public String gethMac() {
         return hMac;
     }
 
-    public void setHMac(String hMac) {
+    public void sethMac(String hMac) {
         this.hMac = hMac;
     }
 
-    public String getICount() {
+    public String getiCount() {
         return iCount;
     }
 
-    public void setICount(String iCount) {
+    public void setiCount(String iCount) {
         this.iCount = iCount;
     }
 
@@ -407,51 +287,51 @@ public class ServerModel {
         this.mi = mi;
     }
 
-    public String getNMPoints() {
+    public String getnMPoints() {
         return nMPoints;
     }
 
-    public void setNMPoints(String nMPoints) {
+    public void setnMPoints(String nMPoints) {
         this.nMPoints = nMPoints;
     }
 
-    public String getPCount() {
+    public String getpCount() {
         return pCount;
     }
 
-    public void setPCount(String pCount) {
+    public void setpCount(String pCount) {
         this.pCount = pCount;
     }
 
-    public String getPType() {
+    public String getpType() {
         return pType;
     }
 
-    public void setPType(String pType) {
+    public void setpType(String pType) {
         this.pType = pType;
     }
 
-    public String getQScore() {
+    public String getqScore() {
         return qScore;
     }
 
-    public void setQScore(String qScore) {
+    public void setqScore(String qScore) {
         this.qScore = qScore;
     }
 
-    public String getRDSId() {
+    public String getrDSId() {
         return rDSId;
     }
 
-    public void setRDSId(String rDSId) {
+    public void setrDSId(String rDSId) {
         this.rDSId = rDSId;
     }
 
-    public String getRDSVer() {
+    public String getrDSVer() {
         return rDSVer;
     }
 
-    public void setRDSVer(String rDSVer) {
+    public void setrDSVer(String rDSVer) {
         this.rDSVer = rDSVer;
     }
 

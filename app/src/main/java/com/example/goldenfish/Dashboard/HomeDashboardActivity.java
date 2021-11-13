@@ -506,13 +506,14 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         if (this.AepsBal.equalsIgnoreCase("0.00")) {
             this.AepsBal = "0.0";
         }
+        System.out.println("lat "+lattitude);
         Intent intent = new Intent(this, WTS_Aeps_Activity.class);
         intent.putExtra("app_Id", "106");
         intent.putExtra("authorise_Key", "XLbdpgCcdK0rcfwDw3pBIdXZxAozuEirBfqyHNPj66srr2JczEMk4A==");
         intent.putExtra("main_wallet_bal", this.AepsBal);
         intent.putExtra("panno",PANCard);
-        intent.putExtra("lat",String.valueOf(lattitude));
-        intent.putExtra("long",String.valueOf(longitude));
+        intent.putExtra("lat",lattitude);
+        intent.putExtra("long",longitude);
         startActivity(intent);
     }
 
@@ -996,6 +997,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         this.lattitude=latitude;
         this.longitude=longitude;
         this.tvLocation.setText(address);
+        System.out.println("LAt "+lattitude);
     }
 
     @Override
