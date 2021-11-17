@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.goldenfish.AepsSdk.model.ModelAepsResp;
 import com.example.goldenfish.Constants.Constant;
 import com.example.goldenfish.Constants.ConstantsValue;
 import com.example.goldenfish.Dashboard.HomeDashboardActivity;
@@ -31,13 +32,16 @@ import com.example.goldenfish.Retrofit.RetrofitClient;
 import com.example.goldenfish.Utilities.MyUtils;
 import com.example.goldenfish.Utilities.SharedPref;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 import okhttp3.ResponseBody;
@@ -98,6 +102,49 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        InputStream inputStream = getResources().openRawResource(R.raw.trans);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        int ctr;
+        try {
+            ctr = inputStream.read();
+            while (ctr != -1) {
+                byteArrayOutputStream.write(ctr);
+                ctr = inputStream.read();
+            }
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            JSONObject jObject = new JSONObject(
+                    byteArrayOutputStream.toString());
+            Gson gson = new Gson();
+            ModelAepsResp m = gson.fromJson(byteArrayOutputStream.toString(), ModelAepsResp.class);
+
+           // System.out.println("JSON OBJ "+m.getData().get(0).getMiniSmt());
+
+            /*String data= m.getData().get(0).getMiniSmt();
+            data = data.replaceAll("[\\\\]{1}[\"]{1}","\"");
+            data = data.substring(data.indexOf("{"),data.lastIndexOf("}")+1);*/
+
+            //System.out.println("JSON OBJ "+data);*/
+            JSONArray json = new JSONArray(m.getData().get(0).getMiniSmt());
+
+            System.out.println("JSON OBJ SIZE "+json.length());
+            for (int i=0;i<json.length();i++) {
+                JSONObject innerobj = json.getJSONObject(i);
+
+                //System.out.println("JSON OBJ "+innerobj.getString("date"));
+            }
+
+
+
+            } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /* access modifiers changed from: private */

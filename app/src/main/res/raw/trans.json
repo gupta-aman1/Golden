@@ -1,0 +1,26 @@
+{
+  "Statuscode": "TXN",
+  "Message": "Transaction Successful",
+  "Head1": "Transaction Status",
+  "Head2": "Transaction Successfull",
+  "Head3": "Your transaction has been done details of request are included below",
+  "Data": [
+    {
+      "ID": 145944,
+      "Txntype": "SAP",
+      "BcId": "BOJPA8482A",
+      "BankName": "Central Bank of India",
+      "opname": "AEPS-Account-Statement",
+      "OrderId": "CPJ012132111412431",
+      "TransactionId": "132111497098",
+      "Amount": "0",
+      "Commission": "0.150",
+      "Mobileno": "8400786353",
+      "AadharNumber": "XXXXXXXX5799",
+      "MiniSmt": "[\r\n  {\r\n    \"date\": \"17/11\",\r\n    \"txnType\": \"CR\",\r\n    \"amount\": \"100.00\",\r\n    \"narration\": \"CBSD0363721490\"\r\n  },\r\n  {\r\n    \"date\": \"15/11\",\r\n    \"txnType\": \"CR\",\r\n    \"amount\": \"12500.00\",\r\n    \"narration\": \"CBSD0790809145\"\r\n  },\r\n  {\r\n    \"date\": \"14/11\",\r\n    \"txnType\": \"CR\",\r\n    \"amount\": \"10.00\",\r\n    \"narration\": \"CBSD0345499422\"\r\n  },\r\n  {\r\n    \"date\": \"14/11\",\r\n    \"txnType\": \"DR\",\r\n    \"amount\": \"20.00\",\r\n    \"narration\": \"CBSW0345496375\"\r\n  },\r\n  {\r\n    \"date\": \"14/11\",\r\n    \"txnType\": \"CR\",\r\n    \"amount\": \"10.00\",\r\n    \"narration\": \"CBSD0345442394\"\r\n  },\r\n  {\r\n    \"date\": \"14/11\",\r\n    \"txnType\": \"CR\",\r\n    \"amount\": \"100.00\",\r\n    \"narration\": \"CBSD0345417148\"\r\n  },\r\n  {\r\n    \"date\": \"14/11\",\r\n    \"txnType\": \"DR\",\r\n    \"amount\": \"100.00\",\r\n    \"narration\": \"CBSW0345406325\"\r\n  },\r\n  {\r\n    \"date\": \"14/11\",\r\n    \"txnType\": \"CR\",\r\n    \"amount\": \"4000.00\",\r\n    \"narration\": \"CBSD0344396922\"\r\n  },\r\n  {\r\n    \"date\": \"13/11\",\r\n    \"txnType\": \"CR\",\r\n    \"amount\": \"4000.00\",\r\n    \"narration\": \"CBSD0340490720\"\r\n  }\r\n]",
+      "Reason": "Transaction Successful",
+      "Status": "SUCCESS",
+      "ReqDate": "2021-11-17T23:34:23"
+    }
+  ]
+}

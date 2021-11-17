@@ -32,6 +32,7 @@ import com.example.goldenfish.AepsSdk.device.PidData;
 import com.example.goldenfish.AepsSdk.device.PidOptions;
 import com.example.goldenfish.AepsSdk.model.AepsModelRequest;
 import com.example.goldenfish.AepsSdk.model.BankModel;
+import com.example.goldenfish.AepsSdk.model.ModelAepsResp;
 import com.example.goldenfish.AepsSdk.model.ServerModel;
 import com.example.goldenfish.AepsSdk.model.ServerModel1;
 import com.example.goldenfish.AepsSdk.retrofit.RetrofitClient;
@@ -59,6 +60,11 @@ import com.google.gson.JsonParser;
 
 //import in.galaxyofandroid.spinerdialog.OnSpinerItemClick;
 //import in.galaxyofandroid.spinerdialog.SpinnerDialog;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -283,6 +289,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                 "android.location.PROVIDERS_CHANGED");
         gpsListener = new GpsListener(WTS_Aeps_Activity.this, this);
         registerReceiver(gpsListener, mfilter);
+
     }
 
     private void deviceCode() {
