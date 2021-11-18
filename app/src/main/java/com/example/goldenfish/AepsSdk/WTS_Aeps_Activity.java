@@ -436,7 +436,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
             @SuppressLint({"SetTextI18n"})
             public void onClick(View v) {
                 if (WTS_Aeps_Activity.this.selectedItemtxnType.equalsIgnoreCase("Cash Withdraw")) {
-                    WTS_Aeps_Activity.this.selectedItemtxnType = "WID";
+                    WTS_Aeps_Activity.this.selectedItemtxnType = "WAP";
                     WTS_Aeps_Activity.this.txnTypeNameStr = "Cash Withdraw";
                     WTS_Aeps_Activity.this.amountET.setVisibility(View.VISIBLE);
                     WTS_Aeps_Activity.this.amountLY_Fix.setVisibility(View.VISIBLE);
@@ -444,7 +444,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                     WTS_Aeps_Activity.this.secondLY.setVisibility(View.VISIBLE);
                     WTS_Aeps_Activity.this.headerTxt.setText("Cash Withdraw");
                 } else if (WTS_Aeps_Activity.this.selectedItemtxnType.equalsIgnoreCase("Balance Enquiry")) {
-                    WTS_Aeps_Activity.this.selectedItemtxnType = "BAL";
+                    WTS_Aeps_Activity.this.selectedItemtxnType = "BAP";
                     WTS_Aeps_Activity.this.txnTypeNameStr = "Balance Enquiry";
                     WTS_Aeps_Activity.this.amountET.setVisibility(View.GONE);
                     WTS_Aeps_Activity.this.amountLY_Fix.setVisibility(View.GONE);
@@ -452,7 +452,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                     WTS_Aeps_Activity.this.secondLY.setVisibility(View.VISIBLE);
                     WTS_Aeps_Activity.this.headerTxt.setText("Balance Enquiry");
                 } else if (WTS_Aeps_Activity.this.selectedItemtxnType.equalsIgnoreCase("Mini Statement")) {
-                    WTS_Aeps_Activity.this.selectedItemtxnType = "MIN";
+                    WTS_Aeps_Activity.this.selectedItemtxnType = "SAP";
                     WTS_Aeps_Activity.this.txnTypeNameStr = "Mini Statement";
                     WTS_Aeps_Activity.this.amountET.setVisibility(View.GONE);
                     WTS_Aeps_Activity.this.amountLY_Fix.setVisibility(View.GONE);
@@ -460,7 +460,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                     WTS_Aeps_Activity.this.secondLY.setVisibility(View.VISIBLE);
                     WTS_Aeps_Activity.this.headerTxt.setText("Mini Statement");
                 } else if (WTS_Aeps_Activity.this.selectedItemtxnType.equalsIgnoreCase("Aadhaar Pay")) {
-                    WTS_Aeps_Activity.this.selectedItemtxnType = "APAY";
+                    WTS_Aeps_Activity.this.selectedItemtxnType = "MZZ";
                     WTS_Aeps_Activity.this.txnTypeNameStr = "Aadhaar Pay";
                     WTS_Aeps_Activity.this.amountET.setVisibility(View.VISIBLE);
                     WTS_Aeps_Activity.this.amountLY_Fix.setVisibility(View.VISIBLE);
@@ -573,7 +573,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
         JsonObject gsonObject=null;
         try {
              mJSONObject = new JSONObject(json);
-             //System.out.println("JSON FINAl "+mJSONObject);
+             System.out.println("JSON FINAl "+mJSONObject);
 
             org.json.JSONObject object =mJSONObject;
             JsonParser jsonParser = new JsonParser();
@@ -588,9 +588,120 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
             public void onResponse(retrofit2.Call<com.google.gson.JsonObject> r35, retrofit2.Response<com.google.gson.JsonObject> r36) {
                 if (r36.isSuccessful()) {
                     try {
-                        JSONObject responseJsonObject = new JSONObject(String.valueOf(r36.body()));
-                        System.out.println("MY RESP "+responseJsonObject);
-                        //String response_code = responseJsonObject.getString("Statuscode");
+                       // JSONObject responseJsonObject = new JSONObject(String.valueOf(r36.body()));
+                        System.out.println("MY RESP "+String.valueOf(r36.body()));
+
+                        Gson gson = new Gson();
+                        ModelAepsResp m = gson.fromJson(String.valueOf(r36.body()), ModelAepsResp.class);
+
+
+                            if (m.getStatuscode().equalsIgnoreCase("TXN")) {
+
+                                if(selectedItemtxnType.equalsIgnoreCase("BAP")|| selectedItemtxnType.equalsIgnoreCase("WAP") || selectedItemtxnType.equalsIgnoreCase("MZZ") )
+                                {
+                                startActivity(new Intent(WTS_Aeps_Activity.this, SuccessScreen_Aeps.class)
+                                        .putExtra("status_code",m.getStatuscode())
+                                        .putExtra("head1", m.getHead1())
+                                        .putExtra("head2", m.getHead2())
+                                        .putExtra("head3", m.getHead3())
+                                        .putExtra("id", String.valueOf(m.getData().get(0).getId()))
+                                        .putExtra("txn_type",String.valueOf(m.getData().get(0).getTxntype()))
+                                        .putExtra("bc_id",String.valueOf(m.getData().get(0).getBcId()))
+                                        .putExtra("bank_name",String.valueOf(m.getData().get(0).getBankName()))
+                                        .putExtra("op_name",String.valueOf(m.getData().get(0).getOpname()))
+                                        .putExtra("order_id",String.valueOf(m.getData().get(0).getOrderId()))
+                                        .putExtra("txn_id",String.valueOf(m.getData().get(0).getTransactionId()))
+                                        .putExtra("amount",String.valueOf(m.getData().get(0).getAmount()))
+                                        .putExtra("comm",String.valueOf(m.getData().get(0).getCommission()))
+                                        .putExtra("mobile",String.valueOf(m.getData().get(0).getMobileno()))
+                                        .putExtra("aadhaar",String.valueOf(m.getData().get(0).getAadharNumber()))
+                                        .putExtra("ministmt",String.valueOf(m.getData().get(0).getMiniSmt()))
+                                        .putExtra("reason",String.valueOf(m.getData().get(0).getReason()))
+                                        .putExtra("status",String.valueOf(m.getData().get(0).getStatus()))
+                                        .putExtra("req_date",String.valueOf(m.getData().get(0).getReqDate()))
+                                        .putExtra("acc_bal",String.valueOf(m.getData().get(0).getAccountBal()))
+                                );
+                            }
+                                else
+                                {
+                                    startActivity(new Intent(WTS_Aeps_Activity.this, MiniStatement_Success.class)
+                                            .putExtra("status_code",m.getStatuscode())
+                                            .putExtra("head1", m.getHead1())
+                                            .putExtra("head2", m.getHead2())
+                                            .putExtra("head3", m.getHead3())
+                                            .putExtra("id", String.valueOf(m.getData().get(0).getId()))
+                                            .putExtra("txn_type",String.valueOf(m.getData().get(0).getTxntype()))
+                                            .putExtra("bc_id",String.valueOf(m.getData().get(0).getBcId()))
+                                            .putExtra("bank_name",String.valueOf(m.getData().get(0).getBankName()))
+                                            .putExtra("op_name",String.valueOf(m.getData().get(0).getOpname()))
+                                            .putExtra("order_id",String.valueOf(m.getData().get(0).getOrderId()))
+                                            .putExtra("txn_id",String.valueOf(m.getData().get(0).getTransactionId()))
+                                            .putExtra("amount",String.valueOf(m.getData().get(0).getAmount()))
+                                            .putExtra("comm",String.valueOf(m.getData().get(0).getCommission()))
+                                            .putExtra("mobile",String.valueOf(m.getData().get(0).getMobileno()))
+                                            .putExtra("aadhaar",String.valueOf(m.getData().get(0).getAadharNumber()))
+                                            .putExtra("ministmt",String.valueOf(m.getData().get(0).getMiniSmt()))
+                                            .putExtra("reason",String.valueOf(m.getData().get(0).getReason()))
+                                            .putExtra("status",String.valueOf(m.getData().get(0).getStatus()))
+                                            .putExtra("req_date",String.valueOf(m.getData().get(0).getReqDate()))
+                                            .putExtra("acc_bal",String.valueOf(m.getData().get(0).getAccountBal()))
+                                    );
+                                }
+                        }
+                            else
+                            {
+                                Toast.makeText(WTS_Aeps_Activity.this, ""+m.getMessage(), Toast.LENGTH_SHORT).show();
+                                if(selectedItemtxnType.equalsIgnoreCase("BAP")|| selectedItemtxnType.equalsIgnoreCase("WAP") || selectedItemtxnType.equalsIgnoreCase("MZZ") )
+                                {
+                                    startActivity(new Intent(WTS_Aeps_Activity.this, SuccessScreen_Aeps.class)
+                                            .putExtra("status_code",m.getStatuscode())
+                                            .putExtra("head1", m.getHead1())
+                                            .putExtra("head2", m.getHead2())
+                                            .putExtra("head3", m.getHead3())
+                                            .putExtra("id", String.valueOf(m.getData().get(0).getId()))
+                                            .putExtra("txn_type",String.valueOf(m.getData().get(0).getTxntype()))
+                                            .putExtra("bc_id",String.valueOf(m.getData().get(0).getBcId()))
+                                            .putExtra("bank_name",String.valueOf(m.getData().get(0).getBankName()))
+                                            .putExtra("op_name",String.valueOf(m.getData().get(0).getOpname()))
+                                            .putExtra("order_id",String.valueOf(m.getData().get(0).getOrderId()))
+                                            .putExtra("txn_id",String.valueOf(m.getData().get(0).getTransactionId()))
+                                            .putExtra("amount",String.valueOf(m.getData().get(0).getAmount()))
+                                            .putExtra("comm",String.valueOf(m.getData().get(0).getCommission()))
+                                            .putExtra("mobile",String.valueOf(m.getData().get(0).getMobileno()))
+                                            .putExtra("aadhaar",String.valueOf(m.getData().get(0).getAadharNumber()))
+                                            .putExtra("ministmt",String.valueOf(m.getData().get(0).getMiniSmt()))
+                                            .putExtra("reason",String.valueOf(m.getData().get(0).getReason()))
+                                            .putExtra("status",String.valueOf(m.getData().get(0).getStatus()))
+                                            .putExtra("req_date",String.valueOf(m.getData().get(0).getReqDate()))
+                                            .putExtra("acc_bal",String.valueOf(m.getData().get(0).getAccountBal()))
+                                    );
+                                }
+                                else
+                                {
+                                    startActivity(new Intent(WTS_Aeps_Activity.this, MiniStatement_Success.class)
+                                            .putExtra("status_code",m.getStatuscode())
+                                            .putExtra("head1", m.getHead1())
+                                            .putExtra("head2", m.getHead2())
+                                            .putExtra("head3", m.getHead3())
+                                            .putExtra("id", String.valueOf(m.getData().get(0).getId()))
+                                            .putExtra("txn_type",String.valueOf(m.getData().get(0).getTxntype()))
+                                            .putExtra("bc_id",String.valueOf(m.getData().get(0).getBcId()))
+                                            .putExtra("bank_name",String.valueOf(m.getData().get(0).getBankName()))
+                                            .putExtra("op_name",String.valueOf(m.getData().get(0).getOpname()))
+                                            .putExtra("order_id",String.valueOf(m.getData().get(0).getOrderId()))
+                                            .putExtra("txn_id",String.valueOf(m.getData().get(0).getTransactionId()))
+                                            .putExtra("amount",String.valueOf(m.getData().get(0).getAmount()))
+                                            .putExtra("comm",String.valueOf(m.getData().get(0).getCommission()))
+                                            .putExtra("mobile",String.valueOf(m.getData().get(0).getMobileno()))
+                                            .putExtra("aadhaar",String.valueOf(m.getData().get(0).getAadharNumber()))
+                                            .putExtra("ministmt",String.valueOf(m.getData().get(0).getMiniSmt()))
+                                            .putExtra("reason",String.valueOf(m.getData().get(0).getReason()))
+                                            .putExtra("status",String.valueOf(m.getData().get(0).getStatus()))
+                                            .putExtra("req_date",String.valueOf(m.getData().get(0).getReqDate()))
+                                            .putExtra("acc_bal",String.valueOf(m.getData().get(0).getAccountBal()))
+                                    );
+                                }
+                            }
                         progressDialog.dismiss();
 
                     } catch (Exception e) {
@@ -726,11 +837,11 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                     deviceNotConnected();
                 } else {
                     try {
-                        PidData pidData2 = (PidData) this.serializer.read(PidData.class, result);
-                        this.pidData = pidData2;
-                        String str = pidData2._Data.value;
-                        this.pidDataStr = str;
-                        Log.e("xml_data_show", str);
+                        PidData pidData3 = (PidData) this.serializer.read(PidData.class, result);
+                        this.pidData = pidData3;
+                        String str3 = pidData3._Data.value;
+                        this.pidDataStr = str3;
+                        Log.e("xml_data_show", str3);
                         this.hmac = this.pidData._Hmac;
                         this.sessionKey = this.pidData._Skey.value;
                         this.dpId = this.pidData._DeviceInfo.dpId;
@@ -746,18 +857,21 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                         this.qScore = this.pidData._Resp.qScore;
                         this.nmPoints = this.pidData._Resp.nmPoints;
                         this.ci = this.pidData._Skey.ci;
-                        List<Param> params = this.pidData._DeviceInfo.add_info.params;
-                        for (int i = 0; i < params.size(); i++) {
-                            String name = params.get(i).name;
-                            if (name.equalsIgnoreCase("srno")) {
-                                String str2 = params.get(i).value;
-                                this.serialNo = str2;
-                                Log.e("serialNu", str2);
-                            } else if (name.equalsIgnoreCase("sysid")) {
-                                Log.e("systemId", params.get(i).value);
+                        this.iCount = this.pidData._Resp.iCount;
+                        this.pType = this.pidData._Resp.pType;
+                        this.pCount = this.pidData._Resp.pCount;
+                        List<Param> params2 = this.pidData._DeviceInfo.add_info.params;
+                        for (int i2 = 0; i2 < params2.size(); i2++) {
+                            String name2 = params2.get(i2).name;
+                            if (name2.equalsIgnoreCase("srno")) {
+                                String str4 = params2.get(i2).value;
+                                this.serialNo = str4;
+                                Log.e("serialNu", str4);
+                            } else if (name2.equalsIgnoreCase("sysid")) {
+                                Log.e("systemId", params2.get(i2).value);
                             }
                         }
-                        //getTransactionNow();
+                        getTransactionNow();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -806,12 +920,6 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                                 Log.e("systemId", params2.get(i2).value);
                             }
                         }
-
-                        // Passing string s to StringBuilder class object
-                        //System.out.println("LAT "+this.latitude);
-
-//                        Log.d("TEST DATA1", json);
-                        //System.out.println("TEST DATA "+json);
                         getTransactionNow();
                     } catch (Exception e2) {
                         e2.printStackTrace();
@@ -826,13 +934,13 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                 deviceNotConnected();
             } else {
                 try {
-                    PidData pidData4 = (PidData) this.serializer.read(PidData.class, result3);
-                    this.pidData = pidData4;
-                    String str5 = pidData4._Data.value;
-                    this.pidDataStr = str5;
-                    Log.e("xml_data_show", str5);
-                    this.sessionKey = this.pidData._Skey.value;
+                    PidData pidData3 = (PidData) this.serializer.read(PidData.class, result3);
+                    this.pidData = pidData3;
+                    String str3 = pidData3._Data.value;
+                    this.pidDataStr = str3;
+                    Log.e("xml_data_show", str3);
                     this.hmac = this.pidData._Hmac;
+                    this.sessionKey = this.pidData._Skey.value;
                     this.dpId = this.pidData._DeviceInfo.dpId;
                     this.rdsId = this.pidData._DeviceInfo.rdsId;
                     this.rdsVer = this.pidData._DeviceInfo.rdsVer;
@@ -846,15 +954,18 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                     this.qScore = this.pidData._Resp.qScore;
                     this.nmPoints = this.pidData._Resp.nmPoints;
                     this.ci = this.pidData._Skey.ci;
-                    List<Param> params3 = this.pidData._DeviceInfo.add_info.params;
-                    for (int i3 = 0; i3 < params3.size(); i3++) {
-                        String name3 = params3.get(i3).name;
-                        if (name3.equalsIgnoreCase("srno")) {
-                            String str6 = params3.get(i3).value;
-                            this.serialNo = str6;
-                            Log.e("serialNu", str6);
-                        } else if (name3.equalsIgnoreCase("sysid")) {
-                            Log.e("systemId", params3.get(i3).value);
+                    this.iCount = this.pidData._Resp.iCount;
+                    this.pType = this.pidData._Resp.pType;
+                    this.pCount = this.pidData._Resp.pCount;
+                    List<Param> params2 = this.pidData._DeviceInfo.add_info.params;
+                    for (int i2 = 0; i2 < params2.size(); i2++) {
+                        String name2 = params2.get(i2).name;
+                        if (name2.equalsIgnoreCase("srno")) {
+                            String str4 = params2.get(i2).value;
+                            this.serialNo = str4;
+                            Log.e("serialNu", str4);
+                        } else if (name2.equalsIgnoreCase("sysid")) {
+                            Log.e("systemId", params2.get(i2).value);
                         }
                     }
                     getTransactionNow();

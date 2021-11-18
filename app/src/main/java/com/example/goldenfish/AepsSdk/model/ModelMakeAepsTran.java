@@ -8,27 +8,6 @@ import java.util.List;
 
 public class ModelMakeAepsTran {
 
-    @Override
-    public String toString() {
-        return "ModelMakeAepsTran{" +
-                "id=" + id +
-                ", txntype='" + txntype + '\'' +
-                ", bcId='" + bcId + '\'' +
-                ", bankName='" + bankName + '\'' +
-                ", opname='" + opname + '\'' +
-                ", orderId='" + orderId + '\'' +
-                ", transactionId='" + transactionId + '\'' +
-                ", amount='" + amount + '\'' +
-                ", commission='" + commission + '\'' +
-                ", mobileno='" + mobileno + '\'' +
-                ", aadharNumber='" + aadharNumber + '\'' +
-                ", miniSmt='" + miniSmt + '\'' +
-                ", reason='" + reason + '\'' +
-                ", status='" + status + '\'' +
-                ", reqDate='" + reqDate + '\'' +
-                '}';
-    }
-
     @SerializedName("ID")
     @Expose
     private Integer id;
@@ -74,6 +53,38 @@ public class ModelMakeAepsTran {
     @SerializedName("ReqDate")
     @Expose
     private String reqDate;
+
+    @Override
+    public String toString() {
+        return "ModelMakeAepsTran{" +
+                "id=" + id +
+                ", txntype='" + txntype + '\'' +
+                ", bcId='" + bcId + '\'' +
+                ", bankName='" + bankName + '\'' +
+                ", opname='" + opname + '\'' +
+                ", orderId='" + orderId + '\'' +
+                ", transactionId='" + transactionId + '\'' +
+                ", amount='" + amount + '\'' +
+                ", commission='" + commission + '\'' +
+                ", mobileno='" + mobileno + '\'' +
+                ", aadharNumber='" + aadharNumber + '\'' +
+                ", miniSmt='" + miniSmt + '\'' +
+                ", reason='" + reason + '\'' +
+                ", status='" + status + '\'' +
+                ", reqDate='" + reqDate + '\'' +
+                ", AccountBal='" + AccountBal + '\'' +
+                '}';
+    }
+
+    private String AccountBal;
+
+    public String getAccountBal() {
+        return AccountBal;
+    }
+
+    public void setAccountBal(String accountBal) {
+        AccountBal = accountBal;
+    }
 
     public Integer getId() {
         return id;

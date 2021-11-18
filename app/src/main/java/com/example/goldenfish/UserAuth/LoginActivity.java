@@ -473,6 +473,7 @@ public class LoginActivity extends AppCompatActivity {
                                 sharedPref.putString(Constant.state, String.valueOf(jsonArray.getJSONObject(0).getString("state")));
                                 sharedPref.putString(Constant.city, String.valueOf(jsonArray.getJSONObject(0).getString("city")));
                                 sharedPref.putString(Constant.Area, String.valueOf(jsonArray.getJSONObject(0).getString("Area")));
+                                sharedPref.putString(Constant.OutletId, String.valueOf(jsonArray.getJSONObject(0).getString("OutletId")));
 
                            // Toast.makeText(LoginActivity.this, "OTP sent", Toast.LENGTH_SHORT).show();
                           // String userId = sharedPref.getStringWithNull(Constant.userId);

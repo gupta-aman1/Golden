@@ -21,6 +21,7 @@ public class Constant {
     public static final String state="state";
     public static final String city="city";
     public static final String Area="Area";
+    public static final String OutletId="OutletId";
     //public static final String PANCard="PANCard";
 
 }
