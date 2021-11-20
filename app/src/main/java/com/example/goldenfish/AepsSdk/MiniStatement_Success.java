@@ -1,17 +1,30 @@
 package com.example.goldenfish.AepsSdk;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.goldenfish.AepsSdk.AepsAdapter.AdapterMini;
+import com.example.goldenfish.AepsSdk.model.ModelMiniData;
+import com.example.goldenfish.Dashboard.HomeDashboardActivity;
 import com.example.goldenfish.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MiniStatement_Success extends AppCompatActivity {
@@ -46,7 +59,8 @@ TextView bcNameTT,
          failedReasonTT,
          datetimeTT,
         comm_txt;
-    ImageView success_or_fail_IMG;
+    ImageView success_or_fail_IMG,share_ic;
+    ArrayList<ModelMiniData> modelMiniData= new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +80,7 @@ TextView bcNameTT,
         datetimeTT=findViewById(R.id.datetimeTT);
         success_or_fail_IMG=findViewById(R.id.success_or_fail_IMG);
         bcNameTT=findViewById(R.id.bcNameTT);
-
+        share_ic=findViewById(R.id.share_ic);
 
         if (getIntent() != null) {
             String status_code = getIntent().getStringExtra("status_code");
@@ -106,7 +120,7 @@ TextView bcNameTT,
                 stypeTT.setText("Mini Statement");
             }
 
-            try {
+           try {
                 SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                 // SimpleDateFormat destFormat = new SimpleDateFormat("dd MMM yyyy hh:mm:ss a"); //here 'a' for AM/PM
                 SimpleDateFormat destFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a");
@@ -134,6 +148,40 @@ TextView bcNameTT,
                 }
             }
         }
-        System.out.println("MINI STMT "+ministmt);
+        JSONArray json = null;
+        try {
+            json = new JSONArray(ministmt);
+
+            for (int i=0;i<json.length();i++) {
+                JSONObject innerobj = json.getJSONObject(i);
+                                innerobj.getString("date");
+
+                //System.out.println("JSON OBJ "+innerobj.getString("date"));
+                modelMiniData.add(new ModelMiniData(innerobj.getString("date"),innerobj.getString("txnType"),innerobj.getString("amount"),innerobj.getString("narration")));
+            }
+            RecyclerView recyclerView = findViewById(R.id.recyclerviewMiniStatement);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setNestedScrollingEnabled(false);
+            recyclerView.setHasFixedSize(false);
+           AdapterMini adapter = new AdapterMini(modelMiniData,this);
+          //  adapter.setClickListener(this);
+            recyclerView.setAdapter(adapter);
+        } catch (JSONException e) {
+          //  e.printStackTrace();
+            Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        //System.out.println("JSON OBJ SIZE "+json.length());
+        share_ic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+    }
+
+    public void finalDoneMini(View view) {
+        startActivity(new Intent(this, HomeDashboardActivity.class));
+        finishAffinity();
     }
 }

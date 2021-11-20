@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.example.goldenfish.AepsSdk.WTS_Aeps_Activity;
 import com.example.goldenfish.Constants.Constant;
 import com.example.goldenfish.Constants.ConstantsValue;
 import com.example.goldenfish.MoveToBank.MoveToBankActivity;
@@ -304,6 +305,7 @@ public class CommonApi {
             }
         });
     }
+
     public static void verifyMPIN(Activity activity,String mpin,String userId,CommonInterface commonInterface)
     {
         final ProgressDialog progressDialog = new ProgressDialog(activity);
@@ -332,6 +334,76 @@ public class CommonApi {
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))
                         {
                             commonInterface.MpinStatus(true);
+                        }
+                        else
+                        {
+                            // HideProgress(ctx);
+                            progressDialog.dismiss();
+
+                            androidx.appcompat.app.AlertDialog.Builder builder1 = new androidx.appcompat.app.AlertDialog.Builder(activity);
+                            builder1.setMessage(jsonObject1.getString("Message"));
+                            builder1.setCancelable(true);
+
+                            builder1.setPositiveButton(
+                                    "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                            // finish();
+                                        }
+                                    });
+                            AlertDialog alert11 = builder1.create();
+                            alert11.show();
+                            //Toast.makeText(MoveToBankActivity.this, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+
+                    }
+
+                }else {
+                    progressDialog.dismiss();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(activity, "Due to Internet Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public static void sendOTP(Activity activity,String userId,String mobile,CommonInterface commonInterface)
+    {
+        final ProgressDialog progressDialog = new ProgressDialog(activity);
+        progressDialog.setTitle("Sending OTP.....");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        JsonObject jsonObject= new JsonObject();
+        jsonObject.addProperty("Userid",userId);
+        jsonObject.addProperty("Mobile",mobile);
+        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("SendOTPForOutlet",mobile,userId));
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().SendOTPForOutlet(jsonObject);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+
+                if (response.body() != null){
+                    // HideProgress(ctx);
+                    progressDialog.dismiss();
+                    String fullRes = null;
+
+                    try {
+
+                        fullRes = response.body().string();
+                        JSONObject jsonObject1= new JSONObject(fullRes);
+                        String stCode= jsonObject1.getString(Constant.StatusCode);
+                        if (stCode.equalsIgnoreCase(ConstantsValue.successful))
+                        {
+                            Toast.makeText(activity, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
+                            commonInterface.OTPtatus(true);
                         }
                         else
                         {

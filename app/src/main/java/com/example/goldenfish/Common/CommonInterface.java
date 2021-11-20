@@ -33,7 +33,14 @@ public interface CommonInterface {
     {
 
     }
+    default void OTPtatus(boolean status)
+    {
 
+    }
+    default void getEnteredOTP(String otp)
+    {
+
+    }
     default void getStates(ArrayList<String> name,ArrayList<String> id)
     {
 

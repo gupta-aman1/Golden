@@ -93,4 +93,6 @@ dependencies {
     implementation 'me.srodrigo:androidhintspinner:1.0.0'
   //  implementation 'com.github.MdFarhanRaja:SearchableSpinner:2.0'
     implementation 'com.github.MdFarhanRaja:SearchableSpinner:2.0'
+
+    implementation 'com.android.volley:volley:1.2.1'
 }

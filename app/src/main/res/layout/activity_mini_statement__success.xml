@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainLayout"
@@ -229,7 +229,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="2dp"
                     android:gravity="start"
-                    android:text="Balance Enquiry"
+                    android:text="Mini Statement"
                     android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />
 
@@ -568,19 +568,7 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="12sp" />
 
-                <Button
-                    android:id="@+id/doneBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/fiftendp"
-                    android:layout_marginTop="@dimen/fiftendp"
-                    android:layout_marginRight="@dimen/fiftendp"
-                    android:background="@drawable/button_bg_two"
-                    android:text="Done"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -598,5 +586,21 @@
                     android:src="@drawable/bg_success_ic" />
             </LinearLayout>
         </LinearLayout>
+
+        <Button
+            android:id="@+id/doneBtn"
+            android:layout_width="200dp"
+            android:onClick="finalDoneMini"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/fiftendp"
+            android:layout_marginTop="@dimen/fiftendp"
+            android:layout_marginRight="@dimen/fiftendp"
+            android:background="@drawable/button_bg_two"
+            android:text="Done"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

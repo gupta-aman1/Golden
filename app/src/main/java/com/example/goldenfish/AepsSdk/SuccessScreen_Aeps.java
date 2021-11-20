@@ -2,12 +2,14 @@ package com.example.goldenfish.AepsSdk;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.goldenfish.Dashboard.HomeDashboardActivity;
 import com.example.goldenfish.MoveToBank.DetailedData;
 import com.example.goldenfish.R;
 
@@ -147,5 +149,10 @@ ImageView success_or_fail_IMG;
                 }
             }
         }
+    }
+
+    public void finalDoneSuccess(View view) {
+        startActivity(new Intent(this, HomeDashboardActivity.class));
+        finishAffinity();
     }
 }

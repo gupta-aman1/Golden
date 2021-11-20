@@ -99,4 +99,10 @@ public interface interfaceAPI {
 
     @POST("GetPSAStatus")
     Call<ResponseBody> GetPSAStatus(@Body JsonObject object);
+
+    @POST("SendOTPForOutlet")
+    Call<ResponseBody> SendOTPForOutlet(@Body JsonObject object);
+
+    @POST("ValidateOTPForOutlet")
+    Call<ResponseBody> ValidateOTPForOutlet(@Body JsonObject object);
 }

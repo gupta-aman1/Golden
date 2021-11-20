@@ -1,18 +1,21 @@
 package com.example.goldenfish.AepsSdk;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,6 +29,11 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 //import com.android.tools.r8.annotations.SynthesizedClassMap;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.goldenfish.AepsSdk.device.Opts;
 import com.example.goldenfish.AepsSdk.device.Param;
 import com.example.goldenfish.AepsSdk.device.PidData;
@@ -36,7 +44,13 @@ import com.example.goldenfish.AepsSdk.model.ModelAepsResp;
 import com.example.goldenfish.AepsSdk.model.ServerModel;
 import com.example.goldenfish.AepsSdk.model.ServerModel1;
 import com.example.goldenfish.AepsSdk.retrofit.RetrofitClient;
+import com.example.goldenfish.Common.CommonApi;
+import com.example.goldenfish.Common.CommonFun;
+import com.example.goldenfish.Common.CommonInterface;
 import com.example.goldenfish.Constants.Constant;
+import com.example.goldenfish.Constants.ConstantsValue;
+import com.example.goldenfish.MoveToBank.DetailedData;
+import com.example.goldenfish.MoveToBank.SuceessScreen;
 import com.example.goldenfish.PanCard.PurchaseCouponActivity;
 import com.example.goldenfish.R;
 import com.example.goldenfish.Utilities.GeoLocation;
@@ -67,12 +81,18 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import in.galaxyofandroid.spinerdialog.OnSpinerItemClick;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
+import okhttp3.ResponseBody;
 import okhttp3.internal.cache.DiskLruCache;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -85,8 +105,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.goldenfish.AepsSdk.retrofit.RetrofitClient.BASE_URL;
+import static com.example.goldenfish.Constants.Constant.userId;
+
 //@SynthesizedClassMap({$$Lambda$WTS_Aeps_Activity$ZLpebXbkZ7iz9qwwbyuBxmnlO5E.class, $$Lambda$WTS_Aeps_Activity$b9Y5cETlWlYAOuoi9kUu5qsNFnU.class, $$Lambda$WTS_Aeps_Activity$rNE41YeG_O7qIJrbVktJtB8VzOw.class})
-public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiverListener, GpsInterface {
+public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiverListener, GpsInterface,CommonInterface {
     /* access modifiers changed from: private */
     public int MANTRA_CODE = 1;
     /* access modifiers changed from: private */
@@ -168,7 +191,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
     ImageView startek_icon;
     CheckBox terms_and_condition_Check;
     TextView terms_and_condition_Txt;
-    String txnTypeNameStr = "",userid;
+    String txnTypeNameStr = "",userid,outletId="";
     String walletBalance = "0.00";
     SharedPref sharedPref;
     FusedLocationProviderClient mFusedLocationClient;
@@ -177,13 +200,23 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
     private boolean isGpsOn;
     private boolean onecall=false;
     private boolean faslecall=false;
+    String mobileno="";
+    String nameStr="";
+    //  String="";
+//  String="";
+    String address1Str="";
+    String firm_name1="";
+    String email1="";
+    String pan_card1="";
+    String pincodeStr="";
     /* access modifiers changed from: protected */
     @SuppressLint({"SetTextI18n"})
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_w_t_s__aeps_);
         sharedPref = SharedPref.getInstance(WTS_Aeps_Activity.this);
-        userid = sharedPref.getStringWithNull(Constant.userId);
+        userid = sharedPref.getStringWithNull(userId);
+        outletId = sharedPref.getStringWithNull(Constant.OutletId);
         this.context = this;
         this.cashWithdraw_Container = (LinearLayout) findViewById(R.id.cashWithdraw_Container);
         this.balanceEnquiry_Container = (LinearLayout) findViewById(R.id.balanceEnquiry_Container);
@@ -232,6 +265,8 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
         this.latitude = getIntent().getDoubleExtra("lat",0.0);
         this.longitude = getIntent().getDoubleExtra("long",0.0);
         System.out.println("Latititude "+latitude+ " | "+"Longitudee "+longitude);
+
+       // registerForNewUser();
         if (this.app_Id.equalsIgnoreCase("") || this.authorise_Key.equalsIgnoreCase("") || this.pannoStr.equalsIgnoreCase("")) {
           //  if (this.app_Id.equalsIgnoreCase("") || this.authorise_Key.equalsIgnoreCase("") || this.pannoStr.equalsIgnoreCase("") || this.latitude ==0.0 || this.longitude==0.0 || this.walletBalance.equalsIgnoreCase("0.00")) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -291,7 +326,163 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
         registerReceiver(gpsListener, mfilter);
 
     }
+    private void registerForNewUser() {
 
+        final AlertDialog alertDialog = new AlertDialog.Builder(WTS_Aeps_Activity.this).create();
+        final LayoutInflater inflater = getLayoutInflater();
+        View convertView = inflater.inflate(R.layout.layout_user_info, null);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button registerBeneBtn = convertView.findViewById(R.id.registerBeneBtn);
+        ImageView close = convertView.findViewById(R.id.close);
+        final EditText mobileNumberET = convertView.findViewById(R.id.mobileNumberET);
+        //  final EditText aadhaarET = convertView.findViewById(R.id.aadhaarET);
+        final EditText nameET = convertView.findViewById(R.id.nameET);
+        //  final EditText alernamteMobileET = convertView.findViewById(R.id.alernamteMobileET);
+        final EditText address1 = convertView.findViewById(R.id.address1);
+        final EditText firm_name = convertView.findViewById(R.id.firm_name);
+        final EditText email = convertView.findViewById(R.id.email);
+        final EditText pan_card = convertView.findViewById(R.id.pan_card);
+        //stateET = convertView.findViewById(R.id.stateET);
+        //cityET = convertView.findViewById(R.id.cityET);
+        final EditText pincodeET = convertView.findViewById(R.id.pincodeET);
+      //  mobileNumberET.setText(mobile);
+        mobileNumberET.setEnabled(false);
+       // mobileNumberET.setClickable(false);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        registerBeneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mobileno = mobileNumberET.getText().toString().trim();
+                nameStr = nameET.getText().toString().trim();
+               // String aadhaarStr = aadhaarET.getText().toString();
+               // String alternateMobileStr = alernamteMobileET.getText().toString();
+                address1Str = address1.getText().toString().trim();
+                firm_name1 = firm_name.getText().toString().trim();
+                email1 = email.getText().toString().trim();
+                pan_card1 = pan_card.getText().toString().trim();
+                pincodeStr = pincodeET.getText().toString().trim();
+                // String dobStr = dateofBirth.getText().toString();
+                if (mobileno.equalsIgnoreCase("")){
+                    mobileNumberET.setError("required");
+                }else if (nameStr.equalsIgnoreCase("")){
+                    nameET.setError("required");
+                }
+                else if (address1Str.equalsIgnoreCase("")){
+                    address1.setError("required");
+                }else if (firm_name1.equalsIgnoreCase("")){
+                    firm_name.setError("required");
+                }else if (pincodeStr.equalsIgnoreCase("")){
+                    pincodeET.setError("required");
+                }
+                else if (email1.equalsIgnoreCase("")){
+                    email.setError("required");
+                }
+                else if (pan_card1.equalsIgnoreCase("")){
+                    pan_card.setError("required");
+                }
+                else if (address1Str.length() < 4){
+                    address1.setError("Minimum character are 4");
+                }
+                else {
+                    nowRegisterUser(alertDialog,mobileno,nameStr,address1Str,firm_name1,email1,pan_card1,pincodeStr);
+                }
+            }
+        });
+        alertDialog.setView(convertView);
+        alertDialog.show();
+        alertDialog.setCancelable(false);
+    }
+
+    private void nowRegisterUser(final AlertDialog alertDialog,final String mobileStr,final String nameStr, String address1Str, String address2Str, final String stateStr, String cityStr, String pincodeStr) {
+
+        alertDialog.dismiss();
+        CommonApi.sendOTP(this,userId,mobileStr,WTS_Aeps_Activity.this);
+
+
+    }
+
+    @Override
+    public void OTPtatus(boolean status) {
+        if(status == true)
+        {
+
+            CommonFun.showOTPDialog(WTS_Aeps_Activity.this,WTS_Aeps_Activity.this);
+        }
+    }
+
+    @Override
+    public void getEnteredOTP(String otp) {
+        VerifyingData(otp);
+
+    }
+    private void VerifyingData(String otp)
+    {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Verifying OTP .....");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        JsonObject jsonObject= new JsonObject();
+        jsonObject.addProperty("Userid",userid);
+        jsonObject.addProperty("Mobile",mobileno);
+        jsonObject.addProperty("OTP",otp);
+        jsonObject.addProperty("UserName",nameStr);
+        jsonObject.addProperty("Address",address1Str);
+        jsonObject.addProperty("Pincode",pincodeStr);
+        jsonObject.addProperty("Company",firm_name1);
+        jsonObject.addProperty("EmailId",email1);
+        jsonObject.addProperty("Pancard",pan_card1);
+        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("ValidateOTPForOutlet",mobileno+"|"+otp,userid));
+        Call<ResponseBody> call = com.example.goldenfish.Retrofit.RetrofitClient.getInstance().getApi().ValidateOTPForOutlet(jsonObject);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+
+                if (response.body() != null){
+                    // HideProgress(ctx);
+                    progressDialog.dismiss();
+                    String fullRes = null;
+                    try {
+
+                        fullRes = response.body().string();
+                        System.out.println("FINAL RESULT "+fullRes);
+                        JSONObject jsonObject1= new JSONObject(fullRes);
+                        String stCode= jsonObject1.getString(Constant.StatusCode);
+                        if (stCode.equalsIgnoreCase(ConstantsValue.successful))
+                        {
+                            String Data= jsonObject1.getString("Data");
+                            sharedPref.putString(Constant.OutletId,Data);
+                            finish();
+                        }
+                        else
+                        {
+                            progressDialog.dismiss();
+                            Toast.makeText(WTS_Aeps_Activity.this, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+
+                    }
+
+                }else {
+                    progressDialog.dismiss();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(WTS_Aeps_Activity.this, "Due to Internet Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     private void deviceCode() {
         this.morpho_Container.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -435,40 +626,46 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
         this.proceedBtn.setOnClickListener(new View.OnClickListener() {
             @SuppressLint({"SetTextI18n"})
             public void onClick(View v) {
-                if (WTS_Aeps_Activity.this.selectedItemtxnType.equalsIgnoreCase("Cash Withdraw")) {
-                    WTS_Aeps_Activity.this.selectedItemtxnType = "WAP";
-                    WTS_Aeps_Activity.this.txnTypeNameStr = "Cash Withdraw";
-                    WTS_Aeps_Activity.this.amountET.setVisibility(View.VISIBLE);
-                    WTS_Aeps_Activity.this.amountLY_Fix.setVisibility(View.VISIBLE);
-                    WTS_Aeps_Activity.this.firstLY.setVisibility(View.GONE);
-                    WTS_Aeps_Activity.this.secondLY.setVisibility(View.VISIBLE);
-                    WTS_Aeps_Activity.this.headerTxt.setText("Cash Withdraw");
-                } else if (WTS_Aeps_Activity.this.selectedItemtxnType.equalsIgnoreCase("Balance Enquiry")) {
-                    WTS_Aeps_Activity.this.selectedItemtxnType = "BAP";
-                    WTS_Aeps_Activity.this.txnTypeNameStr = "Balance Enquiry";
-                    WTS_Aeps_Activity.this.amountET.setVisibility(View.GONE);
-                    WTS_Aeps_Activity.this.amountLY_Fix.setVisibility(View.GONE);
-                    WTS_Aeps_Activity.this.firstLY.setVisibility(View.GONE);
-                    WTS_Aeps_Activity.this.secondLY.setVisibility(View.VISIBLE);
-                    WTS_Aeps_Activity.this.headerTxt.setText("Balance Enquiry");
-                } else if (WTS_Aeps_Activity.this.selectedItemtxnType.equalsIgnoreCase("Mini Statement")) {
-                    WTS_Aeps_Activity.this.selectedItemtxnType = "SAP";
-                    WTS_Aeps_Activity.this.txnTypeNameStr = "Mini Statement";
-                    WTS_Aeps_Activity.this.amountET.setVisibility(View.GONE);
-                    WTS_Aeps_Activity.this.amountLY_Fix.setVisibility(View.GONE);
-                    WTS_Aeps_Activity.this.firstLY.setVisibility(View.GONE);
-                    WTS_Aeps_Activity.this.secondLY.setVisibility(View.VISIBLE);
-                    WTS_Aeps_Activity.this.headerTxt.setText("Mini Statement");
-                } else if (WTS_Aeps_Activity.this.selectedItemtxnType.equalsIgnoreCase("Aadhaar Pay")) {
-                    WTS_Aeps_Activity.this.selectedItemtxnType = "MZZ";
-                    WTS_Aeps_Activity.this.txnTypeNameStr = "Aadhaar Pay";
-                    WTS_Aeps_Activity.this.amountET.setVisibility(View.VISIBLE);
-                    WTS_Aeps_Activity.this.amountLY_Fix.setVisibility(View.VISIBLE);
-                    WTS_Aeps_Activity.this.firstLY.setVisibility(View.GONE);
-                    WTS_Aeps_Activity.this.secondLY.setVisibility(View.VISIBLE);
-                    WTS_Aeps_Activity.this.headerTxt.setText("Aadhaar Pay");
-                } else {
-                    WTS_Aeps_Activity.this.snackbar("Please select your preference");
+                if(!outletId.equalsIgnoreCase("") || !outletId.equalsIgnoreCase("null")) {
+                    if (WTS_Aeps_Activity.this.selectedItemtxnType.equalsIgnoreCase("Cash Withdraw")) {
+                        WTS_Aeps_Activity.this.selectedItemtxnType = "WAP";
+                        WTS_Aeps_Activity.this.txnTypeNameStr = "Cash Withdraw";
+                        WTS_Aeps_Activity.this.amountET.setVisibility(View.VISIBLE);
+                        WTS_Aeps_Activity.this.amountLY_Fix.setVisibility(View.VISIBLE);
+                        WTS_Aeps_Activity.this.firstLY.setVisibility(View.GONE);
+                        WTS_Aeps_Activity.this.secondLY.setVisibility(View.VISIBLE);
+                        WTS_Aeps_Activity.this.headerTxt.setText("Cash Withdraw");
+                    } else if (WTS_Aeps_Activity.this.selectedItemtxnType.equalsIgnoreCase("Balance Enquiry")) {
+                        WTS_Aeps_Activity.this.selectedItemtxnType = "BAP";
+                        WTS_Aeps_Activity.this.txnTypeNameStr = "Balance Enquiry";
+                        WTS_Aeps_Activity.this.amountET.setVisibility(View.GONE);
+                        WTS_Aeps_Activity.this.amountLY_Fix.setVisibility(View.GONE);
+                        WTS_Aeps_Activity.this.firstLY.setVisibility(View.GONE);
+                        WTS_Aeps_Activity.this.secondLY.setVisibility(View.VISIBLE);
+                        WTS_Aeps_Activity.this.headerTxt.setText("Balance Enquiry");
+                    } else if (WTS_Aeps_Activity.this.selectedItemtxnType.equalsIgnoreCase("Mini Statement")) {
+                        WTS_Aeps_Activity.this.selectedItemtxnType = "SAP";
+                        WTS_Aeps_Activity.this.txnTypeNameStr = "Mini Statement";
+                        WTS_Aeps_Activity.this.amountET.setVisibility(View.GONE);
+                        WTS_Aeps_Activity.this.amountLY_Fix.setVisibility(View.GONE);
+                        WTS_Aeps_Activity.this.firstLY.setVisibility(View.GONE);
+                        WTS_Aeps_Activity.this.secondLY.setVisibility(View.VISIBLE);
+                        WTS_Aeps_Activity.this.headerTxt.setText("Mini Statement");
+                    } else if (WTS_Aeps_Activity.this.selectedItemtxnType.equalsIgnoreCase("Aadhaar Pay")) {
+                        WTS_Aeps_Activity.this.selectedItemtxnType = "MZZ";
+                        WTS_Aeps_Activity.this.txnTypeNameStr = "Aadhaar Pay";
+                        WTS_Aeps_Activity.this.amountET.setVisibility(View.VISIBLE);
+                        WTS_Aeps_Activity.this.amountLY_Fix.setVisibility(View.VISIBLE);
+                        WTS_Aeps_Activity.this.firstLY.setVisibility(View.GONE);
+                        WTS_Aeps_Activity.this.secondLY.setVisibility(View.VISIBLE);
+                        WTS_Aeps_Activity.this.headerTxt.setText("Aadhaar Pay");
+                    } else {
+                        WTS_Aeps_Activity.this.snackbar("Please select your preference");
+                    }
+                }
+                else
+                {
+                    registerForNewUser();
                 }
             }
         });

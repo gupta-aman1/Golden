@@ -26,8 +26,9 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".AepsSdk.MiniStatement_Success"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar">
 
+        </activity>
         <activity android:name=".AepsSdk.SuccessScreen_Aeps"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"/>
@@ -89,6 +90,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".MainActivity"

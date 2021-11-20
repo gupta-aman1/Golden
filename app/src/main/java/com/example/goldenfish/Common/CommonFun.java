@@ -21,6 +21,7 @@ import com.example.goldenfish.PanCard.PurchaseCouponActivity;
 import com.example.goldenfish.PayoutAc.AddPayoutAcc;
 import com.example.goldenfish.R;
 import com.example.goldenfish.Sidebar.AllReports.AllReportAdapterNew;
+import com.example.goldenfish.UserAuth.LoginActivity;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -127,6 +128,36 @@ public class CommonFun {
                     return;
                 }
                 et_mpin.setError("Required");
+            }
+        });
+    }
+
+    public static void showOTPDialog(Activity activity,CommonInterface commonInterface) {
+        View addSenderOTPDialogView = activity.getLayoutInflater().inflate(R.layout.add_sender_otp_dialog, (ViewGroup) null, false);
+        final androidx.appcompat.app.AlertDialog addSenderOTPDialog = new androidx.appcompat.app.AlertDialog.Builder(activity).create();
+        ((Window) Objects.requireNonNull(addSenderOTPDialog.getWindow())).setBackgroundDrawable(new ColorDrawable(0));
+        addSenderOTPDialog.setCancelable(false);
+        addSenderOTPDialog.setView(addSenderOTPDialogView);
+        addSenderOTPDialog.show();
+        final EditText etOTP = (EditText) addSenderOTPDialogView.findViewById(R.id.et_otp);
+        ((ImageView) addSenderOTPDialogView.findViewById(R.id.img_close)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                addSenderOTPDialog.dismiss();
+            }
+        });
+        ((Button) addSenderOTPDialogView.findViewById(R.id.btn_cancel)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                addSenderOTPDialog.dismiss();
+            }
+        });
+        ((Button) addSenderOTPDialogView.findViewById(R.id.btn_submit)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(etOTP.getText())) {
+                    commonInterface.getEnteredOTP(etOTP.getText().toString().trim());
+                    addSenderOTPDialog.dismiss();
+                    return;
+                }
+                etOTP.setError("Required");
             }
         });
     }
