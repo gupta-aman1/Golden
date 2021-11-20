@@ -209,6 +209,8 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
     String email1="";
     String pan_card1="";
     String pincodeStr="";
+    private String Username="",MobileNo1="",Address="",FirmName="",EmailId="",PANCard="",PIN="";
+
     /* access modifiers changed from: protected */
     @SuppressLint({"SetTextI18n"})
     public void onCreate(Bundle savedInstanceState) {
@@ -217,6 +219,15 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
         sharedPref = SharedPref.getInstance(WTS_Aeps_Activity.this);
         userid = sharedPref.getStringWithNull(userId);
         outletId = sharedPref.getStringWithNull(Constant.OutletId);
+        Username = sharedPref.getStringWithNull(Constant.Username);
+        MobileNo1 = sharedPref.getStringWithNull(Constant.MobileNo1);
+        Address = sharedPref.getStringWithNull(Constant.Address);
+        FirmName = sharedPref.getStringWithNull(Constant.FirmName);
+        EmailId = sharedPref.getStringWithNull(Constant.EmailId);
+        PANCard = sharedPref.getStringWithNull(Constant.PANCard);
+        PIN = sharedPref.getStringWithNull(Constant.PIN);
+
+
         this.context = this;
         this.cashWithdraw_Container = (LinearLayout) findViewById(R.id.cashWithdraw_Container);
         this.balanceEnquiry_Container = (LinearLayout) findViewById(R.id.balanceEnquiry_Container);
@@ -347,8 +358,13 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
         final EditText pincodeET = convertView.findViewById(R.id.pincodeET);
       //  mobileNumberET.setText(mobile);
         mobileNumberET.setEnabled(false);
-       // mobileNumberET.setClickable(false);
-
+        mobileNumberET.setText(MobileNo1);
+        nameET.setText(Username);
+        address1.setText(Address);
+        firm_name.setText(FirmName);
+        email.setText(EmailId);
+        pan_card.setText(PANCard);
+        pincodeET.setText(PIN);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -369,28 +385,29 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                 pan_card1 = pan_card.getText().toString().trim();
                 pincodeStr = pincodeET.getText().toString().trim();
                 // String dobStr = dateofBirth.getText().toString();
-                if (mobileno.equalsIgnoreCase("")){
+                if (mobileno.equalsIgnoreCase("") || mobileno.equals("null")){
                     mobileNumberET.setError("required");
-                }else if (nameStr.equalsIgnoreCase("")){
+                }else if (nameStr.equalsIgnoreCase("") || nameStr.equals("null")){
                     nameET.setError("required");
                 }
-                else if (address1Str.equalsIgnoreCase("")){
+                else if (address1Str.equalsIgnoreCase("") || address1Str.equals("null")){
                     address1.setError("required");
-                }else if (firm_name1.equalsIgnoreCase("")){
+                }else if (firm_name1.equalsIgnoreCase("") || firm_name1.equals("null")){
                     firm_name.setError("required");
-                }else if (pincodeStr.equalsIgnoreCase("")){
+                }else if (pincodeStr.equalsIgnoreCase("") || pincodeStr.equals("null")){
                     pincodeET.setError("required");
                 }
-                else if (email1.equalsIgnoreCase("")){
+                else if (email1.equalsIgnoreCase("") || email1.equals("null")){
                     email.setError("required");
                 }
-                else if (pan_card1.equalsIgnoreCase("")){
+                else if (pan_card1.equalsIgnoreCase("") || pan_card1.equals("null")){
                     pan_card.setError("required");
                 }
                 else if (address1Str.length() < 4){
                     address1.setError("Minimum character are 4");
                 }
                 else {
+                  //  Toast.makeText(WTS_Aeps_Activity.this, "hello", Toast.LENGTH_SHORT).show();
                     nowRegisterUser(alertDialog,mobileno,nameStr,address1Str,firm_name1,email1,pan_card1,pincodeStr);
                 }
             }
@@ -626,7 +643,10 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
         this.proceedBtn.setOnClickListener(new View.OnClickListener() {
             @SuppressLint({"SetTextI18n"})
             public void onClick(View v) {
-                if(!outletId.equalsIgnoreCase("") || !outletId.equalsIgnoreCase("null")) {
+               // outletId=null;
+               // System.out.println("OUTLET ID "+outletId);
+                if(!outletId.equalsIgnoreCase("") && !outletId.equals("null") && outletId != null) {
+                    Toast.makeText(WTS_Aeps_Activity.this, "hello", Toast.LENGTH_SHORT).show();
                     if (WTS_Aeps_Activity.this.selectedItemtxnType.equalsIgnoreCase("Cash Withdraw")) {
                         WTS_Aeps_Activity.this.selectedItemtxnType = "WAP";
                         WTS_Aeps_Activity.this.txnTypeNameStr = "Cash Withdraw";

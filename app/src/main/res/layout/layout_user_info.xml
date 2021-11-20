@@ -57,6 +57,7 @@
             android:layout_height="50dp"
             android:textSize="@dimen/fourteensp"
             android:enabled="false"
+            android:textColor="@color/black"
             android:layout_marginStart="@dimen/thirtyfive"
             android:layout_marginTop="@dimen/tendp"
             android:layout_marginEnd="@dimen/thirtyfive"
@@ -80,6 +81,7 @@
             android:enabled="false"
             android:textSize="@dimen/fourteensp"
             android:layout_marginStart="@dimen/thirtyfive"
+            android:textColor="@color/black"
             android:layout_marginTop="@dimen/tendp"
             android:layout_marginEnd="@dimen/thirtyfive"
             android:background="@drawable/edit_bg"
@@ -102,6 +104,7 @@
             android:layout_marginStart="@dimen/thirtyfive"
             android:layout_marginTop="@dimen/tendp"
             android:layout_marginEnd="@dimen/thirtyfive"
+            android:textColor="@color/black"
             android:background="@drawable/edit_bg"
             android:ems="10"
             android:hint="Enter Pincode"
@@ -123,6 +126,7 @@
             android:layout_marginStart="@dimen/thirtyfive"
             android:layout_marginTop="@dimen/tendp"
             android:layout_marginEnd="@dimen/thirtyfive"
+            android:textColor="@color/black"
             android:background="@drawable/edit_bg"
             android:ems="10"
             android:ellipsize="end"
@@ -142,7 +146,7 @@
             android:layout_marginTop="@dimen/tendp"
             android:layout_marginEnd="@dimen/thirtyfive"
             android:background="@drawable/edit_bg"
-            android:editable="false"
+            android:textColor="@color/black"
             android:textSize="@dimen/fourteensp"
             android:ems="10"
             android:enabled="false"
@@ -167,6 +171,7 @@
             android:ems="10"
             android:maxLength="10"
             android:hint="Pan Card"
+            android:textColor="@color/black"
             android:padding="@dimen/fivedp"
             android:paddingLeft="@dimen/fivedp"
             android:paddingTop="@dimen/fivedp"
@@ -181,7 +186,7 @@
             android:text="Note : If you have any problem in above details, Please Contact to Admin !!!"
             android:textColor="@color/colorPrimary"
             android:layout_marginStart="@dimen/thirtyfive"
-            android:textSize="15sp" />
+            android:textSize="13sp" />
 
         <Button
             android:id="@+id/registerBeneBtn"
