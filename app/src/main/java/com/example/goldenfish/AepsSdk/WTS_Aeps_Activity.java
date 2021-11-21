@@ -646,7 +646,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                // outletId=null;
                // System.out.println("OUTLET ID "+outletId);
                 if(!outletId.equalsIgnoreCase("") && !outletId.equals("null") && outletId != null) {
-                    Toast.makeText(WTS_Aeps_Activity.this, "hello", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(WTS_Aeps_Activity.this, "hello", Toast.LENGTH_SHORT).show();
                     if (WTS_Aeps_Activity.this.selectedItemtxnType.equalsIgnoreCase("Cash Withdraw")) {
                         WTS_Aeps_Activity.this.selectedItemtxnType = "WAP";
                         WTS_Aeps_Activity.this.txnTypeNameStr = "Cash Withdraw";
@@ -719,7 +719,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
             snackbar("Enter aadhaar number");
         } else if (bank.equalsIgnoreCase("")) {
             snackbar("Select Bank");
-        } else if (!this.selectedItemtxnType.equalsIgnoreCase("WID") && !this.selectedItemtxnType.equalsIgnoreCase("APAY")) {
+        } else if (!this.selectedItemtxnType.equalsIgnoreCase("WAP") && !this.selectedItemtxnType.equalsIgnoreCase("MZZ")) {
             this.amountStr = "0";
             this.firstLY.setVisibility(View.GONE);
             this.secondLY.setVisibility(View.GONE);
