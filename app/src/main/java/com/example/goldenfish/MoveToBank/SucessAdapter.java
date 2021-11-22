@@ -40,8 +40,12 @@ public class SucessAdapter extends RecyclerView.Adapter<SucessAdapter.ViewHolder
 
         String keyy=arrayList.get(position).getKey();
         String valuee=arrayList.get(position).getValue();
-        holder.key.setText(keyy);
-        holder.value.setText(valuee);
+        if(!keyy.equalsIgnoreCase("MiniSmt"))
+        {
+            holder.key.setText(keyy);
+            holder.value.setText(valuee);
+        }
+
 
     }
 

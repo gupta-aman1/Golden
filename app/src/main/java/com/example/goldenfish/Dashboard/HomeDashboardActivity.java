@@ -651,6 +651,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                     try {
 
                         fullRes = response.body().string();
+                        System.out.println("WALLET "+fullRes);
                         JSONObject jsonObject1= new JSONObject(fullRes);
                         String stCode= jsonObject1.getString(Constant.StatusCode);
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))

@@ -41,6 +41,7 @@ import com.example.goldenfish.AepsSdk.device.PidOptions;
 import com.example.goldenfish.AepsSdk.model.AepsModelRequest;
 import com.example.goldenfish.AepsSdk.model.BankModel;
 import com.example.goldenfish.AepsSdk.model.ModelAepsResp;
+import com.example.goldenfish.AepsSdk.model.ModelMakeAepsTran;
 import com.example.goldenfish.AepsSdk.model.ServerModel;
 import com.example.goldenfish.AepsSdk.model.ServerModel1;
 import com.example.goldenfish.AepsSdk.retrofit.RetrofitClient;
@@ -50,6 +51,7 @@ import com.example.goldenfish.Common.CommonInterface;
 import com.example.goldenfish.Constants.Constant;
 import com.example.goldenfish.Constants.ConstantsValue;
 import com.example.goldenfish.MoveToBank.DetailedData;
+import com.example.goldenfish.MoveToBank.MoveToBankActivity;
 import com.example.goldenfish.MoveToBank.SuceessScreen;
 import com.example.goldenfish.PanCard.PurchaseCouponActivity;
 import com.example.goldenfish.R;
@@ -807,16 +809,68 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                     try {
                        // JSONObject responseJsonObject = new JSONObject(String.valueOf(r36.body()));
                         System.out.println("MY RESP "+String.valueOf(r36.body()));
-
+                        System.out.println("MY RESP1 "+selectedItemtxnType);
                         Gson gson = new Gson();
                         ModelAepsResp m = gson.fromJson(String.valueOf(r36.body()), ModelAepsResp.class);
 
+                           // ArrayList<ModelMakeAepsTran> modelMakeAepsTrans = new ArrayList<>();
 
                             if (m.getStatuscode().equalsIgnoreCase("TXN")) {
 
-                                if(selectedItemtxnType.equalsIgnoreCase("BAP")|| selectedItemtxnType.equalsIgnoreCase("WAP") || selectedItemtxnType.equalsIgnoreCase("MZZ") )
-                                {
-                                startActivity(new Intent(WTS_Aeps_Activity.this, SuccessScreen_Aeps.class)
+                                ArrayList<DetailedData> array = new ArrayList<DetailedData>();
+
+                            /*    if(selectedItemtxnType.equalsIgnoreCase("BAP")|| selectedItemtxnType.equalsIgnoreCase("WAP") || selectedItemtxnType.equalsIgnoreCase("MZZ") )
+                                {*/
+
+                                    JSONObject jsonObject1= new JSONObject(String.valueOf(r36.body()));
+
+                                    JSONArray out_arr= jsonObject1.getJSONArray("Data");
+
+                                    for (int i = 0; i < out_arr.length(); i++) {
+
+                                        JSONObject inn_obj = out_arr.getJSONObject(i);
+
+                                        Iterator key = inn_obj.keys();
+                                        while (key.hasNext()) {
+                                            String k = key.next().toString();
+                                            System.out.println("Key : " + k + ", value : "
+                                                    + inn_obj.getString(k));
+
+                                            if(k.equalsIgnoreCase("ReqDate"))
+                                            {
+                                                SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                                                // SimpleDateFormat destFormat = new SimpleDateFormat("dd MMM yyyy hh:mm:ss a"); //here 'a' for AM/PM
+                                                SimpleDateFormat destFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a");
+
+                                                Date date = null;
+                                                try {
+                                                    date = sourceFormat.parse(inn_obj.getString(k));
+                                                } catch (ParseException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                String formattedDate = destFormat.format(date);
+                                                array.add(new DetailedData(k,formattedDate.replace("am", "AM").replace("pm","PM")));
+                                            }
+                                            else {
+                                                array.add(new DetailedData(k, inn_obj.getString(k)));
+                                            }
+                                        //    array.add(new DetailedData(k, inn_obj.getString(k)));
+                                        }
+                                    }
+                                    System.out.println("Array Data "+array);
+                                    Intent intent = new Intent(WTS_Aeps_Activity.this, SuceessScreen.class);
+                                    intent.putExtra("list_data", new Gson().toJson(array));
+                                    intent.putExtra("Head1",m.getHead1());
+                                    intent.putExtra("Head2",m.getHead2());
+                                    intent.putExtra("Head3",m.getHead3());
+                                intent.putExtra("type","success");
+                                    if(selectedItemtxnType.equalsIgnoreCase("SAP"))
+                                     {
+                                         intent.putExtra("service",selectedItemtxnType);
+                                     }
+                                    startActivity(intent);
+
+                               /* startActivity(new Intent(WTS_Aeps_Activity.this, SuccessScreen_Aeps.class)
                                         .putExtra("status_code",m.getStatuscode())
                                         .putExtra("head1", m.getHead1())
                                         .putExtra("head2", m.getHead2())
@@ -837,11 +891,22 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                                         .putExtra("status",String.valueOf(m.getData().get(0).getStatus()))
                                         .putExtra("req_date",String.valueOf(m.getData().get(0).getReqDate()))
                                         .putExtra("acc_bal",String.valueOf(m.getData().get(0).getAccountBal()))
-                                );
-                            }
-                                else
+                                );*/
+                           // }
+
+                               /* else
                                 {
-                                    startActivity(new Intent(WTS_Aeps_Activity.this, MiniStatement_Success.class)
+
+                                    Intent intent = new Intent(WTS_Aeps_Activity.this, SuceessScreen.class);
+                                    intent.putExtra("list_data", new Gson().toJson(array));
+                                    intent.putExtra("Head1",m.getHead1());
+                                    intent.putExtra("Head2",m.getHead2());
+                                    intent.putExtra("Head3",m.getHead3());
+                                    intent.putExtra("type","success");
+                                    intent.putExtra("service","mini");
+                                    startActivity(intent);
+
+                                   /* startActivity(new Intent(WTS_Aeps_Activity.this, MiniStatement_Success.class)
                                             .putExtra("status_code",m.getStatuscode())
                                             .putExtra("head1", m.getHead1())
                                             .putExtra("head2", m.getHead2())
@@ -862,15 +927,108 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                                             .putExtra("status",String.valueOf(m.getData().get(0).getStatus()))
                                             .putExtra("req_date",String.valueOf(m.getData().get(0).getReqDate()))
                                             .putExtra("acc_bal",String.valueOf(m.getData().get(0).getAccountBal()))
-                                    );
-                                }
+                                    );*/
+                                //}*/
                         }
                             else
                             {
                                 Toast.makeText(WTS_Aeps_Activity.this, ""+m.getMessage(), Toast.LENGTH_SHORT).show();
-                                if(selectedItemtxnType.equalsIgnoreCase("BAP")|| selectedItemtxnType.equalsIgnoreCase("WAP") || selectedItemtxnType.equalsIgnoreCase("MZZ") )
+                                ArrayList<DetailedData> array = new ArrayList<DetailedData>();
+                                JSONObject jsonObject1= new JSONObject(String.valueOf(r36.body()));
+
+                                JSONArray out_arr= jsonObject1.getJSONArray("Data");
+
+                                for (int i = 0; i < out_arr.length(); i++) {
+
+                                    JSONObject inn_obj = out_arr.getJSONObject(i);
+
+                                    Iterator key = inn_obj.keys();
+                                    while (key.hasNext()) {
+                                        String k = key.next().toString();
+                                        System.out.println("Key : " + k + ", value : "
+                                                + inn_obj.getString(k));
+
+                                        if(k.equalsIgnoreCase("ReqDate"))
+                                        {
+                                            SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                                            // SimpleDateFormat destFormat = new SimpleDateFormat("dd MMM yyyy hh:mm:ss a"); //here 'a' for AM/PM
+                                            SimpleDateFormat destFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a");
+
+                                            Date date = null;
+                                            try {
+                                                date = sourceFormat.parse(inn_obj.getString(k));
+                                            } catch (ParseException e) {
+                                                e.printStackTrace();
+                                            }
+                                            String formattedDate = destFormat.format(date);
+                                            array.add(new DetailedData(k,formattedDate.replace("am", "AM").replace("pm","PM")));
+                                        }
+                                        else {
+                                            array.add(new DetailedData(k, inn_obj.getString(k)));
+                                        }
+                                        //    array.add(new DetailedData(k, inn_obj.getString(k)));
+                                    }
+                                }
+                                System.out.println("Array Data "+array);
+                                Intent intent = new Intent(WTS_Aeps_Activity.this, SuceessScreen.class);
+                                intent.putExtra("list_data", new Gson().toJson(array));
+                                intent.putExtra("Head1",m.getHead1());
+                                intent.putExtra("Head2",m.getHead2());
+                                intent.putExtra("Head3",m.getHead3());
+                                intent.putExtra("type","failed");
+
+                                if(selectedItemtxnType.equalsIgnoreCase("SAP"))
                                 {
-                                    startActivity(new Intent(WTS_Aeps_Activity.this, SuccessScreen_Aeps.class)
+                                    intent.putExtra("service",selectedItemtxnType);
+                                }
+                                startActivity(intent);
+                                /*if(selectedItemtxnType.equalsIgnoreCase("BAP")|| selectedItemtxnType.equalsIgnoreCase("WAP") || selectedItemtxnType.equalsIgnoreCase("MZZ") )
+                                {
+                                    ArrayList<DetailedData> array = new ArrayList<DetailedData>();
+
+                                    JSONObject jsonObject1= new JSONObject(String.valueOf(r36.body()));
+
+                                    JSONArray out_arr= jsonObject1.getJSONArray("Data");
+
+                                    for (int i = 0; i < out_arr.length(); i++) {
+
+                                        JSONObject inn_obj = out_arr.getJSONObject(i);
+
+                                        Iterator key = inn_obj.keys();
+                                        while (key.hasNext()) {
+                                            String k = key.next().toString();
+                                            System.out.println("Key : " + k + ", value : "
+                                                    + inn_obj.getString(k));
+
+                                            if(k.equalsIgnoreCase("ReqDate"))
+                                            {
+                                                SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                                                // SimpleDateFormat destFormat = new SimpleDateFormat("dd MMM yyyy hh:mm:ss a"); //here 'a' for AM/PM
+                                                SimpleDateFormat destFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a");
+
+                                                Date date = null;
+                                                try {
+                                                    date = sourceFormat.parse(inn_obj.getString(k));
+                                                } catch (ParseException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                String formattedDate = destFormat.format(date);
+                                                array.add(new DetailedData(k,formattedDate.replace("am", "AM").replace("pm","PM")));
+                                            }
+                                            else {
+                                                array.add(new DetailedData(k, inn_obj.getString(k)));
+                                            }
+                                           // array.add(new DetailedData(k, inn_obj.getString(k)));
+                                        }
+                                    }
+                                    Intent intent = new Intent(WTS_Aeps_Activity.this, SuceessScreen.class);
+                                    intent.putExtra("list_data", new Gson().toJson(array));
+                                    intent.putExtra("Head1",m.getHead1());
+                                    intent.putExtra("Head2",m.getHead2());
+                                    intent.putExtra("Head3",m.getHead3());
+                                    intent.putExtra("type","failed");
+                                    startActivity(intent);
+                                    /*startActivity(new Intent(WTS_Aeps_Activity.this, SuccessScreen_Aeps.class)
                                             .putExtra("status_code",m.getStatuscode())
                                             .putExtra("head1", m.getHead1())
                                             .putExtra("head2", m.getHead2())
@@ -891,9 +1049,9 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                                             .putExtra("status",String.valueOf(m.getData().get(0).getStatus()))
                                             .putExtra("req_date",String.valueOf(m.getData().get(0).getReqDate()))
                                             .putExtra("acc_bal",String.valueOf(m.getData().get(0).getAccountBal()))
-                                    );
-                                }
-                                else
+                                    );*/
+                               // }*/
+                              /*  else
                                 {
                                     startActivity(new Intent(WTS_Aeps_Activity.this, MiniStatement_Success.class)
                                             .putExtra("status_code",m.getStatuscode())
@@ -917,12 +1075,12 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                                             .putExtra("req_date",String.valueOf(m.getData().get(0).getReqDate()))
                                             .putExtra("acc_bal",String.valueOf(m.getData().get(0).getAccountBal()))
                                     );
-                                }
+                                }*/
                             }
                         progressDialog.dismiss();
 
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        System.out.println("Array Data EXC "+e.getMessage());
                         progressDialog.dismiss();
                     }
                 } else {
