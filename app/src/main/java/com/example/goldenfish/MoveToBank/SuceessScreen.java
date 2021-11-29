@@ -85,7 +85,6 @@ NestedScrollView scroll;
                 animation_view.setAnimation("fail_txn.json");
                 h2.setTextColor(ContextCompat.getColor(this, R.color.txt_red));
             }
-
             ArrayList<DetailedData> listPrivate = new ArrayList<>();
             Type t1 = new TypeToken<List<DetailedData>>() {}.getType();
             listPrivate = new Gson().fromJson(getIntent().getStringExtra("list_data"), t1);
