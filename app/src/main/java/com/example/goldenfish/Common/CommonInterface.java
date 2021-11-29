@@ -1,7 +1,5 @@
 package com.example.goldenfish.Common;
 
-import com.example.goldenfish.Sidebar.AllReports.AllReportAdapterNew;
-
 import java.util.ArrayList;
 
 public interface CommonInterface {

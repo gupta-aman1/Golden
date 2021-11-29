@@ -809,7 +809,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                     try {
                        // JSONObject responseJsonObject = new JSONObject(String.valueOf(r36.body()));
                         System.out.println("MY RESP "+String.valueOf(r36.body()));
-                        System.out.println("MY RESP1 "+selectedItemtxnType);
+                      //  System.out.println("MY RESP1 "+selectedItemtxnType);
                         Gson gson = new Gson();
                         ModelAepsResp m = gson.fromJson(String.valueOf(r36.body()), ModelAepsResp.class);
 
@@ -863,7 +863,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                                     intent.putExtra("Head1",m.getHead1());
                                     intent.putExtra("Head2",m.getHead2());
                                     intent.putExtra("Head3",m.getHead3());
-                                intent.putExtra("type","success");
+                                    intent.putExtra("type","success");
                                     if(selectedItemtxnType.equalsIgnoreCase("SAP"))
                                      {
                                          intent.putExtra("service",selectedItemtxnType);

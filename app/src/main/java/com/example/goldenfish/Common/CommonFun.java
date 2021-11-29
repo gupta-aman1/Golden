@@ -17,11 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.goldenfish.PanCard.PurchaseCouponActivity;
-import com.example.goldenfish.PayoutAc.AddPayoutAcc;
 import com.example.goldenfish.R;
-import com.example.goldenfish.Sidebar.AllReports.AllReportAdapterNew;
-import com.example.goldenfish.UserAuth.LoginActivity;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;

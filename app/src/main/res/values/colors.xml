@@ -40,6 +40,7 @@
     <color name="colorPrimary">#aa0102</color>
     <color name="colorPrimary1">#232a88</color>
     <color name="colorPrimaryDark">#aa0102</color>
+    <color name="service_color">#cb0101</color>
     <color name="color_bg">#f3f4fd</color>
     <color name="common_google_signin_btn_text_dark_default">@android:color/white</color>
     <color name="common_google_signin_btn_text_dark_disabled">#1f000000</color>

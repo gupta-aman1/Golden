@@ -24,14 +24,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoldenFish"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AepsSdk.MiniStatement_Success"
-            android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar">
-
+        <activity android:name=".sidebar.allReports.GetServices"
+            android:label="Services">
         </activity>
-        <activity android:name=".AepsSdk.SuccessScreen_Aeps"
+        <activity
+            android:name=".AepsSdk.MiniStatement_Success"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".AepsSdk.SuccessScreen_Aeps"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AepsSdk.WTS_Aeps_Activity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -61,14 +64,12 @@
             android:name=".MoveToBank.MoveToBankActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
-
-
         <activity
             android:name=".Aeps.WebviewAeps"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Sidebar.AllReports.AllReportsActivity"
+            android:name=".sidebar.allReports.AllReportsActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -90,7 +91,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".MainActivity"

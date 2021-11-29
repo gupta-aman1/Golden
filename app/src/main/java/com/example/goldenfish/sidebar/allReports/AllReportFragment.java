@@ -1,4 +1,4 @@
-package com.example.goldenfish.Sidebar.AllReports;
+package com.example.goldenfish.sidebar.allReports;
 
 import android.os.Bundle;
 
@@ -9,11 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.example.goldenfish.R;
-import com.example.goldenfish.Sidebar.AllReports.ModelAllReports.AllReport;
-import com.example.goldenfish.Sidebar.AllReports.ModelAllReports.AllReportsAdapter;
+import com.example.goldenfish.sidebar.allReports.modelAllReports.AllReport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +67,7 @@ public class AllReportFragment extends Fragment {
 
                     }
 
-        allReportsAdapter = new AllReportAdapterNew(getActivity(),listItems);
+       // allReportsAdapter = new AllReportAdapterNew(getActivity(),listItems);
         LinearLayoutManager verticalLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         credit_Report_listview.setLayoutManager(verticalLayoutManager);
        // allReportsAdapter.notifyDataSetChanged();

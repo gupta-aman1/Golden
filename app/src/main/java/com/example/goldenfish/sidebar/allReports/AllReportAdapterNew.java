@@ -1,10 +1,9 @@
-package com.example.goldenfish.Sidebar.AllReports;
+package com.example.goldenfish.sidebar.allReports;
 
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -16,86 +15,101 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.goldenfish.R;
-import com.example.goldenfish.Sidebar.AllReports.ModelAllReports.AllReport;
+import com.example.goldenfish.sidebar.allReports.modelAllReports.AllReportNew;
+import com.example.goldenfish.databinding.RowAllRechargeListBinding;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
-public class AllReportAdapterNew extends RecyclerView.Adapter<AllReportAdapterNew.ViewHolder>{
+public class AllReportAdapterNew extends RecyclerView.Adapter<AllReportAdapterNew.ViewHolder> {
     Context context;
-    private ArrayList<AllReport> filteredData = null;
+    private ArrayList<AllReportNew> filteredData = null;
     SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     // SimpleDateFormat destFormat = new SimpleDateFormat("dd MMM yyyy hh:mm:ss a"); //here 'a' for AM/PM
     SimpleDateFormat destFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a");
-    public AllReportAdapterNew(Activity context, ArrayList<AllReport> data) {
+
+    public AllReportAdapterNew(Activity context, ArrayList<AllReportNew> data, String service_id) {
         this.context = context;
         this.filteredData = data;
-       // System.out.println("FULL RESPONSE "+filteredData);
+        // System.out.println("FULL RESPONSE "+filteredData);
     }
 
     @Override
     public AllReportAdapterNew.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View listItem= layoutInflater.inflate(R.layout.row_all_recharge_list, parent, false);
-        AllReportAdapterNew.ViewHolder viewHolder = new AllReportAdapterNew.ViewHolder(listItem);
-        return viewHolder;
+//        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+//        View listItem = layoutInflater.inflate(R.layout.row_all_recharge_list, parent, false);
+//        AllReportAdapterNew.ViewHolder viewHolder = new AllReportAdapterNew.ViewHolder(listItem);
+//        return viewHolder;
+        RowAllRechargeListBinding binding = RowAllRechargeListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new AllReportAdapterNew.ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull AllReportAdapterNew.ViewHolder holder, int position) {
-        AllReport myListData = filteredData.get(position);
-        holder.tv_all_report_transaction_id.setText(filteredData.get(position).getTransactionid());
-        holder.tv_all_report_operator_name.setText(filteredData.get(position).getOpname());
-        holder.tv_all_report_number.setText(filteredData.get(position).getNumber());
-        holder.tv_all_report_amount.setText(filteredData.get(position).getAmount());
-        holder.tv_all_report_commission.setText(filteredData.get(position).getComm());
-        holder.tv_all_report_cost.setText(filteredData.get(position).getCost());
-        holder.tv_all_report_balance.setText(filteredData.get(position).getBalance());
-        holder.tv_all_report_date_time.setText(filteredData.get(position).getTdatetime());
-        holder.tv_all_report_status.setText(filteredData.get(position).getStatus());
+        AllReportNew myListData = filteredData.get(position);
 
-        Date date = null;
-        try {
-            date = sourceFormat.parse(filteredData.get(position).getTdatetime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        String formattedDate = destFormat.format(date);
+        holder.rowAllRechargeListBinding.aepsOrderId.setText(filteredData.get(position).getOrderID());
+        holder.rowAllRechargeListBinding.aepsOperatorName.setText(filteredData.get(position).getOperatorName());
+        holder.rowAllRechargeListBinding.aepsAadharNumber.setText(filteredData.get(position).getAadharNumber());
+        holder.rowAllRechargeListBinding.aepsMobileNo.setText(filteredData.get(position).getMobileNo());
+        holder.rowAllRechargeListBinding.aepsBankName.setText(filteredData.get(position).getBankName());
+        holder.rowAllRechargeListBinding.aepsAmount.setText(filteredData.get(position).getAmount());
+        holder.rowAllRechargeListBinding.aepsCommission.setText(filteredData.get(position).getCommission());
+        holder.rowAllRechargeListBinding.aepsTotalTxnAmount.setText(filteredData.get(position).getTotalTxnAmount());
+        holder.rowAllRechargeListBinding.aepsStatus.setText(filteredData.get(position).getStatus());
+        holder.rowAllRechargeListBinding.aepsTime.setText(filteredData.get(position).getDateTime());
+//        holder.tv_all_report_transaction_id.setText(filteredData.get(position).getTransactionid());
+//        holder.tv_all_report_operator_name.setText(filteredData.get(position).getOpname());
+//        holder.tv_all_report_number.setText(filteredData.get(position).getNumber());
+//        holder.tv_all_report_amount.setText(filteredData.get(position).getAmount());
+//        holder.tv_all_report_commission.setText(filteredData.get(position).getComm());
+//        holder.tv_all_report_cost.setText(filteredData.get(position).getCost());
+//        holder.tv_all_report_balance.setText(filteredData.get(position).getBalance());
+//        holder.tv_all_report_date_time.setText(filteredData.get(position).getTdatetime());
+//        holder.tv_all_report_status.setText(filteredData.get(position).getStatus());
+//
+//        Date date = null;
+//        try {
+//            date = sourceFormat.parse(filteredData.get(position).getTdatetime());
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        String formattedDate = destFormat.format(date);
+//
+//        holder.tv_all_report_date_time.setText(formattedDate.replace("am", "AM").replace("pm", "PM"));
+//
+//        holder.share.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                holder.bottom_ll.setVisibility(View.GONE);
+//                Bitmap bitmap = getBitmapFromView(holder.main_ll, holder.main_ll.getChildAt(0).getHeight(), holder.main_ll.getChildAt(0).getWidth());
+//                savetoGallery(bitmap, holder.bottom_ll);
+//
+//            }
+//        });
 
-        holder.tv_all_report_date_time.setText(formattedDate.replace("am", "AM").replace("pm","PM"));
 
-        holder.share.setOnClickListener(new View.OnClickListener() {
+        holder.rowAllRechargeListBinding.share.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                holder.bottom_ll.setVisibility(View.GONE);
-                Bitmap bitmap = getBitmapFromView(holder.main_ll, holder.main_ll.getChildAt(0).getHeight(), holder.main_ll.getChildAt(0).getWidth());
-                savetoGallery(bitmap,holder.bottom_ll);
+            public void onClick(View v) {
 
             }
         });
     }
+
     private Bitmap getBitmapFromView(View view, int height, int width) {
-       // shareReceipt.setVisibility(View.GONE);
+        // shareReceipt.setVisibility(View.GONE);
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Drawable bgDrawable = view.getBackground();
@@ -107,7 +121,7 @@ public class AllReportAdapterNew extends RecyclerView.Adapter<AllReportAdapterNe
         return bitmap;
     }
 
-    private void savetoGallery(Bitmap bitmap,RelativeLayout relativeLayout) {
+    private void savetoGallery(Bitmap bitmap, RelativeLayout relativeLayout) {
         //shareReceipt.setVisibility(View.VISIBLE);
         relativeLayout.setVisibility(View.VISIBLE);
         String root = Environment.getExternalStorageDirectory().getPath() + "/Golden/";
@@ -165,13 +179,20 @@ public class AllReportAdapterNew extends RecyclerView.Adapter<AllReportAdapterNe
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_all_report_transaction_id,tv_all_report_operator_name,tv_all_report_number,tv_all_report_amount,
-                tv_all_report_commission,tv_all_report_cost,tv_all_report_balance,tv_all_report_date_time,tv_all_report_status;
+
+        RowAllRechargeListBinding rowAllRechargeListBinding;
+        TextView tv_all_report_transaction_id, tv_all_report_operator_name, tv_all_report_number, tv_all_report_amount,
+                tv_all_report_commission, tv_all_report_cost, tv_all_report_balance, tv_all_report_date_time, tv_all_report_status;
 
         Button share;
         ConstraintLayout main_ll;
         RelativeLayout bottom_ll;
-        public ViewHolder(@NonNull View itemView) {
+
+        public ViewHolder(RowAllRechargeListBinding binding) {
+            super(binding.getRoot());
+            this.rowAllRechargeListBinding = binding;
+        }
+       /* public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
            // book_time_bus = itemView.findViewById(R.id.book_time_bus);
@@ -188,5 +209,6 @@ public class AllReportAdapterNew extends RecyclerView.Adapter<AllReportAdapterNe
             main_ll=itemView.findViewById(R.id.main_ll);
             bottom_ll=itemView.findViewById(R.id.bottom_ll);
         }
+    }*/
     }
 }
