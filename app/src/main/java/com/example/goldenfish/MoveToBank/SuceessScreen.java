@@ -55,7 +55,7 @@ TextView h2,h3,txn_id;
 LottieAnimationView animation_view;
 ImageView shareReceipt;
 NestedScrollView scroll;
-Button donebtn;
+Button donebtn,transactionBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +70,7 @@ Button donebtn;
         shareReceipt=findViewById(R.id.shareReceipt);
         scroll=findViewById(R.id.scroll);
         donebtn=findViewById(R.id.donebtn);
+        transactionBtn=findViewById(R.id.transactionBtn);
         //commonInterface=this;
         if(getIntent().getExtras()!=null)
         {
@@ -86,6 +87,11 @@ Button donebtn;
             {
                 service="";
             }
+           /* else if(service.equalsIgnoreCase("SAP") || service.equalsIgnoreCase("WAP") || service.equalsIgnoreCase("BAP")
+            || service.equalsIgnoreCase("MZZ"))
+            {
+                transactionBtn.setVisibility(View.VISIBLE);
+            }*/
             setTitle(Head1);
             h2.setText(Head2);
             h3.setText(Head3);
@@ -250,5 +256,8 @@ Button donebtn;
         bal.recivedSms("");
         startActivity(new Intent(this, HomeDashboardActivity.class));
         finishAffinity();
+    }
+
+    public void transactionClick(View view) {
     }
 }

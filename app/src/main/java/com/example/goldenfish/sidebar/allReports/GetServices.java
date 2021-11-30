@@ -64,7 +64,6 @@ public class GetServices extends AppCompatActivity {
                         progressDialog.dismiss();
                         fullRes = response.body().string();
                         JSONObject jsonObject1= new JSONObject(fullRes);
-                        // System.out.println(""+fullRes);
                         String stCode= jsonObject1.getString(Constant.StatusCode);
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))
                         {

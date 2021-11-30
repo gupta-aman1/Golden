@@ -56,6 +56,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.goldenfish.Retrofit.RetrofitClient;
+import com.example.goldenfish.ledgerreopt.LedgerReportActivity;
 import com.example.goldenfish.sidebar.allReports.AllReportsActivity;
 import com.example.goldenfish.sidebar.allReports.GetServices;
 import com.example.goldenfish.UserAuth.LoginActivity;
@@ -414,8 +415,8 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         });*/
         this.bottomHistoryLayout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(HomeDashboardActivity.this, AllReportsActivity.class);
-                intent.putExtra("title", "All Report");
+                Intent intent = new Intent(HomeDashboardActivity.this, GetServices.class);
+               // intent.putExtra("title", "All Report");
                 HomeDashboardActivity.this.startActivity(intent);
             }
         });
@@ -679,18 +680,13 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
 
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getGroupId()) {
-            case R.id.nav_aeps_ledger_report:
-                /*this.drawer.closeDrawer((int) GravityCompat.START, false);
-                Intent intent = new Intent(this, AepsLedgerReportActivity.class);
-                intent.putExtra("title", "AEPS Ledger Report");
-                startActivity(intent);*/
+            case R.id.nav_ledger_report:
+                this.drawer.closeDrawer((int) GravityCompat.START, false);
+                Intent intent = new Intent(this, LedgerReportActivity.class);
+               // intent.putExtra("title", "Ledger Report");
+                startActivity(intent);
                 break;
-            case R.id.nav_aeps_report:
-                /*this.drawer.closeDrawer((int) GravityCompat.START, false);
-                Intent intent2 = new Intent(this, AepsReportActivity.class);
-                intent2.putExtra("title", "AEPS Report");
-                startActivity(intent2);*/
-                break;
+
             case R.id.nav_all_report:
                 this.drawer.closeDrawer((int) GravityCompat.START, false);
                 Intent intent3 = new Intent(this, GetServices.class);
@@ -725,12 +721,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
             case R.id.nav_home:
                 this.drawer.closeDrawer((int) GravityCompat.START, true);
                 break;
-            case R.id.nav_ledger_report:
-               /* Intent intent8 = new Intent(this, LedgerReportActivity.class);
-                intent8.putExtra("title", "Ledger Report");
-                startActivity(intent8);
-                this.drawer.closeDrawer((int) GravityCompat.START, true);*/
-                break;
+
             case R.id.nav_log_out:
                 new AlertDialog.Builder(this).setTitle((CharSequence) "Confirmation").setMessage((CharSequence) "Are you sure ?").setPositiveButton((CharSequence) "Yes", (DialogInterface.OnClickListener) new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -745,12 +736,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 this.drawer.closeDrawer((int) GravityCompat.START, false);
                 startActivity(new Intent(this, MoveToBankActivity.class));
                 break;
-            case R.id.nav_settlement_report:
-                /*this.drawer.closeDrawer((int) GravityCompat.START, false);
-                Intent intent9 = new Intent(this, SettlementReportActivity.class);
-                intent9.putExtra("title", "Settlement Report");
-                startActivity(intent9);*/
-                break;
+
             case R.id.nav_support:
                // showSupportDialog();
                 this.drawer.closeDrawer((int) GravityCompat.START, false);

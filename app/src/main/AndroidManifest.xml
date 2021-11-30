@@ -24,13 +24,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoldenFish"
         android:usesCleartextTraffic="true">
-        <activity android:name=".sidebar.allReports.GetServices"
-            android:label="Services">
-        </activity>
+        <activity android:name=".ledgerreopt.LedgerReportActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".sidebar.allReports.GetServices"
+            android:label="Service Report"></activity>
         <activity
             android:name=".AepsSdk.MiniStatement_Success"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AepsSdk.SuccessScreen_Aeps"
             android:exported="true"

@@ -1,9 +1,7 @@
-package com.example.goldenfish.sidebar.allReports;
+package com.example.goldenfish.ledgerreopt;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -17,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.widget.Toolbar;
 
 import com.example.goldenfish.Common.CommonFun;
 import com.example.goldenfish.Common.CommonInterface;
@@ -25,11 +22,13 @@ import com.example.goldenfish.Constants.Constant;
 import com.example.goldenfish.Constants.ConstantsValue;
 import com.example.goldenfish.R;
 import com.example.goldenfish.Retrofit.RetrofitClient;
+import com.example.goldenfish.Utilities.MyUtils;
+import com.example.goldenfish.Utilities.SharedPref;
+import com.example.goldenfish.sidebar.allReports.AllReportAdapterNew;
+import com.example.goldenfish.sidebar.allReports.AllReportsActivity;
 import com.example.goldenfish.sidebar.allReports.modelAllReports.AllReport;
 import com.example.goldenfish.sidebar.allReports.modelAllReports.AllReportNew;
 import com.example.goldenfish.sidebar.allReports.modelAllReports.ModelMainNew;
-import com.example.goldenfish.Utilities.MyUtils;
-import com.example.goldenfish.Utilities.SharedPref;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.JsonObject;
 
@@ -38,12 +37,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class AllReportsActivity extends AppCompatActivity implements CommonInterface {
+public class LedgerReportActivity extends AppCompatActivity implements CommonInterface {
     final Calendar myCalendar = Calendar.getInstance();
     public ArrayList<String> allReportsHead = new ArrayList<>();
     public ViewPager viewPager;
@@ -54,12 +52,12 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     private String userid,service_id="";
     private TabLayout tabLayout;
-        ImageView back_button;
-        RecyclerView recycler_data;
+    ImageView back_button;
+    RecyclerView recycler_data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_reports);
+        setContentView(R.layout.activity_ledger_report);
         to_date_layout = findViewById(R.id.to_date_layout);
         tv_to_date = findViewById(R.id.tv_to_date);
         back_button=findViewById(R.id.back_button);
@@ -69,17 +67,17 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
         viewPager.setOffscreenPageLimit(1);
         tabLayout = findViewById(R.id.tabLayout);
         recycler_data=findViewById(R.id.recycler_data);
-        SharedPref sharedPref = SharedPref.getInstance(AllReportsActivity.this);
+        SharedPref sharedPref = SharedPref.getInstance(LedgerReportActivity.this);
         userid = sharedPref.getStringWithNull(Constant.userId);
         Toolbar toolbar = findViewById(R.id.toolbar);
-       // toolbar.setTitle("");
+        // toolbar.setTitle("");
         TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.activity_title);
 
+        toolbarTitle.setText("Statement Details");
         Date date1 = new Date();
         fromDate = formatter.format(date1);
         toDate = formatter.format(date1);
 
-        // getAllReports();
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,14 +85,8 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
             }
         });
 
-        if(getIntent().getExtras()!=null)
-        {
-            service_id= getIntent().getStringExtra(Constant.service_id);
-            System.out.println("MY SERVICE "+service_id);
-            toolbarTitle.setText(service_id);
-        }
 
-        CommonFun.requestStoragePermission(AllReportsActivity.this, AllReportsActivity.this);
+        CommonFun.requestStoragePermission(LedgerReportActivity.this, LedgerReportActivity.this);
 
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -121,7 +113,7 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
                     toDate = date.trim();
 
                     if (tv_from_date.getText().toString().trim().equalsIgnoreCase("Select Date")) {
-                        Toast.makeText(AllReportsActivity.this, "Please choose From Date", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LedgerReportActivity.this, "Please choose From Date", Toast.LENGTH_SHORT).show();
                     } else {
                         try {
                             Date date1 = sdf.parse(fromDate);
@@ -133,14 +125,14 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
                                 Toast.makeText(AllReportsActivity.this, "To Date must be greater than From Date", Toast.LENGTH_SHORT).show();
                             }*/
                             if (fromDate.equals("")) {
-                                Toast.makeText(AllReportsActivity.this, "Please choose From Date to filter", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LedgerReportActivity.this, "Please choose From Date to filter", Toast.LENGTH_SHORT).show();
                             }
                             else if(date2.compareTo(date1) < 0)
                             {
-                                Toast.makeText(AllReportsActivity.this, "To Date must be greater or equal to From Date", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LedgerReportActivity.this, "To Date must be greater or equal to From Date", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                CommonFun.requestStoragePermission(AllReportsActivity.this, AllReportsActivity.this);
+                                CommonFun.requestStoragePermission(LedgerReportActivity.this, LedgerReportActivity.this);
                             }
                         } catch (ParseException e) {
                             e.printStackTrace();
@@ -151,7 +143,7 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
                     fromDate = date.trim();
                     if (tv_to_date.getText().toString().trim().equalsIgnoreCase("Select date"))
                     {
-                        Toast.makeText(AllReportsActivity.this, "Please choose To Date", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LedgerReportActivity.this, "Please choose To Date", Toast.LENGTH_SHORT).show();
                     }
                     else {
                         try {
@@ -164,14 +156,14 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
                                 CommonFun.requestStoragePermission(AllReportsActivity.this, AllReportsActivity.this);
                             }*/
                             if (toDate.equals("")) {
-                                Toast.makeText(AllReportsActivity.this, "Please choose To Date to filter", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LedgerReportActivity.this, "Please choose To Date to filter", Toast.LENGTH_SHORT).show();
                             }
                             else if(date1.compareTo(date2) > 0)
                             {
-                                Toast.makeText(AllReportsActivity.this, "From Date must be less or equal to To Date", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LedgerReportActivity.this, "From Date must be less or equal to To Date", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                CommonFun.requestStoragePermission(AllReportsActivity.this, AllReportsActivity.this);
+                                CommonFun.requestStoragePermission(LedgerReportActivity.this, LedgerReportActivity.this);
                             }
                         } catch (ParseException e) {
                             e.printStackTrace();
@@ -187,7 +179,7 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
             @Override
             public void onClick(View view) {
                 choosedate = "todate";
-                DatePickerDialog datePickerDialog = new DatePickerDialog(AllReportsActivity.this, R.style.AlertDialogTheme, date, myCalendar
+                DatePickerDialog datePickerDialog = new DatePickerDialog(LedgerReportActivity.this, R.style.AlertDialogTheme, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
             }
@@ -197,13 +189,24 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
             @Override
             public void onClick(View view) {
                 choosedate = "fromdate";
-                DatePickerDialog datePickerDialog = new DatePickerDialog(AllReportsActivity.this, R.style.AlertDialogTheme, date, myCalendar
+                DatePickerDialog datePickerDialog = new DatePickerDialog(LedgerReportActivity.this, R.style.AlertDialogTheme, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
             }
         });
 
     }
+
+
+    @Override
+    public void requestPermission(boolean status) {
+        if (status) {
+            getAllReports();
+        } else {
+            CommonFun.showSettingsDialog(LedgerReportActivity.this);
+        }
+    }
+
 
     private void getAllReports() {
         final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -213,20 +216,16 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
         progressDialog.show();
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("Userid", userid);
-        jsonObject.addProperty("Filterby",service_id);
         jsonObject.addProperty("FromDate", fromDate);
         jsonObject.addProperty("ToDate", toDate);
 
-       // System.out.println("MY REQ "+jsonObject);
-//        jsonObject.addProperty("FromDate", fromDate);
-//        jsonObject.addProperty("ToDate", toDate);
-        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetALLReports", service_id + "|" + fromDate + "|" + toDate, userid));
-        Call<ModelMainNew> call = RetrofitClient.getInstance().getApi().GetALLReports(jsonObject);
+        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetWalletBiilingSummary",  fromDate + "|" + toDate, userid));
+        Call<ModelMainLedger> call = RetrofitClient.getInstance().getApi().GetWalletBiilingSummary(jsonObject);
 
         System.out.println("Req " + jsonObject);
-        call.enqueue(new Callback<ModelMainNew>() {
+        call.enqueue(new Callback<ModelMainLedger>() {
             @Override
-            public void onResponse(Call<ModelMainNew> call, retrofit2.Response<ModelMainNew> response) {
+            public void onResponse(Call<ModelMainLedger> call, retrofit2.Response<ModelMainLedger> response) {
 
                 if (response.body() != null) {
                     // HideProgress(ctx);
@@ -237,48 +236,18 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
                         st = response.body().getStatuscode();
 
                         if (st.equalsIgnoreCase(ConstantsValue.successful)) {
-                           ArrayList<AllReportNew> allReports = (ArrayList<AllReportNew>) response.body().getData();
-                           AllReportAdapterNew allReportsAdapter = new AllReportAdapterNew(AllReportsActivity.this,allReports,service_id);
-                            LinearLayoutManager verticalLayoutManager = new LinearLayoutManager(AllReportsActivity.this, LinearLayoutManager.VERTICAL, false);
+                            ArrayList<ModelDataLedger> allReports = (ArrayList<ModelDataLedger>) response.body().getData();
+                            Adapterledger allReportsAdapter = new Adapterledger(LedgerReportActivity.this,allReports);
+                            LinearLayoutManager verticalLayoutManager = new LinearLayoutManager(LedgerReportActivity.this, LinearLayoutManager.VERTICAL, false);
                             recycler_data.setLayoutManager(verticalLayoutManager);
                             // allReportsAdapter.notifyDataSetChanged();
                             recycler_data.setAdapter(allReportsAdapter);
-
-                          /*  for (int i = 0; i < allReports.size(); i++) {
-                                String type = allReports.get(i).getStype();
-                                allReportsHead.add(type);
-                            }
-
-                            Set<String> set = new HashSet<>(allReportsHead);
-                            allReportsHead.clear();
-                            allReportsHead.addAll(set);*/
-
-                           // setupViewPagers(viewPager, allReportsHead);
                         } else {
-                            Toast.makeText(AllReportsActivity.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LedgerReportActivity.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
-                        //System.out.println("FULL RESP "+fullRes);
-                        //  allReports.clear();
 
-
-                        //  JSONObject jsonObject1= new JSONObject(fullRes);
-                        //String stCode= jsonObject1.getString(Constant.StatusCode);
-                        /*if (stCode.equalsIgnoreCase(ConstantsValue.successful))
-                        {
-                           // JSONArray jsonArray= jsonObject1.getJSONArray("Data");
-                           // List< AllReport > arr= (List<AllReport>) jsonArray;
-                            /*String  MainBal= jsonArray.getJSONObject(0).getString("MainBal");
-                            String AepsBal= jsonArray.getJSONObject(0).getString("AepsBal");
-                            tvMainBalance.setText("₹ " +MainBal);
-                            tvAepsBalance.setText("₹ " +AepsBal);*/
                     }
-                       /* else
-                        {
-                            // HideProgress(ctx);
-                            progressDialog.dismiss();
 
-                        }*/
-                    //  }
                     catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -291,84 +260,10 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
             }
 
             @Override
-            public void onFailure(Call<ModelMainNew> call, Throwable t) {
+            public void onFailure(Call<ModelMainLedger> call, Throwable t) {
                 progressDialog.dismiss();
-                Toast.makeText(AllReportsActivity.this, "Due to Internet Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LedgerReportActivity.this, "Due to Internet Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void setupViewPagers(ViewPager viewPager, List<String> name) {
-        List<Fragment> mFragmentList = new ArrayList<>();
-        List<String> mFragmentTitleList = new ArrayList<>();
-        ViewPagerAdapters adapter = new ViewPagerAdapters(getSupportFragmentManager());
-        //mFragmentList.add(new FullTTFragment());
-
-        //  mFragmentList.add(new TopUpFragment(2));
-        //  mFragmentList.add(new TopUpFragment(3));
-
-        for (int i = 0; i < name.size(); i++) {
-            mFragmentTitleList.add(name.get(i));
-            mFragmentList.add(new AllReportFragment(i));
-        }
-        adapter.addFragment(mFragmentList, mFragmentTitleList);
-        // adapter.notifyDataSetChanged();
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
-
-    }
-
-    @Override
-    public void requestPermission(boolean status) {
-        if (status) {
-            getAllReports();
-        } else {
-            CommonFun.showSettingsDialog(AllReportsActivity.this);
-        }
-    }
-
-    class ViewPagerAdapters extends FragmentStatePagerAdapter {
-        private List<Fragment> mFragmentList = new ArrayList<>();
-        private List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapters(FragmentManager manager) {
-
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
-        }
-
-        @Override
-        public int getCount() {
-
-            return mFragmentList.size();
-          /*  if(mFragmentTitleList.size()>mFragmentList.size())
-            {
-                return mFragmentList.size();
-            }
-            else {
-                return mFragmentTitleList.size();
-            }*/
-        }
-
-        public void addFragment(List<Fragment> fragment, List<String> title) {
-            mFragmentList = fragment;
-            mFragmentTitleList = title;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-
-
     }
 }

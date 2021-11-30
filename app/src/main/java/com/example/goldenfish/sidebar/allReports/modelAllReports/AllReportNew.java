@@ -39,6 +39,63 @@ public class AllReportNew {
     @Expose
     private String reason;
 
+    @SerializedName("Account No")
+    @Expose
+    private String AccountNo;
+
+
+    @SerializedName("Charge")
+    @Expose
+    private String Charge;
+
+    @Override
+    public String toString() {
+        return "AllReportNew{" +
+                "operatorName='" + operatorName + '\'' +
+                ", orderID='" + orderID + '\'' +
+                ", aadharNumber='" + aadharNumber + '\'' +
+                ", mobileNo='" + mobileNo + '\'' +
+                ", bankName='" + bankName + '\'' +
+                ", amount='" + amount + '\'' +
+                ", commission='" + commission + '\'' +
+                ", totalTxnAmount='" + totalTxnAmount + '\'' +
+                ", status='" + status + '\'' +
+                ", dateTime='" + dateTime + '\'' +
+                ", reason='" + reason + '\'' +
+                ", AccountNo='" + AccountNo + '\'' +
+                ", Charge='" + Charge + '\'' +
+                ", PayMode='" + PayMode + '\'' +
+                '}';
+    }
+
+    @SerializedName("Pay Mode")
+    @Expose
+    private String PayMode;
+
+    public String getAccountNo() {
+        return AccountNo;
+    }
+
+    public void setAccountNo(String accountNo) {
+        AccountNo = accountNo;
+    }
+
+    public String getCharge() {
+        return Charge;
+    }
+
+    public void setCharge(String charge) {
+        Charge = charge;
+    }
+
+    public String getPayMode() {
+        return PayMode;
+    }
+
+    public void setPayMode(String payMode) {
+        PayMode = payMode;
+    }
+
     public String getOperatorName() {
         return operatorName;
     }

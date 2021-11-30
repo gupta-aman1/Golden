@@ -400,6 +400,7 @@ public class PurchaseCouponActivity extends AppCompatActivity implements CommonI
                             intent.putExtra("Head2",Head2);
                             intent.putExtra("Head3",Head3);
                             intent.putExtra("type","success");
+                            intent.putExtra("service","");
                             startActivity(intent);
                            /* AlertDialog.Builder builder1 = new AlertDialog.Builder(MoveToBankActivity.this);
                             builder1.setMessage(jsonObject1.getString("Message"));

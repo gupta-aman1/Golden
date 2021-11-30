@@ -864,9 +864,10 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                                     intent.putExtra("Head2",m.getHead2());
                                     intent.putExtra("Head3",m.getHead3());
                                     intent.putExtra("type","success");
+                                     intent.putExtra("service",selectedItemtxnType);
                                     if(selectedItemtxnType.equalsIgnoreCase("SAP"))
                                      {
-                                         intent.putExtra("service",selectedItemtxnType);
+                                        // intent.putExtra("service",selectedItemtxnType);
                                      }
                                     startActivity(intent);
 
@@ -976,10 +977,11 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
                                 intent.putExtra("Head2",m.getHead2());
                                 intent.putExtra("Head3",m.getHead3());
                                 intent.putExtra("type","failed");
+                                intent.putExtra("service",selectedItemtxnType);
 
                                 if(selectedItemtxnType.equalsIgnoreCase("SAP"))
                                 {
-                                    intent.putExtra("service",selectedItemtxnType);
+                                   // intent.putExtra("service",selectedItemtxnType);
                                 }
                                 startActivity(intent);
                                 /*if(selectedItemtxnType.equalsIgnoreCase("BAP")|| selectedItemtxnType.equalsIgnoreCase("WAP") || selectedItemtxnType.equalsIgnoreCase("MZZ") )

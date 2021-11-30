@@ -15,14 +15,9 @@
     <group android:id="@+id/nav_add_payout" android:checkableBehavior="single">
         <item android:icon="@drawable/report4" android:title="Add Payout A/C"/>
     </group>
-    <group android:id="@+id/nav_aeps_report" android:checkableBehavior="single">
-        <item android:icon="@drawable/report5" android:title="AEPS Report"/>
-    </group>
-    <group android:id="@+id/nav_settlement_report" android:checkableBehavior="single">
-        <item android:icon="@drawable/report5" android:title="Settlement Report"/>
-    </group>
-    <group android:id="@+id/nav_aeps_ledger_report" android:checkableBehavior="single">
-        <item android:icon="@drawable/report6" android:title="AEPS Ledger Report"/>
+
+    <group android:id="@+id/nav_ledger_report" android:checkableBehavior="single">
+        <item android:icon="@drawable/report6" android:title="Statement"/>
     </group>
     <group android:id="@+id/nav_credit_report" android:checkableBehavior="single">
         <item android:icon="@drawable/report1" android:title="Credit Report"/>
@@ -30,9 +25,7 @@
     <group android:id="@+id/nav_debit_report" android:checkableBehavior="single">
         <item android:icon="@drawable/report2" android:title="Debit Report"/>
     </group>
-    <group android:id="@+id/nav_ledger_report" android:checkableBehavior="single">
-        <item android:icon="@drawable/report3" android:title="Ledger Report"/>
-    </group>
+  
     <group android:id="@+id/nav_complaint" android:checkableBehavior="single">
         <item android:icon="@drawable/complaint" android:title="Complaint"/>
     </group>

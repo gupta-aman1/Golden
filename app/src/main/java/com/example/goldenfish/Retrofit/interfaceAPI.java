@@ -1,6 +1,7 @@
 package com.example.goldenfish.Retrofit;
 
 import com.example.goldenfish.PanCard.ModelPan.ModelCouponPan;
+import com.example.goldenfish.ledgerreopt.ModelMainLedger;
 import com.example.goldenfish.sidebar.allReports.modelAllReports.ModelMainNew;
 import com.example.goldenfish.Utilities.UploadFile;
 import com.google.gson.JsonObject;
@@ -31,6 +32,9 @@ public interface interfaceAPI {
 
     @POST("GetALLReports")
     Call<ModelMainNew> GetALLReports(@Body JsonObject object);
+
+    @POST("GetWalletBiilingSummary")
+    Call<ModelMainLedger> GetWalletBiilingSummary(@Body JsonObject object);
 
     @POST("GetStateListDetails")
     Call<ResponseBody> GetStateListDetails(@Body JsonObject object);

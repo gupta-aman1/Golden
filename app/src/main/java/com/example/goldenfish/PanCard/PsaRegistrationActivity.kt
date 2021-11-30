@@ -4,11 +4,8 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.goldenfish.Common.CommonApi
 import com.example.goldenfish.Common.CommonFun
 import com.example.goldenfish.Common.CommonInterface
 import com.example.goldenfish.Constants.Constant
@@ -238,19 +235,19 @@ class PsaRegistrationActivity : AppCompatActivity(),CommonInterface {
         progressDialog.setCancelable(false)
         progressDialog.show()
         val jsonObject = JsonObject()
-        jsonObject.addProperty("Userid",userid)
-        jsonObject.addProperty("UserName",userName)
-        jsonObject.addProperty("VLEId",VLEId)
-        jsonObject.addProperty("VLEName",et_vleName_pan.text.toString().trim())
-        jsonObject.addProperty("OwnerName",et_ownerName_pan.text.toString().trim())
-        jsonObject.addProperty("Mobile",et_mobile_pan.text.toString().trim())
-        jsonObject.addProperty("EmailId",et_email_pan.text.toString().trim())
-        jsonObject.addProperty("PancardNo",et_panno_pan.text.toString().trim())
-        jsonObject.addProperty("Address",et_address_pan.text.toString().trim())
-        jsonObject.addProperty("Pincode",et_picode_pan.text.toString().trim())
-        jsonObject.addProperty("City",et_city_pan.text.toString().trim())
-        jsonObject.addProperty("State",et_state_pan.text.toString().trim())
-        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("CreatePSAForUsers", VLEId+"|"+userName+"|"+et_vleName_pan.getText().toString().trim()+"|"+et_mobile_pan.text.toString().trim(), userid))
+        jsonObject.addProperty("Userid", userid)
+        jsonObject.addProperty("UserName", userName)
+        jsonObject.addProperty("VLEId", VLEId)
+        jsonObject.addProperty("VLEName", et_vleName_pan.text.toString().trim())
+        jsonObject.addProperty("OwnerName", et_ownerName_pan.text.toString().trim())
+        jsonObject.addProperty("Mobile", et_mobile_pan.text.toString().trim())
+        jsonObject.addProperty("EmailId", et_email_pan.text.toString().trim())
+        jsonObject.addProperty("PancardNo", et_panno_pan.text.toString().trim())
+        jsonObject.addProperty("Address", et_address_pan.text.toString().trim())
+        jsonObject.addProperty("Pincode", et_picode_pan.text.toString().trim())
+        jsonObject.addProperty("City", et_city_pan.text.toString().trim())
+        jsonObject.addProperty("State", et_state_pan.text.toString().trim())
+        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("CreatePSAForUsers", VLEId + "|" + userName + "|" + et_vleName_pan.getText().toString().trim() + "|" + et_mobile_pan.text.toString().trim(), userid))
         val call = RetrofitClient.getInstance().api.CreatePSAForUsers(jsonObject)
         call.enqueue(object : Callback<ResponseBody?> {
             override fun onResponse(call: Call<ResponseBody?>, response: Response<ResponseBody?>) {
@@ -303,6 +300,7 @@ class PsaRegistrationActivity : AppCompatActivity(),CommonInterface {
                             intent.putExtra("Head2", Head2)
                             intent.putExtra("Head3", Head3)
                             intent.putExtra("type", "success")
+                            intent.putExtra("service", "")
                             startActivity(intent)
                             /* AlertDialog.Builder builder1 = new AlertDialog.Builder(MoveToBankActivity.this);
                             builder1.setMessage(jsonObject1.getString("Message"));
