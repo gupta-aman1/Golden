@@ -694,6 +694,12 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 //intent3.putExtra("title", "All Report");
                 startActivity(intent3);
                 break;
+            case R.id.nav_update_mpin:
+                Intent intent5 = new Intent(this, ChangePasswordActivity.class);
+                intent5.putExtra("title", "Update Mpin");
+                startActivity(intent5);
+                this.drawer.closeDrawer((int) GravityCompat.START, false);
+                break;
             case R.id.nav_change_password:
                 Intent intent4 = new Intent(this, ChangePasswordActivity.class);
                 intent4.putExtra("title", "Change Password");

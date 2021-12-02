@@ -20,4 +20,5 @@
     -->
     <string name="hello_world">Hello Square World!</string>
     <string name="title_activity_web_show">WebShow</string>
+    <string name="title_activity_update_mpin">UpdateMpinActivity</string>
 </resources>
