@@ -40,6 +40,16 @@
 
             <EditText
                 android:background="@drawable/bordered_back"
+                android:id="@+id/et_owner_name_child"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="15dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:hint="Enter Owner Name"
+                />
+            <EditText
+                android:background="@drawable/bordered_back"
                 android:id="@+id/et_shop_name"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"

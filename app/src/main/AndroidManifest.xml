@@ -3,7 +3,6 @@
     package="com.example.goldenfish">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission
@@ -25,19 +24,10 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.GoldenFish"
-        android:usesCleartextTraffic="true">
-        <uses-library
-            android:name="com.google.android.wearable"
-            android:required="true" />
-
-        <!--
-               Set to true if your app is Standalone, that is, it does not require the handheld
-               app to run.
-        -->
-        <meta-data
-            android:name="com.google.android.wearable.standalone"
-            android:value="true" />
-
+        android:usesCleartextTraffic="false">
+        <activity android:name=".updatempin.UpdateMpinActivity"
+            android:exported="true"
+            android:label="Update Mpin"></activity>
         <activity
             android:name=".ledgerreopt.LedgerReportActivity"
             android:exported="true"

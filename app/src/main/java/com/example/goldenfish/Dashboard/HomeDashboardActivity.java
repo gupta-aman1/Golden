@@ -66,6 +66,7 @@ import com.example.goldenfish.Utilities.GpsListener;
 import com.example.goldenfish.Utilities.MyUtils;
 import com.example.goldenfish.Utilities.OnDataReceiverListener;
 import com.example.goldenfish.Utilities.SharedPref;
+import com.example.goldenfish.updatempin.UpdateMpinActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -695,14 +696,14 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 startActivity(intent3);
                 break;
             case R.id.nav_update_mpin:
-                Intent intent5 = new Intent(this, ChangePasswordActivity.class);
-                intent5.putExtra("title", "Update Mpin");
+                Intent intent5 = new Intent(this, UpdateMpinActivity.class);
+                //intent5.putExtra("title", "Update Mpin");
                 startActivity(intent5);
                 this.drawer.closeDrawer((int) GravityCompat.START, false);
                 break;
             case R.id.nav_change_password:
                 Intent intent4 = new Intent(this, ChangePasswordActivity.class);
-                intent4.putExtra("title", "Change Password");
+               //  intent4.putExtra("title", "Change Password");
                 startActivity(intent4);
                 this.drawer.closeDrawer((int) GravityCompat.START, false);
                 break;

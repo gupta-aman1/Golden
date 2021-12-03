@@ -444,6 +444,7 @@ public class CommonApi {
             }
         });
     }
+
     public static void getBalanceWalletWise(Activity activity, JsonObject jsonObject,CommonInterface commonInterface)
     {
         final ProgressDialog progressDialog = new ProgressDialog(activity);

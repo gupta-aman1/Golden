@@ -85,6 +85,9 @@ public interface interfaceAPI {
     @POST("ChangeUserPassword")
     Call<ResponseBody> ChangeUserPassword(@Body JsonObject object);
 
+    @POST("UpdateTransactionMpin")
+    Call<ResponseBody> UpdateTransactionMpin(@Body JsonObject object);
+
     @POST("GetPanCardCouponType")
     Call<ModelCouponPan> GetPanCardCouponType(@Body JsonObject object);
 

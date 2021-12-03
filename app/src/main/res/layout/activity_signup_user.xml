@@ -57,6 +57,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/text_welcome"
                 />
 
+                <EditText
+                    android:id="@+id/et_owner_name"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Owner Name"
+                    android:inputType="text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_welcome"
+                    />
             <EditText
                 android:id="@+id/et_shop_name"
                 android:layout_width="match_parent"

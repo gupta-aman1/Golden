@@ -202,6 +202,7 @@ EditText et_old,et_new,etrenew;
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))
                         {
                             // sendPayoutData();
+                            sharedPref.clearData();
                             Toast.makeText(ChangePasswordActivity.this, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(ChangePasswordActivity.this, LoginActivity.class));
                             finishAffinity();

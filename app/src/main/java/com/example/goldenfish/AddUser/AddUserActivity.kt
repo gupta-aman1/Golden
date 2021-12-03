@@ -466,6 +466,10 @@ class AddUserActivity : AppCompatActivity() {
         {
             et_user_name.setError("Required")
         }
+        else if(et_owner_name_child.text.toString().trim().equals(""))
+        {
+            et_owner_name_child.setError("Required")
+        }
         else if(et_shop_name.text.toString().trim().equals(""))
         {
             et_shop_name.setError("Required")
@@ -539,6 +543,7 @@ class AddUserActivity : AppCompatActivity() {
         val jsonObject = JsonObject()
         jsonObject.addProperty("Userid",userid)
         jsonObject.addProperty("UserName", et_user_name.text.toString())
+        jsonObject.addProperty("OwnerName", et_owner_name_child.text.toString())
         jsonObject.addProperty("Password", et_pass.text.toString())
         jsonObject.addProperty("ShopName", et_shop_name.text.toString())
         jsonObject.addProperty("Mobile", et_mobile.text.toString())

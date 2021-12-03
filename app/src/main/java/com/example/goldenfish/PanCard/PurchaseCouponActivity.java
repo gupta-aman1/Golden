@@ -378,7 +378,8 @@ public class PurchaseCouponActivity extends AppCompatActivity implements CommonI
                                         try {
                                             date = sourceFormat.parse(inn_obj.getString(k));
                                         } catch (ParseException e) {
-                                            e.printStackTrace();
+                                            Toast.makeText(PurchaseCouponActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            //e.printStackTrace();
                                         }
                                         String formattedDate = destFormat.format(date);
                                         array.add(new DetailedData(k,formattedDate.replace("am", "AM").replace("pm","PM")));
