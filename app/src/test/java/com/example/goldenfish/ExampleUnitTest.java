@@ -1,4 +1,4 @@
-package com.example.goldenfish;
+package com.business.goldenfish;
 
 import org.junit.Test;
 

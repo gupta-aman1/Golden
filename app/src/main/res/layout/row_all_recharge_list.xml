@@ -6,7 +6,7 @@
     <data>
         <variable
             name="modelNewReport"
-            type="com.example.goldenfish.sidebar.allReports.modelAllReports.AllReportNew" />
+            type="com.business.goldenfish.sidebar.allReports.modelAllReports.AllReportNew" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

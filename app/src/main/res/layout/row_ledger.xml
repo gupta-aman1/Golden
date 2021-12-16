@@ -6,7 +6,7 @@
     <data>
         <variable
             name="modelNewReport"
-            type="com.example.goldenfish.ledgerreopt.ModelDataLedger" />
+            type="com.business.goldenfish.ledgerreopt.ModelDataLedger" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
