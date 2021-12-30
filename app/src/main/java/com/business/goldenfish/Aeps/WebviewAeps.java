@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,6 +43,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.business.goldenfish.Constants.ConstantsValue;
+import com.business.goldenfish.Dashboard.HomeDashboardActivity;
 import com.business.goldenfish.R;
 
 public class WebviewAeps extends AppCompatActivity {
@@ -57,8 +60,9 @@ public class WebviewAeps extends AppCompatActivity {
         if(getIntent().getExtras()!=null)
         {
             loadUrl= getIntent().getStringExtra("url");
-            System.out.println("Webview url111 "+loadUrl);
-
+           // System.out.println("Webview url111 "+loadUrl);
+            HomeDashboardActivity bal = new HomeDashboardActivity();
+            bal.recivedSms(ConstantsValue.CallApiBal);
         }
         try {
             finalpaymentWebView.getSettings().setLoadsImagesAutomatically(true);
@@ -131,8 +135,15 @@ public class WebviewAeps extends AppCompatActivity {
         }
 
         @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            System.out.println("LOADING "+url);
+            return true;
+        }
+
+        @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-           // handler.proceed(); // Ignore SSL certificate errors
+            //handler.proceed(); // Ignore SSL certificate errors
 
             final AlertDialog.Builder builder = new AlertDialog.Builder(WebviewAeps.this);
             String message = "SSL Certificate error.";
@@ -169,6 +180,8 @@ public class WebviewAeps extends AppCompatActivity {
             final AlertDialog dialog = builder.create();
             dialog.show();
         }
+
+
         @Override
         public void onPageFinished(WebView view, String url) {
             //  System.out.println("PAYMENT PAGE "+url);

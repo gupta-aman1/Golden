@@ -57,6 +57,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.business.goldenfish.Retrofit.RetrofitClient;
 import com.business.goldenfish.ledgerreopt.LedgerReportActivity;
+import com.business.goldenfish.recharges.RechargeMainActivity;
 import com.business.goldenfish.sidebar.allReports.AllReportsActivity;
 import com.business.goldenfish.sidebar.allReports.GetServices;
 import com.business.goldenfish.UserAuth.LoginActivity;
@@ -526,9 +527,10 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     public void onResume() {
         super.onResume();
         geoLocation.startLocationButtonClick();
-        System.out.println("Hello");
+
         if(apiStatus.equalsIgnoreCase(ConstantsValue.CallApiBal))
         {
+            System.out.println("Hello");
             getWalletBalance();
         }
        // checkForPackageAvailable();
@@ -639,7 +641,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                     try {
 
                         fullRes = response.body().string();
-                        System.out.println("WALLET "+fullRes);
+                       // System.out.println("WALLET "+fullRes);
                         JSONObject jsonObject1= new JSONObject(fullRes);
                         String stCode= jsonObject1.getString(Constant.StatusCode);
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))
@@ -834,7 +836,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 if (response.isSuccessful()) {
                     try {
                         JSONObject jsonObject1 = new JSONObject(String.valueOf(response.body()));
-                        if (jsonObject1.getString(NotificationCompat.CATEGORY_STATUS).equalsIgnoreCase("0")) {
+                        if (jsonObject1.getString(NotificationCompat.CATEGORY_STATUS).equalsIgnoreCase("parent")) {
                             JSONArray jsonArray = jsonObject1.getJSONArray(Constants.ScionAnalytics.MessageType.DATA_MESSAGE);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -877,7 +879,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 if (response.isSuccessful()) {
                     try {
                         JSONObject jsonObject1 = new JSONObject(String.valueOf(response.body()));
-                        if (jsonObject1.getString(NotificationCompat.CATEGORY_STATUS).equalsIgnoreCase("0")) {
+                        if (jsonObject1.getString(NotificationCompat.CATEGORY_STATUS).equalsIgnoreCase("parent")) {
                             JSONArray jsonArray = jsonObject1.getJSONArray(Constants.ScionAnalytics.MessageType.DATA_MESSAGE);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -985,11 +987,14 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     public void dashboardClick(String val) {
         if(val.equalsIgnoreCase("prepaid"))
         {
-            String webViewURL="https://uat.goldenfishdigital.co.in/PrepaidRecharge.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+            Intent intent = new Intent(HomeDashboardActivity.this, RechargeMainActivity.class);
+            // intent.putExtra("url",url);
+            startActivity(intent);
+          /*  String webViewURL="https://uat.goldenfishdigital.co.in/PrepaidRecharge.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
             String url = webViewURL.replaceAll(" ","%20");
             Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
             intent.putExtra("url",url);
-            startActivity(intent);
+            startActivity(intent);*/
         }
         else if(val.equalsIgnoreCase("dth"))
         {

@@ -109,10 +109,10 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
                 String fm = "" + month;
                 String fd = "" + dayOfMonth;
                 if (month < 10) {
-                    fm = "0" + month;
+                    fm = "parent" + month;
                 }
                 if (dayOfMonth < 10) {
-                    fd = "0" + dayOfMonth;
+                    fd = "parent" + dayOfMonth;
                 }
                 String date = "" + year + "-" + fm + "-" + fd;
                 if (choosedate.equals("todate")) {

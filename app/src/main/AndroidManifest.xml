@@ -25,9 +25,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoldenFish"
         android:usesCleartextTraffic="false">
-        <activity android:name=".updatempin.UpdateMpinActivity"
+        <activity android:name=".recharges.RechargeMainActivity"></activity>
+        <activity
+            android:name=".updatempin.UpdateMpinActivity"
             android:exported="true"
-            android:label="Update Mpin"></activity>
+            android:label="Update Mpin" />
         <activity
             android:name=".ledgerreopt.LedgerReportActivity"
             android:exported="true"

@@ -722,7 +722,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
         } else if (bank.equalsIgnoreCase("")) {
             snackbar("Select Bank");
         } else if (!this.selectedItemtxnType.equalsIgnoreCase("WAP") && !this.selectedItemtxnType.equalsIgnoreCase("MZZ")) {
-            this.amountStr = "0";
+            this.amountStr = "parent";
             this.firstLY.setVisibility(View.GONE);
             this.secondLY.setVisibility(View.GONE);
             this.deviceLayout.setVisibility(View.VISIBLE);
@@ -1400,14 +1400,14 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
         try {
             Opts opts = new Opts();
             opts.fCount = DiskLruCache.VERSION_1;
-            opts.fType = "0";
-            opts.format = "0";
+            opts.fType = "parent";
+            opts.format = "parent";
             opts.timeout = "15000";
             opts.wadh = "";
-            opts.iCount = "0";
-            opts.iType = "0";
-            opts.pCount = "0";
-            opts.pType = "0";
+            opts.iCount = "parent";
+            opts.iType = "parent";
+            opts.pCount = "parent";
+            opts.pType = "parent";
             opts.pidVer = "2.0";
             opts.env = "P";
             PidOptions pidOptions = new PidOptions();

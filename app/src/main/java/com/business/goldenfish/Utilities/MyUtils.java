@@ -23,7 +23,7 @@ public class MyUtils {
                 input = endPint+"|"+ConstantsValue.uniqueKey+"|"+user_id+"|"+params;
             }
 
-            System.out.println("INPUT STRING "+input);
+          //  System.out.println("INPUT STRING "+input);
             // getInstance() method is called with algorithm SHA-512
             MessageDigest md = MessageDigest.getInstance("SHA-512");
 
@@ -40,10 +40,10 @@ public class MyUtils {
 
             // Add preceding 0s to make it 32 bit
             while (hashtext.length() < 128) {
-                hashtext = "0" + hashtext;
+                hashtext = "parent" + hashtext;
             }
             // return the HashText
-            System.out.println("CHECKSUM "+endPint+"|"+hashtext);
+            //System.out.println("CHECKSUM "+endPint+"|"+hashtext);
             return hashtext;
         }
 

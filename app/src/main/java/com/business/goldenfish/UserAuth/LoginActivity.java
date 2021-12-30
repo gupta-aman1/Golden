@@ -251,11 +251,38 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "OTP sent", Toast.LENGTH_SHORT).show();
 
                         }
+                       else if (stCode.equalsIgnoreCase("OTP"))
+                        {
+                            JSONArray jsonArray= jsonObject1.getJSONArray("Data");
+                            sharedPref.putString(Constant.userId, String.valueOf(jsonArray.getJSONObject(0).getString("Id")));
+                            sharedPref.putString(Constant.ParentId, String.valueOf(jsonArray.getJSONObject(0).getString("ParentId")));
+                            sharedPref.putString(Constant.FOSId, String.valueOf(jsonArray.getJSONObject(0).getString("FOSId")));
+                            sharedPref.putString(Constant.UniqueCode, String.valueOf(jsonArray.getJSONObject(0).getString("UniqueCode")));
+                            sharedPref.putString(Constant.NextNo, String.valueOf(jsonArray.getJSONObject(0).getString("NextNo")));
+                            sharedPref.putString(Constant.Username, String.valueOf(jsonArray.getJSONObject(0).getString("Username")));
+                            sharedPref.putString(Constant.Usertype, String.valueOf(jsonArray.getJSONObject(0).getString("Usertype")));
+                            sharedPref.putString(Constant.AddDate, String.valueOf(jsonArray.getJSONObject(0).getString("AddDate")));
+                            sharedPref.putString(Constant.FirmName, String.valueOf(jsonArray.getJSONObject(0).getString("FirmName")));
+                            sharedPref.putString(Constant.MobileNo1, String.valueOf(jsonArray.getJSONObject(0).getString("MobileNo1")));
+                            sharedPref.putString(Constant.EmailId, String.valueOf(jsonArray.getJSONObject(0).getString("EmailId")));
+                            sharedPref.putString(Constant.OwnerName, String.valueOf(jsonArray.getJSONObject(0).getString("OwnerName")));
+                            sharedPref.putString(Constant.PANCard, String.valueOf(jsonArray.getJSONObject(0).getString("PANCard")));
+                            sharedPref.putString(Constant.Address, String.valueOf(jsonArray.getJSONObject(0).getString("Address")));
+                            sharedPref.putString(Constant.state, String.valueOf(jsonArray.getJSONObject(0).getString("state")));
+                            sharedPref.putString(Constant.city, String.valueOf(jsonArray.getJSONObject(0).getString("city")));
+                            sharedPref.putString(Constant.Area, String.valueOf(jsonArray.getJSONObject(0).getString("Area")));
+                            sharedPref.putString(Constant.OutletId, String.valueOf(jsonArray.getJSONObject(0).getString("OutletId")));
+                            sharedPref.putString(Constant.PIN, String.valueOf(jsonArray.getJSONObject(0).getString("PIN")));
+
+                            startActivity(new Intent(LoginActivity.this,HomeDashboardActivity.class));
+                            finishAffinity();
+
+                        }
                         else
                         {
                            // HideProgress(ctx);
                             progressDialog.dismiss();
-                            Toast.makeText(LoginActivity.this, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "err -"+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -367,7 +394,7 @@ public class LoginActivity extends AppCompatActivity {
                     try {
                         JSONObject jsonObject1 = new JSONObject(String.valueOf(response.body()));
                         String statuscode = jsonObject1.getString(NotificationCompat.CATEGORY_STATUS);
-                        if (statuscode.equalsIgnoreCase("0")) {
+                        if (statuscode.equalsIgnoreCase("parent")) {
                             progressDialog.dismiss();
                             LoginActivity.this.showOtpDialog();
                             LoginActivity.this.msg = jsonObject1.getString(NotificationCompat.CATEGORY_MESSAGE);
@@ -524,7 +551,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     try {
                         JSONObject responseObject = new JSONObject(String.valueOf(response.body()));
-                        if (responseObject.getString(NotificationCompat.CATEGORY_STATUS).equalsIgnoreCase("0")) {
+                        if (responseObject.getString(NotificationCompat.CATEGORY_STATUS).equalsIgnoreCase("parent")) {
                             JSONArray dataArray = responseObject.getJSONArray(Constants.ScionAnalytics.MessageType.DATA_MESSAGE);
                             for (int i = 0; i < dataArray.length(); i++) {
                                 JSONObject jsonObject = dataArray.getJSONObject(i);

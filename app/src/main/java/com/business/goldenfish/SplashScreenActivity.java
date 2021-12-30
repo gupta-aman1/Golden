@@ -43,7 +43,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         ImageView image= (ImageView) findViewById(R.id.splash_logo);
         version.setText("Version : "+BuildConfig.VERSION_NAME);
         image.startAnimation(rotate);
-        System.out.println("Hello main");
+      //  System.out.println("Hello main");
         new Handler().postDelayed(new Runnable() {
             public void run() {
                // SplashScreenActivity splashScreenActivity = SplashScreenActivity.this;

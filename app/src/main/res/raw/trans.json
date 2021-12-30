@@ -13,7 +13,7 @@
       "opname": "AEPS-Account-Statement",
       "OrderId": "CPJ012132111412431",
       "TransactionId": "132111497098",
-      "Amount": "0",
+      "Amount": "parent",
       "Commission": "0.150",
       "Mobileno": "8400786353",
       "AadharNumber": "XXXXXXXX5799",
