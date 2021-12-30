@@ -1398,6 +1398,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
     /* access modifiers changed from: private */
     public String getPIDOptions() {
         try {
+
             Opts opts = new Opts();
             opts.fCount = DiskLruCache.VERSION_1;
             opts.fType = "0";
