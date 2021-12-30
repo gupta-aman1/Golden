@@ -282,7 +282,7 @@ public class LoginActivity extends AppCompatActivity {
                         {
                            // HideProgress(ctx);
                             progressDialog.dismiss();
-                            Toast.makeText(LoginActivity.this, "err -"+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -394,7 +394,7 @@ public class LoginActivity extends AppCompatActivity {
                     try {
                         JSONObject jsonObject1 = new JSONObject(String.valueOf(response.body()));
                         String statuscode = jsonObject1.getString(NotificationCompat.CATEGORY_STATUS);
-                        if (statuscode.equalsIgnoreCase("parent")) {
+                        if (statuscode.equalsIgnoreCase("0")) {
                             progressDialog.dismiss();
                             LoginActivity.this.showOtpDialog();
                             LoginActivity.this.msg = jsonObject1.getString(NotificationCompat.CATEGORY_MESSAGE);
@@ -551,7 +551,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     try {
                         JSONObject responseObject = new JSONObject(String.valueOf(response.body()));
-                        if (responseObject.getString(NotificationCompat.CATEGORY_STATUS).equalsIgnoreCase("parent")) {
+                        if (responseObject.getString(NotificationCompat.CATEGORY_STATUS).equalsIgnoreCase("0")) {
                             JSONArray dataArray = responseObject.getJSONArray(Constants.ScionAnalytics.MessageType.DATA_MESSAGE);
                             for (int i = 0; i < dataArray.length(); i++) {
                                 JSONObject jsonObject = dataArray.getJSONObject(i);

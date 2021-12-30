@@ -40,7 +40,7 @@ public class MyUtils {
 
             // Add preceding 0s to make it 32 bit
             while (hashtext.length() < 128) {
-                hashtext = "parent" + hashtext;
+                hashtext = "0" + hashtext;
             }
             // return the HashText
             //System.out.println("CHECKSUM "+endPint+"|"+hashtext);

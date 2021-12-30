@@ -137,7 +137,7 @@ public class WebviewAeps extends AppCompatActivity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
-            System.out.println("LOADING "+url);
+          //  System.out.println("LOADING "+url);
             return true;
         }
 

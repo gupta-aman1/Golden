@@ -530,7 +530,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
 
         if(apiStatus.equalsIgnoreCase(ConstantsValue.CallApiBal))
         {
-            System.out.println("Hello");
+         //   System.out.println("Hello");
             getWalletBalance();
         }
        // checkForPackageAvailable();
@@ -836,7 +836,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 if (response.isSuccessful()) {
                     try {
                         JSONObject jsonObject1 = new JSONObject(String.valueOf(response.body()));
-                        if (jsonObject1.getString(NotificationCompat.CATEGORY_STATUS).equalsIgnoreCase("parent")) {
+                        if (jsonObject1.getString(NotificationCompat.CATEGORY_STATUS).equalsIgnoreCase("0")) {
                             JSONArray jsonArray = jsonObject1.getJSONArray(Constants.ScionAnalytics.MessageType.DATA_MESSAGE);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -879,7 +879,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 if (response.isSuccessful()) {
                     try {
                         JSONObject jsonObject1 = new JSONObject(String.valueOf(response.body()));
-                        if (jsonObject1.getString(NotificationCompat.CATEGORY_STATUS).equalsIgnoreCase("parent")) {
+                        if (jsonObject1.getString(NotificationCompat.CATEGORY_STATUS).equalsIgnoreCase("0")) {
                             JSONArray jsonArray = jsonObject1.getJSONArray(Constants.ScionAnalytics.MessageType.DATA_MESSAGE);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
