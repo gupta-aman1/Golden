@@ -87,6 +87,7 @@ Button donebtn,transactionBtn;
             {
                 service="";
             }
+
            /* else if(service.equalsIgnoreCase("SAP") || service.equalsIgnoreCase("WAP") || service.equalsIgnoreCase("BAP")
             || service.equalsIgnoreCase("MZZ"))
             {

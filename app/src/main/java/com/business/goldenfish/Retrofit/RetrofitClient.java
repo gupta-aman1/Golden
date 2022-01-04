@@ -16,6 +16,7 @@ public class RetrofitClient {
     //   public static final String TEST_URL = "https://redmilappuat.redmilbusinessmall.com/api/";
 //    public static final String BASE_URL = "https://redmilappuat.redmilbusinessmall.com/api/";
     public static final String BASE_URL = "https://uat.goldenfishdigital.co.in/api/";
+    public static final String IMAGE_URL = "https://uat.goldenfishdigital.co.in/";
     //    public static final String IMAGE_URL = "https://redmilappuat.redmilbusinessmall.com";
    // public static final String IMAGE_URL = BuildConfig.IMAGE_URL;
 //    public static final String IMAGE_URL = "https://redmilappuat.redmilbusinessmall.com";

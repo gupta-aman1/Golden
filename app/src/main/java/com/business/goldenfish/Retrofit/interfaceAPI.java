@@ -114,4 +114,7 @@ public interface interfaceAPI {
 
     @POST("GetAllServiceForReports")
     Call<ResponseBody> GetAllServiceForReports(@Body JsonObject object);
+
+    @POST("MakeRechargeRequest")
+    Call<ResponseBody> MakeRechargeRequest(@Body JsonObject object);
 }

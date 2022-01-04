@@ -162,4 +162,5 @@
     <color name="sub_txt">#999999</color>
     <color name="sub_test">#FFFFFF</color>
     <color name="color_dialog">#D32F2F</color>
+    <color name="grey">#C9A8A3A3</color>
 </resources>

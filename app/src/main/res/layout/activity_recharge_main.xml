@@ -3,6 +3,7 @@
     xmlns:aapt="http://schemas.android.com/aapt"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/recharge_layout"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -93,22 +94,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout1">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_margin="15dp"
+                android:gravity="center"
+                android:id="@+id/text_head"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <EditText
                 android:id="@+id/et_recharge_number"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/bordered_back"
                 android:drawableEnd="@drawable/phone"
                 android:drawablePadding="4dp"
                 android:hint="Enter Number"
                 android:inputType="number"
+                android:maxLength="10"
                 android:paddingStart="8dp"
                 android:paddingEnd="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -120,6 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
                 android:layout_marginStart="20dp"
+                android:visibility="gone"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="40dp"
                 android:drawableEnd="@drawable/arrow"
@@ -136,6 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
                 android:layout_marginStart="20dp"
+                android:visibility="gone"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="40dp"
                 android:drawableEnd="@drawable/arrow"
@@ -153,6 +167,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
+                android:visibility="gone"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="20dp"
                 android:gravity="end"
@@ -232,6 +247,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_marginStart="20dp"
+                android:visibility="gone"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/bordered_back"
@@ -249,11 +265,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginStart="20dp"
+                android:onClick="ProceedToRecharge"
                 android:layout_marginTop="40dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/blue_back"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
+                android:textAllCaps="false"
                 android:text="Proceed to recharge"
                 android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -273,6 +291,47 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_recharge" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/powered_layout"
+                android:layout_height="wrap_content">
+
+
+            <TextView
+                android:id="@+id/powered"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="Powered By"
+                android:textColor="@color/black"
+                android:textSize="22dp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:visibility="gone"
+                android:layout_below="@+id/powered"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/grey" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/powered"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/recharge_operator" />
+            </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

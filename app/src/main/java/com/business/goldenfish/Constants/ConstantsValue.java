@@ -11,6 +11,13 @@ public class ConstantsValue {
     public static final String serviceIdPostpaid="Postpaid";
     public static final String serviceIdDth="Dth";
     public static final String serviceIdUtility="Utility";
+    public static final String MobilePrepaid="Mobile Prepaid";
+    public static final String MobilePrepaidId="11";
+    public static final String MobilePostPaid="Mobile Postpaid";
+    public static final String MobilePostPaidId="12";
+
+    public static final String DTH="DTH";
+    public static final String DTHId="14";
    /* public static final String serviceIdPostpaid="AepsService";
     public static final String serviceIdPostpaid="AepsService";
     public static final String serviceIdPostpaid="AepsService";*/

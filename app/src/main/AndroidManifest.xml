@@ -25,7 +25,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoldenFish"
         android:usesCleartextTraffic="false">
-        <activity android:name=".recharges.RechargeMainActivity"></activity>
+        <activity android:name=".recharges.SelectOperatorActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity
+            android:name=".recharges.RechargeMainActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity
             android:name=".updatempin.UpdateMpinActivity"
             android:exported="true"

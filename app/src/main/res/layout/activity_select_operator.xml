@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <RelativeLayout
+        android:id="@+id/operators"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       >
+
+        <include
+            android:id="@+id/tool_bar_container"
+            layout="@layout/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+    android:id="@+id/operator_layout"
+    android:layout_below="@+id/tool_bar_container"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/so"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="Select an Operator"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="23dp"
+            android:textStyle="bold" />
+
+        <GridView
+            android:id="@+id/opertorgrid"
+            android:layout_width="match_parent"
+            android:paddingBottom="15dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
+            android:numColumns="3" />
+</LinearLayout>
+
+        <LinearLayout
+            android:layout_below="@+id/tool_bar_container"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+         android:visibility="gone"
+            android:id="@+id/amount_layout"
+
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/R2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="65dp"
+                        android:layout_marginRight="15dp"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="10dp"
+                        app:cardUseCompatPadding="true">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+
+                            <TextView
+                                android:id="@+id/number"
+                                android:text="12252555"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="10dp"
+
+                                android:textColor="@color/black"
+                                android:textSize="15dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/operaotre"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/number"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="5dp"
+                                android:textColor="@color/black"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/operaotre"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="5dp"
+                                android:onClick="changeOperator"
+                                android:text="Change Operator"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="10dp"
+                                android:textStyle="bold"
+                                tools:ignore="OnClick" />
+
+                            <ImageView
+                                android:id="@+id/logojio"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="20dp"
+                                />
+
+
+                        </RelativeLayout>
+
+
+                    </androidx.cardview.widget.CardView>
+
+                </FrameLayout>
+
+
+            </RelativeLayout>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:id="@+id/et_amt"
+                android:hint="Enter Amount"
+                android:inputType="number"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:maxLength="5"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="@drawable/bordered_back"
+                android:layout_marginRight="20dp"
+                android:layout_height="?attr/actionBarSize"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:text="Proceed To Pay"
+                android:onClick="ProceedFinal"
+                android:textAllCaps="false"
+                android:layout_marginTop="@dimen/_20dp"
+                android:background="@drawable/button_back"
+                android:paddingStart="40dp"
+                android:paddingEnd="40dp"
+                android:textColor="@color/white"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                tools:ignore="OnClick" />
+        </LinearLayout>
+    </RelativeLayout>
+

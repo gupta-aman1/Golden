@@ -988,7 +988,10 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         if(val.equalsIgnoreCase("prepaid"))
         {
             Intent intent = new Intent(HomeDashboardActivity.this, RechargeMainActivity.class);
-            // intent.putExtra("url",url);
+             intent.putExtra(Constant.service_name,ConstantsValue.MobilePrepaid);
+             intent.putExtra(Constant.service_id,ConstantsValue.MobilePrepaidId);
+             intent.putExtra(Constant.MainBal,MainBal);
+             intent.putExtra(Constant. AepsBal, AepsBal);
             startActivity(intent);
           /*  String webViewURL="https://uat.goldenfishdigital.co.in/PrepaidRecharge.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
             String url = webViewURL.replaceAll(" ","%20");
@@ -998,20 +1001,35 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         }
         else if(val.equalsIgnoreCase("dth"))
         {
-            String webViewURL="https://uat.goldenfishdigital.co.in/DTHRecharge.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+
+            Intent intent = new Intent(HomeDashboardActivity.this, RechargeMainActivity.class);
+            intent.putExtra(Constant.service_name,ConstantsValue.DTH);
+            intent.putExtra(Constant.service_id,ConstantsValue.DTHId);
+            intent.putExtra(Constant.MainBal,MainBal);
+            intent.putExtra(Constant. AepsBal, AepsBal);
+            startActivity(intent);
+
+           /* String webViewURL="https://uat.goldenfishdigital.co.in/DTHRecharge.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
             String url = webViewURL.replaceAll(" ","%20");
             Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
             intent.putExtra("url",url);
-            startActivity(intent);
+            startActivity(intent);*/
         }
 
         else if(val.equalsIgnoreCase("postpaid"))
         {
-            String webViewURL="https://uat.goldenfishdigital.co.in/PostPaidRecharge.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+            Intent intent = new Intent(HomeDashboardActivity.this, RechargeMainActivity.class);
+            intent.putExtra(Constant.service_name,ConstantsValue.MobilePostPaid);
+            intent.putExtra(Constant.service_id,ConstantsValue.MobilePostPaidId);
+            intent.putExtra(Constant.MainBal,MainBal);
+            intent.putExtra(Constant. AepsBal, AepsBal);
+            startActivity(intent);
+
+           /* String webViewURL="https://uat.goldenfishdigital.co.in/PostPaidRecharge.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
             String url = webViewURL.replaceAll(" ","%20");
             Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
             intent.putExtra("url",url);
-            startActivity(intent);
+            startActivity(intent);*/
         }
 
         else if(val.equalsIgnoreCase("Money Transfer"))
