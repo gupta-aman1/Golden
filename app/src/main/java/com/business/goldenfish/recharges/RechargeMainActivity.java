@@ -1,6 +1,7 @@
 package com.business.goldenfish.recharges;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,10 +17,11 @@ import com.business.goldenfish.R;
 
 public class RechargeMainActivity extends AppCompatActivity {
     TextView activity_title,tv_aeps_balance,tv_main_balance,text_head;
-    ImageView back_button;
+    ImageView back_button,partners_banner;
     String service_name, service_id,MainBal, AepsBal;
     EditText et_recharge_number;
     LinearLayout powered_layout;
+    View seperator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +33,8 @@ public class RechargeMainActivity extends AppCompatActivity {
         tv_main_balance=findViewById(R.id.tv_main_balance);
         text_head=findViewById(R.id.text_head);
         powered_layout=findViewById(R.id.powered_layout);
+        seperator=findViewById(R.id.view3);
+        partners_banner=findViewById(R.id.partners_banner);
         if(getIntent().getExtras()!=null)
         {
           service_name=  getIntent().getStringExtra(Constant.service_name);
@@ -48,8 +52,10 @@ public class RechargeMainActivity extends AppCompatActivity {
             }
             else if(service_name.equalsIgnoreCase(ConstantsValue.DTH))
             {
-                et_recharge_number.setHint("Costomer ID/VC Number/Subscriber ID");
-                powered_layout.setVisibility(View.INVISIBLE);
+                et_recharge_number.setHint("Customer ID/VC Number/Subscriber ID");
+                seperator.setVisibility(View.VISIBLE);
+                et_recharge_number.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.dth_small, 0);
+                partners_banner.setImageDrawable(ContextCompat.getDrawable(RechargeMainActivity.this,R.drawable.dth_list));
             }
         }
         back_button.setOnClickListener(new View.OnClickListener() {

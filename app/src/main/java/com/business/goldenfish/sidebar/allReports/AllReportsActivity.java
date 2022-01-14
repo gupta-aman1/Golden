@@ -55,7 +55,7 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
     private String userid,service_id="";
     private TabLayout tabLayout;
         ImageView back_button;
-        RecyclerView recycler_data;
+        RecyclerView recycler_data1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +68,7 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
         viewPager = findViewById(R.id.viewPager);
         viewPager.setOffscreenPageLimit(1);
         tabLayout = findViewById(R.id.tabLayout);
-        recycler_data=findViewById(R.id.recycler_data);
+        recycler_data1=findViewById(R.id.recycler_data1);
         SharedPref sharedPref = SharedPref.getInstance(AllReportsActivity.this);
         userid = sharedPref.getStringWithNull(Constant.userId);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -223,7 +223,7 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
         jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetALLReports", service_id + "|" + fromDate + "|" + toDate, userid));
         Call<ModelMainNew> call = RetrofitClient.getInstance().getApi().GetALLReports(jsonObject);
 
-        System.out.println("Req " + jsonObject);
+        //System.out.println("Req " + jsonObject);
         call.enqueue(new Callback<ModelMainNew>() {
             @Override
             public void onResponse(Call<ModelMainNew> call, retrofit2.Response<ModelMainNew> response) {
@@ -233,6 +233,7 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
                     progressDialog.dismiss();
                     String st = null;
                     try {
+                      //  Toast.makeText(AllReportsActivity.this, "test", Toast.LENGTH_SHORT).show();
                         //String service_id="";
                         st = response.body().getStatuscode();
 
@@ -240,9 +241,9 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
                            ArrayList<AllReportNew> allReports = (ArrayList<AllReportNew>) response.body().getData();
                            AllReportAdapterNew allReportsAdapter = new AllReportAdapterNew(AllReportsActivity.this,allReports,service_id);
                             LinearLayoutManager verticalLayoutManager = new LinearLayoutManager(AllReportsActivity.this, LinearLayoutManager.VERTICAL, false);
-                            recycler_data.setLayoutManager(verticalLayoutManager);
+                            recycler_data1.setLayoutManager(verticalLayoutManager);
                             // allReportsAdapter.notifyDataSetChanged();
-                            recycler_data.setAdapter(allReportsAdapter);
+                            recycler_data1.setAdapter(allReportsAdapter);
 
                           /*  for (int i = 0; i < allReports.size(); i++) {
                                 String type = allReports.get(i).getStype();

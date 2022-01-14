@@ -41,10 +41,6 @@
             android:exported="true"
             android:label="Update Mpin" />
         <activity
-            android:name=".ledgerreopt.LedgerReportActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".sidebar.allReports.GetServices"
             android:label="Service Report" />
         <activity

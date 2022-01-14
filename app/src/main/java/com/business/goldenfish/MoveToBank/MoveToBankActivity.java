@@ -393,7 +393,7 @@ System.out.println(formattedDate.replace("am", "AM").replace("pm","PM"));
                                 }
                             }
 
-                            System.out.println("Array Data "+array);
+                           // System.out.println("Array Data "+array);
                             Intent intent = new Intent(MoveToBankActivity.this, SuceessScreen.class);
                             intent.putExtra("list_data", new Gson().toJson(array));
                             intent.putExtra("Head1",Head1);

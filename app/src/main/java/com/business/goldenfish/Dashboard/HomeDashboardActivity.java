@@ -56,7 +56,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.business.goldenfish.Retrofit.RetrofitClient;
-import com.business.goldenfish.ledgerreopt.LedgerReportActivity;
 import com.business.goldenfish.recharges.RechargeMainActivity;
 import com.business.goldenfish.sidebar.allReports.AllReportsActivity;
 import com.business.goldenfish.sidebar.allReports.GetServices;
@@ -685,9 +684,9 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         switch (item.getGroupId()) {
             case R.id.nav_ledger_report:
                 this.drawer.closeDrawer((int) GravityCompat.START, false);
-                Intent intent = new Intent(this, LedgerReportActivity.class);
+                //Intent intent = new Intent(this, LedgerReportActivity.class);
                // intent.putExtra("title", "Ledger Report");
-                startActivity(intent);
+               // startActivity(intent);
                 break;
 
             case R.id.nav_all_report:
