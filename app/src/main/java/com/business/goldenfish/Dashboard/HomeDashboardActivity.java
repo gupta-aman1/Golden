@@ -56,6 +56,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.business.goldenfish.Retrofit.RetrofitClient;
+import com.business.goldenfish.ledgerreopt.LedgerReportActivity;
 import com.business.goldenfish.recharges.RechargeMainActivity;
 import com.business.goldenfish.sidebar.allReports.AllReportsActivity;
 import com.business.goldenfish.sidebar.allReports.GetServices;
@@ -684,9 +685,9 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         switch (item.getGroupId()) {
             case R.id.nav_ledger_report:
                 this.drawer.closeDrawer((int) GravityCompat.START, false);
-                //Intent intent = new Intent(this, LedgerReportActivity.class);
+                Intent intent = new Intent(this, LedgerReportActivity.class);
                // intent.putExtra("title", "Ledger Report");
-               // startActivity(intent);
+                startActivity(intent);
                 break;
 
             case R.id.nav_all_report:
@@ -1151,12 +1152,14 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                         System.out.println("FINAL RESP1 "+fullRes);
                         JSONObject jsonObject1= new JSONObject(fullRes);
                         String stCode= jsonObject1.getString(Constant.StatusCode);
+                        String StatusValue= jsonObject1.getString("Status");
+                        String VLEId= jsonObject1.getString("VLEId");
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))
                         {
 
                             JSONArray jsonArray= jsonObject1.getJSONArray("Data");
                             String  status= jsonArray.getJSONObject(0).getString("status");
-                            String VLEId= jsonObject1.getString("VLEId");
+
                       if(type.equalsIgnoreCase("registration"))
                       {
                           if (status.equalsIgnoreCase("Rejected") || status.equalsIgnoreCase("NA")) {
@@ -1178,12 +1181,24 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                               PanDialog(status);
                           }
                       }
-
+                        }
+                        else if(stCode.equalsIgnoreCase("ERR"))
+                        {
+                                if(StatusValue.equalsIgnoreCase("NA"))
+                                    {
+                                        Intent intent = new Intent(HomeDashboardActivity.this, PsaRegistrationActivity.class);
+                                        intent.putExtra("vle_id",VLEId);
+                                        startActivity(intent);
+                                    }
+                                else
+                                {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(HomeDashboardActivity.this, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
+                                }
 
                         }
                         else
                         {
-
                             progressDialog.dismiss();
                             Toast.makeText(HomeDashboardActivity.this, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
                         }

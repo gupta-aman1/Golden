@@ -47,6 +47,11 @@
             android:name=".AepsSdk.MiniStatement_Success"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ledgerreopt.LedgerReportActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AepsSdk.SuccessScreen_Aeps"
             android:exported="true"

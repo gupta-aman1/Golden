@@ -211,7 +211,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
     String email1="";
     String pan_card1="";
     String pincodeStr="";
-    private String Username="",MobileNo1="",Address="",FirmName="",EmailId="",PANCard="",PIN="";
+    private String Username="",MobileNo1="",Address="",FirmName="",EmailId="",PANCard="",PIN="",Area="";
 
     /* access modifiers changed from: protected */
     @SuppressLint({"SetTextI18n"})
@@ -228,6 +228,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
         EmailId = sharedPref.getStringWithNull(Constant.EmailId);
         PANCard = sharedPref.getStringWithNull(Constant.PANCard);
         PIN = sharedPref.getStringWithNull(Constant.PIN);
+        Area = sharedPref.getStringWithNull(Constant.Area);
 
 
         this.context = this;
@@ -366,7 +367,7 @@ public class WTS_Aeps_Activity extends AppCompatActivity implements OnDataReceiv
         firm_name.setText(FirmName);
         email.setText(EmailId);
         pan_card.setText(PANCard);
-        pincodeET.setText(PIN);
+        pincodeET.setText(Area);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
