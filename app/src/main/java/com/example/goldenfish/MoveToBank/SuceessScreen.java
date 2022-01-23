@@ -21,11 +21,15 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.goldenfish.AepsSdk.AepsAdapter.AdapterMini;
+import com.example.goldenfish.AepsSdk.model.ModelMiniData;
 import com.example.goldenfish.Common.CommonFun;
 import com.example.goldenfish.Common.CommonInterface;
 import com.example.goldenfish.Constants.ConstantsValue;
@@ -33,6 +37,10 @@ import com.example.goldenfish.Dashboard.HomeDashboardActivity;
 import com.example.goldenfish.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -47,6 +55,7 @@ TextView h2,h3,txn_id;
 LottieAnimationView animation_view;
 ImageView shareReceipt;
 NestedScrollView scroll;
+Button donebtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +69,7 @@ NestedScrollView scroll;
         animation_view=findViewById(R.id.animation_view);
         shareReceipt=findViewById(R.id.shareReceipt);
         scroll=findViewById(R.id.scroll);
+        donebtn=findViewById(R.id.donebtn);
         //commonInterface=this;
         if(getIntent().getExtras()!=null)
         {
@@ -70,7 +80,12 @@ NestedScrollView scroll;
             String Head2= getIntent().getStringExtra("Head2");
             String Head3= getIntent().getStringExtra("Head3");
             String type= getIntent().getStringExtra("type");
+            String service= getIntent().getStringExtra("service");
 
+            if(service == null || service.equals(""))
+            {
+                service="";
+            }
             setTitle(Head1);
             h2.setText(Head2);
             h3.setText(Head3);
@@ -100,6 +115,43 @@ NestedScrollView scroll;
                     txn_id.setText("Transaction Number : "+listPrivate.get(i).getValue());
                 }
             }
+
+            if(service.equalsIgnoreCase("SAP") && type.equalsIgnoreCase("success"))
+            {
+                try {
+                JSONArray json = null;
+                    ArrayList<ModelMiniData> modelMiniData= new ArrayList<>();
+
+                for (int i=0; i<listPrivate.size();i++)
+                {
+                    if(listPrivate.get(i).getKey().equalsIgnoreCase("MiniSmt"))
+                    {
+                        json = new JSONArray(listPrivate.get(i).getValue());
+                        break;
+                      //  txn_id.setText("Transaction Number : "+listPrivate.get(i).getValue());
+                    }
+                }
+
+                    for (int i=0;i<json.length();i++) {
+                        JSONObject innerobj = json.getJSONObject(i);
+                       // innerobj.getString("date");
+                        //System.out.println("JSON OBJ "+innerobj.getString("date"));
+                        modelMiniData.add(new ModelMiniData(innerobj.getString("date"),innerobj.getString("txnType"),innerobj.getString("amount"),innerobj.getString("narration")));
+                    }
+                    LinearLayout linearLayout = findViewById(R.id.mini_layout);
+                    linearLayout.setVisibility(View.VISIBLE);
+                    RecyclerView recyclerView = findViewById(R.id.recyclerviewMiniStatement1);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                    recyclerView.setNestedScrollingEnabled(false);
+                    recyclerView.setHasFixedSize(false);
+                    AdapterMini adapter1 = new AdapterMini(modelMiniData,this);
+                    //  adapter.setClickListener(this);
+                    recyclerView.setAdapter(adapter1);
+                } catch (JSONException e) {
+                    //  e.printStackTrace();
+                    Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
         }
         else
         {
@@ -118,6 +170,7 @@ NestedScrollView scroll;
 
     private Bitmap getBitmapFromView(View view, int height, int width) {
         shareReceipt.setVisibility(View.GONE);
+        donebtn.setVisibility(View.GONE);
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Drawable bgDrawable = view.getBackground();
@@ -132,6 +185,7 @@ NestedScrollView scroll;
     private void savetoGallery(Bitmap bitmap) {
       //  done.setVisibility(View.VISIBLE);
         shareReceipt.setVisibility(View.VISIBLE);
+        donebtn.setVisibility(View.VISIBLE);
         String root = Environment.getExternalStorageDirectory().getPath() + "/Golden/";
         File myDir = new File(root);
         if (!myDir.exists()) {
@@ -180,6 +234,7 @@ NestedScrollView scroll;
         if(status)
         {
             shareReceipt.setVisibility(View.GONE);
+            donebtn.setVisibility(View.GONE);
             Bitmap bitmap = getBitmapFromView(scroll, scroll.getChildAt(0).getHeight(), scroll.getChildAt(0).getWidth());
             savetoGallery(bitmap);
         }
@@ -189,4 +244,10 @@ NestedScrollView scroll;
         }
     }
 
+    public void doneClick(View view) {
+        HomeDashboardActivity bal = new HomeDashboardActivity();
+        bal.recivedSms("");
+        startActivity(new Intent(this, HomeDashboardActivity.class));
+        finishAffinity();
+    }
 }

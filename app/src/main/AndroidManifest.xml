@@ -23,16 +23,19 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.GoldenFish"
+
         android:usesCleartextTraffic="true" >
-        <activity
-            android:name=".Sidebar.AllReports.ShowServiceActivity"
-            android:exported="true" />
         <activity
             android:name=".AepsSdk.MiniStatement_Success"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+        <activity android:name=".sidebar.allReports.GetServices"
+            android:label="Services">
+        </activity>
+
         <activity
+
             android:name=".AepsSdk.SuccessScreen_Aeps"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -70,7 +73,7 @@
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Sidebar.AllReports.AllReportsActivity"
+            android:name=".sidebar.allReports.AllReportsActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

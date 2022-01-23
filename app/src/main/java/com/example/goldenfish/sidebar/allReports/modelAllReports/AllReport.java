@@ -1,4 +1,4 @@
-package com.example.goldenfish.Sidebar.AllReports.ModelAllReports;
+package com.example.goldenfish.sidebar.allReports.modelAllReports;
 
 public class AllReport {
 

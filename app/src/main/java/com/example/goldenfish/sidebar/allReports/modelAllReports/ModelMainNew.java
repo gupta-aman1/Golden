@@ -1,23 +1,23 @@
-package com.example.goldenfish.Sidebar.AllReports.ModelAllReports;
+package com.example.goldenfish.sidebar.allReports.modelAllReports;
 
 import java.util.List;
 
-public class ModelMainClass {
+public class ModelMainNew {
     String Statuscode;
     String Message;
-    List<AllReport> Data;
-
-    public String getStatuscode() {
-        return Statuscode;
-    }
+    List<AllReportNew> Data;
 
     @Override
     public String toString() {
-        return "ModelMainClass{" +
+        return "ModelMainNew{" +
                 "Statuscode='" + Statuscode + '\'' +
                 ", Message='" + Message + '\'' +
                 ", Data=" + Data +
                 '}';
+    }
+
+    public String getStatuscode() {
+        return Statuscode;
     }
 
     public void setStatuscode(String statuscode) {
@@ -32,17 +32,11 @@ public class ModelMainClass {
         Message = message;
     }
 
-    public List<AllReport> getData() {
+    public List<AllReportNew> getData() {
         return Data;
     }
 
-    public void setData(List<AllReport> data) {
-        Data = data;
-    }
-
-    public ModelMainClass(String statuscode, String message, List<AllReport> data) {
-        Statuscode = statuscode;
-        Message = message;
+    public void setData(List<AllReportNew> data) {
         Data = data;
     }
 }

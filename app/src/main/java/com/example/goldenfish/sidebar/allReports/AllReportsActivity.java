@@ -1,14 +1,15 @@
-package com.example.goldenfish.Sidebar.AllReports;
+package com.example.goldenfish.sidebar.allReports;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -21,32 +22,23 @@ import com.example.goldenfish.Common.CommonFun;
 import com.example.goldenfish.Common.CommonInterface;
 import com.example.goldenfish.Constants.Constant;
 import com.example.goldenfish.Constants.ConstantsValue;
-import com.example.goldenfish.Dashboard.HomeDashboardActivity;
-import com.example.goldenfish.MoveToBank.SuceessScreen;
 import com.example.goldenfish.R;
 import com.example.goldenfish.Retrofit.RetrofitClient;
-import com.example.goldenfish.Sidebar.AllReports.ModelAllReports.AllReport;
-import com.example.goldenfish.Sidebar.AllReports.ModelAllReports.ModelMainClass;
+import com.example.goldenfish.sidebar.allReports.modelAllReports.AllReport;
+import com.example.goldenfish.sidebar.allReports.modelAllReports.AllReportNew;
+import com.example.goldenfish.sidebar.allReports.modelAllReports.ModelMainNew;
 import com.example.goldenfish.Utilities.MyUtils;
 import com.example.goldenfish.Utilities.SharedPref;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -59,9 +51,10 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
     String choosedate = "", toDate = "", fromDate = "";
     TextView tv_to_date, tv_from_date;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    private String userid;
+    private String userid,service_id="";
     private TabLayout tabLayout;
         ImageView back_button;
+        RecyclerView recycler_data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +67,7 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
         viewPager = findViewById(R.id.viewPager);
         viewPager.setOffscreenPageLimit(1);
         tabLayout = findViewById(R.id.tabLayout);
+        recycler_data=findViewById(R.id.recycler_data);
         SharedPref sharedPref = SharedPref.getInstance(AllReportsActivity.this);
         userid = sharedPref.getStringWithNull(Constant.userId);
 
@@ -197,48 +191,56 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
                 datePickerDialog.show();
             }
         });
-
+        if(getIntent().getExtras()!=null)
+        {
+            service_id= getIntent().getStringExtra(Constant.service_id);
+        }
     }
-
     private void getAllReports() {
         final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Fetching Reports");
+        progressDialog.setTitle("Fetching Reports..");
         // progressDialog.setMessage("Please wait while logging in...");
         progressDialog.setCancelable(false);
         progressDialog.show();
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("Userid", userid);
-        jsonObject.addProperty("Filterby", "ALL");
+        jsonObject.addProperty("Userid", "4525");
+        jsonObject.addProperty("Filterby","AepsService");
         jsonObject.addProperty("FromDate", fromDate);
         jsonObject.addProperty("ToDate", toDate);
-        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetALLReports", "ALL" + "|" + fromDate + "|" + toDate, userid));
-        Call<ModelMainClass> call = RetrofitClient.getInstance().getApi().GetALLReports(jsonObject);
+        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetALLReports", "AepsService" + "|" + fromDate + "|" + toDate, "4525"));
+        Call<ModelMainNew> call = RetrofitClient.getInstance().getApi().GetALLReports(jsonObject);
 
-       // System.out.println("Req " + jsonObject);
-        call.enqueue(new Callback<ModelMainClass>() {
+        System.out.println("Req " + jsonObject);
+        call.enqueue(new Callback<ModelMainNew>() {
             @Override
-            public void onResponse(Call<ModelMainClass> call, retrofit2.Response<ModelMainClass> response) {
+            public void onResponse(Call<ModelMainNew> call, retrofit2.Response<ModelMainNew> response) {
 
                 if (response.body() != null) {
                     // HideProgress(ctx);
                     progressDialog.dismiss();
                     String st = null;
                     try {
+                        String service_id="";
                         st = response.body().getStatuscode();
 
                         if (st.equalsIgnoreCase(ConstantsValue.successful)) {
-                            allReports = (ArrayList<AllReport>) response.body().getData();
+                           ArrayList<AllReportNew> allReports = (ArrayList<AllReportNew>) response.body().getData();
+                           AllReportAdapterNew allReportsAdapter = new AllReportAdapterNew(AllReportsActivity.this,allReports,service_id);
+                            LinearLayoutManager verticalLayoutManager = new LinearLayoutManager(AllReportsActivity.this, LinearLayoutManager.VERTICAL, false);
+                            recycler_data.setLayoutManager(verticalLayoutManager);
+                            // allReportsAdapter.notifyDataSetChanged();
+                            recycler_data.setAdapter(allReportsAdapter);
 
-                            for (int i = 0; i < allReports.size(); i++) {
+                          /*  for (int i = 0; i < allReports.size(); i++) {
                                 String type = allReports.get(i).getStype();
                                 allReportsHead.add(type);
                             }
 
                             Set<String> set = new HashSet<>(allReportsHead);
                             allReportsHead.clear();
-                            allReportsHead.addAll(set);
+                            allReportsHead.addAll(set);*/
 
-                            setupViewPagers(viewPager, allReportsHead);
+                           // setupViewPagers(viewPager, allReportsHead);
                         } else {
                             Toast.makeText(AllReportsActivity.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -276,7 +278,7 @@ public class AllReportsActivity extends AppCompatActivity implements CommonInter
             }
 
             @Override
-            public void onFailure(Call<ModelMainClass> call, Throwable t) {
+            public void onFailure(Call<ModelMainNew> call, Throwable t) {
                 progressDialog.dismiss();
                 Toast.makeText(AllReportsActivity.this, "Due to Internet Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
