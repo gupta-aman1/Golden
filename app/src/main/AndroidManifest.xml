@@ -25,17 +25,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoldenFish"
         android:usesCleartextTraffic="false">
-        <activity android:name=".recharges.SelectOperatorActivity"
+        <activity android:name=".AddFund.AddFundActivity"
+            android:label="Offline - Add Fund"/>
+        <activity
+            android:name=".recharges.SelectOperatorActivity"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".recharges.RechargeMainActivity"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".updatempin.UpdateMpinActivity"
             android:exported="true"
@@ -47,7 +46,6 @@
             android:name=".AepsSdk.MiniStatement_Success"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".ledgerreopt.LedgerReportActivity"
             android:exported="true"
