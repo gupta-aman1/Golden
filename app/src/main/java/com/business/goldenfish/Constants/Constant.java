@@ -27,6 +27,7 @@ public class Constant {
     public static final String service_name="service_name";
     public static final String MainBal="MainBal";
     public static final String  AepsBal=" AepsBal";
+    public static final String  aadharcard=" aadharcard";
     //public static final String PANCard="PANCard";
 
 }

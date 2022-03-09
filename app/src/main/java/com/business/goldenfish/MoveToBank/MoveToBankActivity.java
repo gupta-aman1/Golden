@@ -35,6 +35,7 @@ import com.business.goldenfish.Retrofit.RetrofitClient;
 import com.business.goldenfish.UserAuth.LoginActivity;
 import com.business.goldenfish.Utilities.MyUtils;
 import com.business.goldenfish.Utilities.SharedPref;
+import com.business.goldenfish.Utilities.UtilsIP;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -331,6 +332,7 @@ System.out.println(formattedDate.replace("am", "AM").replace("pm","PM"));
         jsonObject.addProperty("AccountDetailsId",AccountDetailsId);
         jsonObject.addProperty("Amount",Amount);
         jsonObject.addProperty("PayoutMode",PayoutMode);
+        jsonObject.addProperty("IpAddress", UtilsIP.getIPAddress(true));
         jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("MoveToBank",WalletType+"|"+AccountDetailsId+"|"+Amount+"|"+PayoutMode,userid));
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().MoveToBank(jsonObject);
         call.enqueue(new Callback<ResponseBody>() {

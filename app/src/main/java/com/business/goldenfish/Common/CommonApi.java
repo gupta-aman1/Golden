@@ -19,8 +19,10 @@ import com.business.goldenfish.Retrofit.RetrofitClient;
 import com.business.goldenfish.Utilities.MyUtils;
 import com.business.goldenfish.Utilities.UploadFile;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -375,17 +377,28 @@ public class CommonApi {
         });
     }
 
-    public static void sendOTP(Activity activity,String userId,String mobile,CommonInterface commonInterface)
+    public static void sendOTP(Activity activity,String userId,String mobile,CommonInterface commonInterface,JSONObject jsonObject1)
     {
         final ProgressDialog progressDialog = new ProgressDialog(activity);
         progressDialog.setTitle("Sending OTP.....");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        JsonObject jsonObject= new JsonObject();
+       /* JsonObject jsonObject= new JsonObject();
         jsonObject.addProperty("Userid",userId);
         jsonObject.addProperty("Mobile",mobile);
-        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("SendOTPForOutlet",mobile,userId));
-        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().SendOTPForOutlet(jsonObject);
+        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("SendOTPForOutlet",mobile,userId));*/
+
+        JsonObject gsonObject=null;
+        try {
+            org.json.JSONObject object =jsonObject1;
+            JsonParser jsonParser = new JsonParser();
+            gsonObject = (JsonObject)jsonParser.parse(object.toString());
+        } catch (Exception e) {
+            //e.printStackTrace();
+            Toast.makeText(activity, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        System.out.println("REQUEST STRING "+gsonObject);
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().OutletSignupInitiate(gsonObject);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
@@ -399,11 +412,16 @@ public class CommonApi {
 
                         fullRes = response.body().string();
                         JSONObject jsonObject1= new JSONObject(fullRes);
+                        System.out.println("RESP STRING "+jsonObject1);
                         String stCode= jsonObject1.getString(Constant.StatusCode);
                         if (stCode.equalsIgnoreCase(ConstantsValue.successful))
                         {
+                            JSONObject innerObj=jsonObject1.getJSONObject("Data");
+                            JSONObject innerObj1=innerObj.getJSONObject("data");
+                            String otpReferenceID=innerObj1.getString("otpReferenceID");
+                            String hash=innerObj1.getString("hash");
                             Toast.makeText(activity, ""+jsonObject1.getString("Message"), Toast.LENGTH_SHORT).show();
-                            commonInterface.OTPtatus(true);
+                            commonInterface.OTPtatus(true,otpReferenceID,hash);
                         }
                         else
                         {
@@ -444,6 +462,8 @@ public class CommonApi {
             }
         });
     }
+
+
 
     public static void getBalanceWalletWise(Activity activity, JsonObject jsonObject,CommonInterface commonInterface)
     {

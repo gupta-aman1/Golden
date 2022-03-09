@@ -31,7 +31,7 @@ public interface CommonInterface {
     {
 
     }
-    default void OTPtatus(boolean status)
+    default void OTPtatus(boolean status,String ref,String hash)
     {
 
     }

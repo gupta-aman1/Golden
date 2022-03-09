@@ -23,7 +23,7 @@ public class MyUtils {
                 input = endPint+"|"+ConstantsValue.uniqueKey+"|"+user_id+"|"+params;
             }
 
-          //  System.out.println("INPUT STRING "+input);
+            System.out.println("INPUT STRING "+input);
             // getInstance() method is called with algorithm SHA-512
             MessageDigest md = MessageDigest.getInstance("SHA-512");
 

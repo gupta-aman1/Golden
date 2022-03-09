@@ -97,11 +97,21 @@ public class ServerModel {
     private String sessionKey;
 
 
+    public String getIpAddress() {
+        return IpAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        IpAddress = ipAddress;
+    }
+
     @SerializedName("Srno")
     @Expose
     private String srno;
 
     private String PidData;
+
+    private String IpAddress;
 
     public String getPidData() {
         return PidData;

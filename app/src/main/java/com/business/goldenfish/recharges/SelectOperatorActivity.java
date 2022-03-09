@@ -21,11 +21,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.business.goldenfish.Common.CommonFun;
+import com.business.goldenfish.Common.CommonInterface;
 import com.business.goldenfish.Constants.Constant;
 import com.business.goldenfish.Constants.ConstantsValue;
 import com.business.goldenfish.MoveToBank.DetailedData;
 import com.business.goldenfish.MoveToBank.MoveToBankActivity;
 import com.business.goldenfish.MoveToBank.SuceessScreen;
+import com.business.goldenfish.PanCard.PurchaseCouponActivity;
 import com.business.goldenfish.PayoutAc.AddPayoutAcc;
 import com.business.goldenfish.R;
 import com.business.goldenfish.Retrofit.RetrofitClient;
@@ -54,7 +57,7 @@ import retrofit2.Callback;
 import static com.business.goldenfish.Retrofit.RetrofitClient.BASE_URL;
 import static com.business.goldenfish.Retrofit.RetrofitClient.IMAGE_URL;
 
-public class SelectOperatorActivity extends AppCompatActivity {
+public class SelectOperatorActivity extends AppCompatActivity implements CommonInterface {
 GridView opertorgrid;
 TextView activity_title;
 ImageView back_button,logoopr;
@@ -222,10 +225,17 @@ TextView number,operaotre;
         }
         else
         {
+            CommonFun.showMpinDialog(SelectOperatorActivity.this,userid,SelectOperatorActivity.this);
+
+        }
+    }
+    @Override
+    public void MpinStatus(boolean status) {
+        if(status)
+        {
             SendRechargeRequest();
         }
     }
-
     @Override
     public void onBackPressed() {
         if (amount_layout.getVisibility() == View.VISIBLE) {
@@ -246,7 +256,7 @@ TextView number,operaotre;
     private void SendRechargeRequest()
     {
         final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Sending Request .....");
+        progressDialog.setTitle("Processing Request .....");
         progressDialog.setCancelable(false);
         progressDialog.show();
         JsonObject jsonObject= new JsonObject();

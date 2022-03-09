@@ -273,6 +273,7 @@ public class LoginActivity extends AppCompatActivity {
                             sharedPref.putString(Constant.Area, String.valueOf(jsonArray.getJSONObject(0).getString("Area")));
                             sharedPref.putString(Constant.OutletId, String.valueOf(jsonArray.getJSONObject(0).getString("OutletId")));
                             sharedPref.putString(Constant.PIN, String.valueOf(jsonArray.getJSONObject(0).getString("PIN")));
+                            sharedPref.putString(Constant.aadharcard, String.valueOf(jsonArray.getJSONObject(0).getString("aadharcard")));
 
                             startActivity(new Intent(LoginActivity.this,HomeDashboardActivity.class));
                             finishAffinity();
@@ -503,6 +504,7 @@ public class LoginActivity extends AppCompatActivity {
                                 sharedPref.putString(Constant.Area, String.valueOf(jsonArray.getJSONObject(0).getString("Area")));
                                 sharedPref.putString(Constant.OutletId, String.valueOf(jsonArray.getJSONObject(0).getString("OutletId")));
                                 sharedPref.putString(Constant.PIN, String.valueOf(jsonArray.getJSONObject(0).getString("PIN")));
+                                sharedPref.putString(Constant.aadharcard, String.valueOf(jsonArray.getJSONObject(0).getString("aadharcard")));
 
                            // Toast.makeText(LoginActivity.this, "OTP sent", Toast.LENGTH_SHORT).show();
                           // String userId = sharedPref.getStringWithNull(Constant.userId);

@@ -106,11 +106,11 @@ public interface interfaceAPI {
     @POST("GetPSAStatus")
     Call<ResponseBody> GetPSAStatus(@Body JsonObject object);
 
-    @POST("SendOTPForOutlet")
-    Call<ResponseBody> SendOTPForOutlet(@Body JsonObject object);
+    @POST("OutletSignupInitiate")
+    Call<ResponseBody> OutletSignupInitiate(@Body JsonObject object);
 
-    @POST("ValidateOTPForOutlet")
-    Call<ResponseBody> ValidateOTPForOutlet(@Body JsonObject object);
+    @POST("OutletSignupValidate")
+    Call<ResponseBody> OutletSignupValidate(@Body JsonObject object);
 
     @POST("GetAllServiceForReports")
     Call<ResponseBody> GetAllServiceForReports(@Body JsonObject object);

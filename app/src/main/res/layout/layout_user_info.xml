@@ -28,29 +28,27 @@
             android:textSize="@dimen/eighteensp"
             android:textStyle="bold" />
 
-
         <EditText
-            android:id="@+id/mobileNumberET"
+            android:id="@+id/firm_name"
+            android:textSize="@dimen/fourteensp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:textSize="@dimen/fourteensp"
             android:enabled="false"
-            android:layout_marginStart="@dimen/thirtyfive"
             android:layout_marginTop="@dimen/twentyfive"
+            android:layout_marginStart="@dimen/thirtyfive"
+
             android:layout_marginEnd="@dimen/thirtyfive"
+            android:textColor="@color/black"
             android:background="@drawable/edit_bg"
             android:ems="10"
-            android:hint="Mobile Number"
-            android:inputType="number"
-            android:textColor="@color/black"
-            android:maxLength="10"
+            android:ellipsize="end"
+            android:hint="Comapny Name"
+            android:inputType="textPersonName"
             android:padding="@dimen/fivedp"
             android:paddingLeft="@dimen/fivedp"
             android:paddingTop="@dimen/fivedp"
             android:paddingRight="@dimen/fivedp"
-            android:singleLine="true"
             android:textAlignment="center" />
-
         <EditText
             android:id="@+id/nameET"
             android:layout_width="match_parent"
@@ -73,70 +71,28 @@
             android:singleLine="true"
             android:textAlignment="center" />
 
-
         <EditText
-            android:id="@+id/address1"
+            android:id="@+id/mobileNumberET"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:textSize="@dimen/fourteensp"
             android:enabled="false"
-            android:textSize="@dimen/fourteensp"
             android:layout_marginStart="@dimen/thirtyfive"
-            android:textColor="@color/black"
             android:layout_marginTop="@dimen/tendp"
             android:layout_marginEnd="@dimen/thirtyfive"
             android:background="@drawable/edit_bg"
             android:ems="10"
-            android:hint="Building/House/Flat No"
-            android:ellipsize="end"
-            android:inputType="textPersonName|textMultiLine"
-            android:maxLength="25"
-            android:padding="@dimen/fivedp"
-            android:paddingLeft="@dimen/fivedp"
-            android:paddingTop="@dimen/fivedp"
-            android:paddingRight="@dimen/fivedp"
-            android:singleLine="true"
-            android:textAlignment="center" />
-        <EditText
-            android:id="@+id/pincodeET"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textSize="@dimen/fourteensp"
-            android:layout_marginStart="@dimen/thirtyfive"
-            android:layout_marginTop="@dimen/tendp"
-            android:layout_marginEnd="@dimen/thirtyfive"
-            android:textColor="@color/black"
-            android:background="@drawable/edit_bg"
-            android:ems="10"
-            android:hint="Enter Pincode"
+            android:hint="Mobile Number"
             android:inputType="number"
-            android:enabled="false"
-            android:maxLength="6"
+            android:textColor="@color/black"
+            android:maxLength="10"
             android:padding="@dimen/fivedp"
             android:paddingLeft="@dimen/fivedp"
             android:paddingTop="@dimen/fivedp"
             android:paddingRight="@dimen/fivedp"
             android:singleLine="true"
             android:textAlignment="center" />
-        <EditText
-            android:id="@+id/firm_name"
-            android:textSize="@dimen/fourteensp"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:enabled="false"
-            android:layout_marginStart="@dimen/thirtyfive"
-            android:layout_marginTop="@dimen/tendp"
-            android:layout_marginEnd="@dimen/thirtyfive"
-            android:textColor="@color/black"
-            android:background="@drawable/edit_bg"
-            android:ems="10"
-            android:ellipsize="end"
-            android:hint="Comapny Name"
-            android:inputType="textPersonName"
-            android:padding="@dimen/fivedp"
-            android:paddingLeft="@dimen/fivedp"
-            android:paddingTop="@dimen/fivedp"
-            android:paddingRight="@dimen/fivedp"
-            android:textAlignment="center" />
+
 
         <EditText
             android:id="@+id/email"
@@ -157,7 +113,6 @@
             android:paddingRight="@dimen/fivedp"
             android:singleLine="true"
             android:textAlignment="center" />
-
         <EditText
             android:id="@+id/pan_card"
             android:layout_width="match_parent"
@@ -178,6 +133,54 @@
             android:paddingRight="@dimen/fivedp"
             android:singleLine="true"
             android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/aadhar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:enabled="false"
+            android:textSize="@dimen/fourteensp"
+            android:layout_marginStart="@dimen/thirtyfive"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/tendp"
+            android:layout_marginEnd="@dimen/thirtyfive"
+            android:background="@drawable/edit_bg"
+            android:ems="10"
+            android:hint="Aadhaar Number"
+            android:ellipsize="end"
+            android:inputType="textPersonName|textMultiLine"
+            android:maxLength="25"
+            android:padding="@dimen/fivedp"
+            android:paddingLeft="@dimen/fivedp"
+            android:paddingTop="@dimen/fivedp"
+            android:paddingRight="@dimen/fivedp"
+            android:singleLine="true"
+            android:textAlignment="center" />
+        <EditText
+            android:id="@+id/pincodeET"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="@dimen/fourteensp"
+            android:visibility="gone"
+            android:layout_marginStart="@dimen/thirtyfive"
+            android:layout_marginTop="@dimen/tendp"
+            android:layout_marginEnd="@dimen/thirtyfive"
+            android:textColor="@color/black"
+            android:background="@drawable/edit_bg"
+            android:ems="10"
+            android:hint="Enter Pincode"
+            android:inputType="number"
+            android:enabled="false"
+            android:maxLength="6"
+            android:padding="@dimen/fivedp"
+            android:paddingLeft="@dimen/fivedp"
+            android:paddingTop="@dimen/fivedp"
+            android:paddingRight="@dimen/fivedp"
+            android:singleLine="true"
+            android:textAlignment="center" />
+
+
+
 
         <TextView
             android:layout_marginTop="15dp"
