@@ -29,9 +29,12 @@ import com.business.goldenfish.Constants.ConstantsValue;
 import com.business.goldenfish.Dashboard.HomeDashboardActivity;
 import com.business.goldenfish.R;
 import com.business.goldenfish.Retrofit.RetrofitClient;
+import com.business.goldenfish.SplashScreenActivity;
 import com.business.goldenfish.Utilities.MyUtils;
 import com.business.goldenfish.Utilities.SharedPref;
+import com.business.goldenfish.services.SharedPrefHelper;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -74,7 +77,10 @@ public class LoginActivity extends AppCompatActivity {
     String usertype;
     //WebServiceInterface webServiceInterface;
     SharedPref sharedPref;
+    String device_token;
+    SharedPrefHelper sharedPrefHelper;
     /* access modifiers changed from: protected */
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView((int) R.layout.activity_login);
@@ -220,6 +226,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login()
     {
+
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Logging In");
         progressDialog.setMessage("Please wait while logging in...");
@@ -229,6 +236,7 @@ public class LoginActivity extends AppCompatActivity {
         jsonObject.addProperty("Userid","NA");
         jsonObject.addProperty("UserName",this.etUserId.getText().toString().trim());
         jsonObject.addProperty("Password",this.etUserPassword.getText().toString().trim());
+        jsonObject.addProperty(Constant.Token,device_token);
         jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("UserAccountLogin",etUserId.getText().toString().trim()+"|"+etUserPassword.getText().toString().trim(),"NA"));
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().UserAccountLogin(jsonObject);
         call.enqueue(new Callback<ResponseBody>() {
@@ -466,6 +474,7 @@ public class LoginActivity extends AppCompatActivity {
         jsonObject.addProperty("Userid","NA");
         jsonObject.addProperty("OTP",otp);
         jsonObject.addProperty("Mobile",mobile);
+        jsonObject.addProperty(Constant.Token,device_token);
         jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("ValidateOTPForLogin",otp+"|"+mobile,"NA"));
      //  System.out.println("JSON REQ "+jsonObject);
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().ValidateOTPForLogin(jsonObject);
@@ -614,6 +623,26 @@ public class LoginActivity extends AppCompatActivity {
         this.btnLogin = (Button) findViewById(R.id.btn_login);
         this.tvForgetPassword = (TextView) findViewById(R.id.tv_forget_password);
         sharedPref = SharedPref.getInstance(LoginActivity.this);
+        sharedPrefHelper = new SharedPrefHelper(LoginActivity.this);
+        device_token = sharedPrefHelper.getString("token", null);
+
+
+        if (device_token == null || device_token.equals("") || device_token.equalsIgnoreCase("null"))   {
+            FirebaseMessaging.getInstance().getToken()
+                    .addOnCompleteListener(task -> {
+                        if (!task.isSuccessful()) {
+//
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token1 = task.getResult();
+                        sharedPrefHelper.setString("token", token1);
+
+                        Toast.makeText(LoginActivity.this, "Authenticating...", Toast.LENGTH_SHORT).show();
+                    });
+        }
+
     }
 
     /* access modifiers changed from: private */

@@ -1,9 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".AddFund.AddFundActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/bar_container1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_add_fund"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                <ImageView
+                    android:id="@+id/back_button_ledger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:src="@drawable/back" />
+
+                <TextView
+                    android:id="@+id/activity_title_ledger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_marginStart="30dp"
+                    android:gravity="center"
+                    android:text="@string/app_name"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout_ledger"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                app:tabGravity="center"
+                app:tabIndicatorColor="@color/green"
+                app:tabMode="scrollable"
+                app:tabTextColor="#fff" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="@dimen/_20dp"
+                    android:layout_marginBottom="@dimen/_20dp"
+                    android:src="@drawable/move_to_bank" />
+
+
+                <Spinner
+                    android:id="@+id/et_acc"
+                    style="@style/SpinnerTheme1"
+                    android:layout_margin="@dimen/_20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"></Spinner>
+
+                <TextView
+                    android:layout_marginTop="7dp"
+                    android:layout_marginRight="@dimen/_20dp"
+                    android:layout_gravity="right"
+                    android:textStyle="bold"
+                    android:text="View Details"
+                    android:id="@+id/view_details"
+                    android:textSize="14sp"
+                    android:textColor="@color/txt_red"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></TextView>
+
+
+                <Spinner
+                    android:id="@+id/et_mode"
+                    style="@style/SpinnerTheme1"
+                    android:layout_margin="@dimen/_20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"></Spinner>
+
+                <EditText
+                    android:id="@+id/et_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_margin="@dimen/_20dp"
+                    android:background="@drawable/bordered_back"
+                    android:hint="Amount"
+                    android:inputType="number"
+                    android:maxLength="5"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp" />
+
+                <EditText
+                    android:id="@+id/et_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_margin="@dimen/_20dp"
+                    android:focusable="false"
+                    android:background="@drawable/bordered_back"
+                    android:hint="Select Date"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp" />
+
+                <EditText
+                    android:id="@+id/et_refno"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_margin="@dimen/_20dp"
+                    android:background="@drawable/bordered_back"
+                    android:hint="Transaction Number"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp" />
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        app:cardCornerRadius="7dp"
+                        android:layout_margin="20dp"
+                        android:id="@+id/upload_layout"
+                        android:onClick="uploadPassbook"
+                        android:elevation="10dp"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="250dp"
+                            android:orientation="vertical"
+                            android:padding="10dp"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:drawablePadding="15dp"
+                                android:textColor="@color/black"
+                                android:drawableLeft="@drawable/ic_baseline_camera_alt_24"
+                                android:text="Upload Scanned Copy of Cash Deposit Slip Confirmation Advice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"></TextView>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <ImageView
+                        android:id="@+id/img"
+                        android:layout_toRightOf="@+id/upload_layout"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp">
+
+                    </ImageView>
+                </RelativeLayout>
+
+
+                <TextView
+                    android:text="User Details"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <EditText
+                    android:id="@+id/et_accno"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_margin="@dimen/_20dp"
+                    android:inputType="number"
+                    android:maxLength="30"
+                    android:background="@drawable/bordered_back"
+                    android:hint="Account Number"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp" />
+
+                <EditText
+                    android:id="@+id/et_acc_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_margin="@dimen/_20dp"
+                    android:background="@drawable/bordered_back"
+                    android:hint="Account Holder Name"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp" />
+
+                <EditText
+                    android:id="@+id/et_branch"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_margin="@dimen/_20dp"
+                    android:background="@drawable/bordered_back"
+                    android:hint="Enter Bank Name"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp" />
+
+                <EditText
+                    android:id="@+id/et_ifsc"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_margin="@dimen/_20dp"
+                    android:background="@drawable/bordered_back"
+                    android:hint="Enter IFSC"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp" />
+
+                <Button
+                    android:id="@+id/btn_proceed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:onClick="ProceedAddFund"
+                    android:layout_marginTop="@dimen/_20dp"
+                    android:background="@drawable/button_back"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="40dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="Proceed"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</layout>

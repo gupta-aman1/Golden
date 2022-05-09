@@ -8,11 +8,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.business.goldenfish.AddFund.AddFundActivity;
 import com.business.goldenfish.AddUser.AddUserActivity;
-import com.business.goldenfish.Aeps.WebviewAeps;
 import com.business.goldenfish.AepsSdk.WTS_Aeps_Activity;
 import com.business.goldenfish.ChangePassword.ChangePasswordActivity;
 import com.business.goldenfish.Common.CommonInterface;
@@ -39,6 +40,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,7 +60,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.business.goldenfish.Retrofit.RetrofitClient;
 import com.business.goldenfish.ledgerreopt.LedgerReportActivity;
 import com.business.goldenfish.recharges.RechargeMainActivity;
-import com.business.goldenfish.sidebar.allReports.AllReportsActivity;
+import com.business.goldenfish.services.SharedPrefHelper;
 import com.business.goldenfish.sidebar.allReports.GetServices;
 import com.business.goldenfish.UserAuth.LoginActivity;
 import com.business.goldenfish.Utilities.GeoLocation;
@@ -77,6 +79,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallState;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -88,6 +98,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class HomeDashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnDataReceiverListener, GpsInterface, CommonInterface {
+    private static final int MY_REQUEST_CODE = 7;
     int PERMISSION_ID = 44;
     String address;
     String aepsBalance = "00.00";
@@ -106,13 +117,16 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
     String longi = "0.0";
     double lattitude=0.0;
     double longitude=0.0;
-
+    AppUpdateManager appUpdateManager;
+    InstallStateUpdatedListener installStateUpdatedListener;
     FusedLocationProviderClient mFusedLocationClient;
     GeoLocation geoLocation;
     private GpsListener gpsListener;
     private boolean isGpsOn;
     private boolean onecall=false;
     private boolean faslecall=false;
+    SharedPrefHelper sharedPrefHelper;
+    String device_token;
     private LocationCallback mLocationCallback = new LocationCallback() {
         public void onLocationResult(LocationResult locationResult) {
             Location mLastLocation = locationResult.getLastLocation();
@@ -230,11 +244,6 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 intent.putExtra("aepsBalance", HomeDashboardActivity.this.aepsBalance);
                 HomeDashboardActivity.this.startActivity(intent);*/
 
-                String webViewURL="https://uat.goldenfishdigital.co.in/PrepaidRecharge.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-                String url = webViewURL.replaceAll(" ","%20");
-                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-                intent.putExtra("url",url);
-                startActivity(intent);
             }
         });
         this.postpaidCard.setOnClickListener(new View.OnClickListener() {
@@ -246,11 +255,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 intent.putExtra("aepsBalance", HomeDashboardActivity.this.aepsBalance);
                 HomeDashboardActivity.this.startActivity(intent);*/
 
-                String webViewURL="https://uat.goldenfishdigital.co.in/PostPaidRecharge.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-                String url = webViewURL.replaceAll(" ","%20");
-                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-                intent.putExtra("url",url);
-                startActivity(intent);
+
             }
         });
         this.dthCard.setOnClickListener(new View.OnClickListener() {
@@ -261,99 +266,55 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 intent.putExtra("mainBalance", HomeDashboardActivity.this.balance);
                 intent.putExtra("aepsBalance", HomeDashboardActivity.this.aepsBalance);
                 HomeDashboardActivity.this.startActivity(intent);*/
-                String webViewURL="https://uat.goldenfishdigital.co.in/DTHRecharge.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-                String url = webViewURL.replaceAll(" ","%20");
-                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-                intent.putExtra("url",url);
-                startActivity(intent);
+
             }
         });
 
         this.broad_band_card.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                String webViewURL="https://uat.goldenfishdigital.co.in/BroadBandRecharge.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-                String url = webViewURL.replaceAll(" ","%20");
-                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-                intent.putExtra("url",url);
-                startActivity(intent);
             }
         });
 
         this.moneyTransferCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                String webViewURL="https://uat.goldenfishdigital.co.in/MoneyTransfer.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-                String url = webViewURL.replaceAll(" ","%20");
-                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-                intent.putExtra("url",url);
-                startActivity(intent);
             }
         });
 
         this.bus_card.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                String webViewURL="https://uat.goldenfishdigital.co.in/BusBooking.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-                String url = webViewURL.replaceAll(" ","%20");
-                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-                intent.putExtra("url",url);
-                startActivity(intent);
             }
         });
 
         this.hotel_card.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                String webViewURL="https://uat.goldenfishdigital.co.in/HotelBooking.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-                String url = webViewURL.replaceAll(" ","%20");
-                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-                intent.putExtra("url",url);
-                startActivity(intent);
             }
         });
 
         this.electricity_card.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                String webViewURL="https://uat.goldenfishdigital.co.in/Electricity.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-                String url = webViewURL.replaceAll(" ","%20");
-                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-                intent.putExtra("url",url);
-                startActivity(intent);
             }
         });
 
         this.gas_card.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                String webViewURL="https://uat.goldenfishdigital.co.in/Gas.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-                String url = webViewURL.replaceAll(" ","%20");
-                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-                intent.putExtra("url",url);
-                startActivity(intent);
             }
         });
 
         this.water_card.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                String webViewURL="https://uat.goldenfishdigital.co.in/Water.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-                String url = webViewURL.replaceAll(" ","%20");
-                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-                intent.putExtra("url",url);
-                startActivity(intent);
             }
         });
         this.aepsCard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
-                String webViewURL="https://uat.goldenfishdigital.co.in/ApesLogin.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-              //  String webViewURL="https://uat.goldenfishdigital.co.in/ApesLogin.aspx?UserName=AMIT%20SAHANI&PanNo=EQZPS7002H";
-               String url = webViewURL.replaceAll(" ","%20");
-                Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-                intent.putExtra("url",webViewURL);
-                startActivity(intent);
+
                /* Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webViewURL));
                 startActivity(browserIntent);*/
                /* Intent i = new Intent(Intent.ACTION_VIEW);
@@ -575,7 +536,8 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         PANCard = sharedPref.getStringWithNull(Constant.PANCard);
         String EmailId = sharedPref.getStringWithNull(Constant.EmailId);
         String UserType = sharedPref.getStringWithNull(Constant.Usertype);
-
+        sharedPrefHelper = new SharedPrefHelper(HomeDashboardActivity.this);
+         device_token = sharedPrefHelper.getString("token", null);
         this.tvFirmName.setText("Firm Name : "+FirmName);
         this.tvNavMobileNo.setText("Mobile No. : "+MobileNo1);
         this.tvNavOwnerName.setText(OwnerName);
@@ -616,8 +578,10 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         // at last set adapter to recycler view.
         recycler.setLayoutManager(layoutManager);
         recycler.setAdapter(adapter);
-        //this.tvLocation.setText("Babu");
+
         getWalletBalance();
+
+        checkupdate();
     }
     private void getWalletBalance()
     {
@@ -628,6 +592,7 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         progressDialog.show();
         JsonObject jsonObject= new JsonObject();
         jsonObject.addProperty("Userid",userid);
+        jsonObject.addProperty(Constant.Token,device_token);
         jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetWalletBalance","",userid));
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().GetWalletBalance(jsonObject);
         call.enqueue(new Callback<ResponseBody>() {
@@ -652,6 +617,8 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                             AepsBal= jsonArray.getJSONObject(0).getString("AepsBal");
                             tvMainBalance.setText("₹ " +MainBal);
                             tvAepsBalance.setText("₹ " +AepsBal);
+                            sharedPref.putString(Constant.MainBal,MainBal);
+                            sharedPref.putString(Constant.AepsBal,AepsBal);
                         }
                         else
                         {
@@ -681,6 +648,82 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         });
     }
 
+
+    public void checkupdate()
+    {
+         appUpdateManager = AppUpdateManagerFactory.create(HomeDashboardActivity.this);
+
+// Returns an intent object that you use to check for an update.
+        com.google.android.play.core.tasks.Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+
+        installStateUpdatedListener = new InstallStateUpdatedListener() {
+            @Override
+            public void onStateUpdate(InstallState installState) {
+                // Show module progress, log state, or install the update.
+                if (installState.installStatus() == InstallStatus.DOWNLOADED) {
+                    // After the update is downloaded, show a notification
+                    // and request user confirmation to restart the app.
+                   // popupSnackbarForCompleteUpdateAndUnregister();
+                    Toast.makeText(HomeDashboardActivity.this, "finally completed", Toast.LENGTH_SHORT).show();
+                }
+                else if (installState.installStatus() == InstallStatus.DOWNLOADING) {
+                    long bytesDownloaded = installState.bytesDownloaded();
+                    long totalBytesToDownload = installState.totalBytesToDownload();
+                    // Implement progress bar.
+
+                    Toast.makeText(HomeDashboardActivity.this, "starting.....", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+
+// Checks that the platform will allow the specified type of update.
+        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    // This example applies an immediate update. To apply a flexible update
+                    // instead, pass in AppUpdateType.FLEXIBLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                // Request the update.
+
+                Log.d("TESTNEW", "Update available");
+
+
+                try {
+                    appUpdateManager.startUpdateFlowForResult(
+                            // Pass the intent that is returned by 'getAppUpdateInfo()'.
+                            appUpdateInfo,
+                            // Or 'AppUpdateType.FLEXIBLE' for flexible updates.
+                            AppUpdateType.FLEXIBLE,
+                            // The current activity making the update request.
+                            this,
+                            // Include a request code to later monitor this update request.
+                            MY_REQUEST_CODE);
+                } catch (IntentSender.SendIntentException e) {
+                    e.printStackTrace();
+                    Toast.makeText(HomeDashboardActivity.this, "exc "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+            else
+            {
+                Log.d("TESTNEW", "Update Not available");
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MY_REQUEST_CODE) {
+            if (resultCode != RESULT_OK) {
+                //log("Update flow failed! Result code: " + resultCode);
+                // If the update is cancelled or fails,
+                // you can request to start the update again.
+                Toast.makeText(HomeDashboardActivity.this, "Download Failed", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(HomeDashboardActivity.this, "Download Completed", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getGroupId()) {
             case R.id.nav_ledger_report:
@@ -688,6 +731,13 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
                 Intent intent = new Intent(this, LedgerReportActivity.class);
                // intent.putExtra("title", "Ledger Report");
                 startActivity(intent);
+                break;
+
+            case R.id.nav_fund_request:
+                this.drawer.closeDrawer((int) GravityCompat.START, false);
+                Intent addfund = new Intent(this, AddFundActivity.class);
+
+                startActivity(addfund);
                 break;
 
             case R.id.nav_all_report:
@@ -1034,11 +1084,12 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
 
         else if(val.equalsIgnoreCase("Money Transfer"))
         {
-            String webViewURL="https://uat.goldenfishdigital.co.in/MoneyTransfer.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+            Toast.makeText(HomeDashboardActivity.this, "Coming Soon !!!", Toast.LENGTH_SHORT).show();
+           /* String webViewURL="https://uat.goldenfishdigital.co.in/MoneyTransfer.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
             String url = webViewURL.replaceAll(" ","%20");
             Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
             intent.putExtra("url",url);
-            startActivity(intent);
+            startActivity(intent);*/
         }
         else if(val.equalsIgnoreCase("AEPS"))
         {
@@ -1054,55 +1105,61 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
         }
         else if(val.equalsIgnoreCase("Broadband"))
         {
-            String webViewURL="https://uat.goldenfishdigital.co.in/BroadBandRecharge.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-            String url = webViewURL.replaceAll(" ","%20");
-            Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-            intent.putExtra("url",url);
-            startActivity(intent);
+            Toast.makeText(HomeDashboardActivity.this, "Coming Soon !!!", Toast.LENGTH_SHORT).show();
+//            String webViewURL="https://uat.goldenfishdigital.co.in/BroadBandRecharge.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+//            String url = webViewURL.replaceAll(" ","%20");
+//            Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+//            intent.putExtra("url",url);
+//            startActivity(intent);
         }
         else if(val.equalsIgnoreCase("Bus"))
         {
-            String webViewURL="https://uat.goldenfishdigital.co.in/BusBooking.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-            String url = webViewURL.replaceAll(" ","%20");
-            Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-            intent.putExtra("url",url);
-            startActivity(intent);
+            Toast.makeText(HomeDashboardActivity.this, "Coming Soon !!!", Toast.LENGTH_SHORT).show();
+//            String webViewURL="https://uat.goldenfishdigital.co.in/BusBooking.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+//            String url = webViewURL.replaceAll(" ","%20");
+//            Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+//            intent.putExtra("url",url);
+//            startActivity(intent);
         }
         else if(val.equalsIgnoreCase("Hotel"))
         {
-            String webViewURL="https://uat.goldenfishdigital.co.in/HotelBooking.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-            String url = webViewURL.replaceAll(" ","%20");
-            Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-            intent.putExtra("url",url);
-            startActivity(intent);
+            Toast.makeText(HomeDashboardActivity.this, "Coming Soon !!!", Toast.LENGTH_SHORT).show();
+//            String webViewURL="https://uat.goldenfishdigital.co.in/HotelBooking.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+//            String url = webViewURL.replaceAll(" ","%20");
+//            Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+//            intent.putExtra("url",url);
+//            startActivity(intent);
         }
         else if(val.equalsIgnoreCase("Flight"))
         {
-
+            Toast.makeText(HomeDashboardActivity.this, "Coming Soon !!!", Toast.LENGTH_SHORT).show();
         }
         else if(val.equalsIgnoreCase("Electricity"))
         {
-            String webViewURL="https://uat.goldenfishdigital.co.in/Electricity.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-            String url = webViewURL.replaceAll(" ","%20");
-            Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-            intent.putExtra("url",url);
-            startActivity(intent);
+            Toast.makeText(HomeDashboardActivity.this, "Coming Soon !!!", Toast.LENGTH_SHORT).show();
+//            String webViewURL="https://uat.goldenfishdigital.co.in/Electricity.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+//            String url = webViewURL.replaceAll(" ","%20");
+//            Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+//            intent.putExtra("url",url);
+//            startActivity(intent);
         }
         else if(val.equalsIgnoreCase("Water"))
         {
-            String webViewURL="https://uat.goldenfishdigital.co.in/Water.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-            String url = webViewURL.replaceAll(" ","%20");
-            Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-            intent.putExtra("url",url);
-            startActivity(intent);
+            Toast.makeText(HomeDashboardActivity.this, "Coming Soon !!!", Toast.LENGTH_SHORT).show();
+//            String webViewURL="https://uat.goldenfishdigital.co.in/Water.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+//            String url = webViewURL.replaceAll(" ","%20");
+//            Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+//            intent.putExtra("url",url);
+//            startActivity(intent);
         }
         else if(val.equalsIgnoreCase("Gas"))
         {
-            String webViewURL="https://uat.goldenfishdigital.co.in/Gas.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-            String url = webViewURL.replaceAll(" ","%20");
-            Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-            intent.putExtra("url",url);
-            startActivity(intent);
+            Toast.makeText(HomeDashboardActivity.this, "Coming Soon !!!", Toast.LENGTH_SHORT).show();
+//            String webViewURL="https://uat.goldenfishdigital.co.in/Gas.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
+//            String url = webViewURL.replaceAll(" ","%20");
+//            Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
+//            intent.putExtra("url",url);
+//            startActivity(intent);
         }
         else if(val.equalsIgnoreCase("Add User"))
         {

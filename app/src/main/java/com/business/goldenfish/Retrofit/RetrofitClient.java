@@ -62,4 +62,9 @@ public class RetrofitClient {
     {
         return retrofit.create(interfaceAPI.class);
     }
+
+    public MyApi getApiNew()
+    {
+        return retrofit.create(MyApi.class);
+    }
 }

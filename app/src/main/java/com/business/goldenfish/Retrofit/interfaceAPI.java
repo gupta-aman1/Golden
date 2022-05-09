@@ -1,5 +1,7 @@
 package com.business.goldenfish.Retrofit;
 
+import com.business.goldenfish.AddFund.ModelAddFund.ModelAddFund;
+import com.business.goldenfish.AddFund.ModelAddFund.ModelAddFundCommon;
 import com.business.goldenfish.PanCard.ModelPan.ModelCouponPan;
 import com.business.goldenfish.ledgerreopt.ModelMainLedger;
 import com.business.goldenfish.sidebar.allReports.modelAllReports.ModelMainNew;
@@ -56,6 +58,9 @@ public interface interfaceAPI {
 
     @POST("GetAllBankList")
     Call<ResponseBody> GetAllBankList(@Body JsonObject object);
+
+
+
 
 
     @Multipart
@@ -117,4 +122,10 @@ public interface interfaceAPI {
 
     @POST("MakeRechargeRequest")
     Call<ResponseBody> MakeRechargeRequest(@Body JsonObject object);
+
+    @POST("GetAddedFundBankDetails")
+    Call<ModelAddFund> GetAddedFundBankDetails(@Body JsonObject object);
+
+    @POST("MakeAddFundRequest")
+    Call<ModelAddFundCommon> MakeAddFundRequest(@Body JsonObject object);
 }

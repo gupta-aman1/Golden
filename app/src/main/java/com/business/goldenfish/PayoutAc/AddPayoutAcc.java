@@ -108,6 +108,7 @@ public class AddPayoutAcc extends AppCompatActivity {
         getBank();
         SpinnerValue();
     }
+
     private void getBank()
     {
         final ProgressDialog progressDialog = new ProgressDialog(this);

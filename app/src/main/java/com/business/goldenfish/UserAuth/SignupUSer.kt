@@ -3,30 +3,27 @@ package com.business.goldenfish.UserAuth
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.ProgressDialog
-import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat.startActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.business.goldenfish.Constants.Constant
 import com.business.goldenfish.Constants.ConstantsValue
 import com.business.goldenfish.R
 import com.business.goldenfish.Retrofit.RetrofitClient
 import com.business.goldenfish.Utilities.MyUtils
+import com.business.goldenfish.services.SharedPrefHelper
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_signup_user.*
 import okhttp3.ResponseBody
-import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.IOException
 import java.util.*
 
 class SignupUSer : AppCompatActivity() {
@@ -37,7 +34,9 @@ class SignupUSer : AppCompatActivity() {
     var selectedcityId="";
     var stateValue="";
     var cityValue="";
+    var device_token: String? = null
     val myCalendar = Calendar.getInstance()
+    var sharedPrefHelper: SharedPrefHelper? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup_user)
@@ -90,6 +89,9 @@ class SignupUSer : AppCompatActivity() {
             )
             datePickerDialog.show()
         }
+
+        sharedPrefHelper = SharedPrefHelper(this@SignupUSer)
+        device_token = sharedPrefHelper!!.getString("token", null)
     }
 
     fun ClickLogin(view: View) {
@@ -193,6 +195,7 @@ class SignupUSer : AppCompatActivity() {
         jsonObject.addProperty("CityName", cityValue)
         jsonObject.addProperty("Pincode", et_pincode.text.toString())
         jsonObject.addProperty("JoinAs",et_joinas.getSelectedItem().toString())
+        jsonObject.addProperty(Constant.Token,device_token)
         jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("NewUserRegistration", et_user_name.text.toString()+"|"+et_shop_name.text.toString()+"|"+et_mobile.text.toString(), "13598"))
         val call = RetrofitClient.getInstance().api.NewUserRegistration(jsonObject)
         call.enqueue(object : Callback<ResponseBody?> {

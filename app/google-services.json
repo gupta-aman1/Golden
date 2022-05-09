@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "846666548773",
+    "project_id": "golden-fish-digital-seva",
+    "storage_bucket": "golden-fish-digital-seva.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846666548773:android:d182c4ce32595b09aee1cc",
+        "android_client_info": {
+          "package_name": "com.business.goldenfish"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "846666548773-ko60tqch84cp8u8f64vavcnvntgon7j3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXvx5AkF7FSmFRrbMsJecWQGoajeggXoA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "846666548773-ko60tqch84cp8u8f64vavcnvntgon7j3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

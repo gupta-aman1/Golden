@@ -12,6 +12,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,12 +20,16 @@ import com.business.goldenfish.Constants.Constant;
 import com.business.goldenfish.Dashboard.HomeDashboardActivity;
 import com.business.goldenfish.UserAuth.LoginActivity;
 import com.business.goldenfish.Utilities.SharedPref;
+import com.business.goldenfish.services.SharedPrefHelper;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class SplashScreenActivity extends AppCompatActivity {
    // SharedPreferences sharedPreferences;
     String user;
     SharedPref sharedPref;
     TextView version;
+    SharedPrefHelper sharedPrefHelper;
+    String device_token;
     /* access modifiers changed from: protected */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +40,26 @@ public class SplashScreenActivity extends AppCompatActivity {
         setContentView((int) R.layout.activity_splash_screen);
         version=findViewById(R.id.version);
         sharedPref = SharedPref.getInstance(SplashScreenActivity.this);
+        sharedPrefHelper = new SharedPrefHelper(SplashScreenActivity.this);
+        device_token = sharedPrefHelper.getString("token", null);
        // this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (device_token == null || device_token.equals("") || device_token.equalsIgnoreCase("null"))   {
+            FirebaseMessaging.getInstance().getToken()
+                    .addOnCompleteListener(task -> {
+                        if (!task.isSuccessful()) {
+//
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token1 = task.getResult();
+                        sharedPrefHelper.setString("token", token1);
+
+                        Toast.makeText(SplashScreenActivity.this, "Authenticating...", Toast.LENGTH_SHORT).show();
+                    });
+        }
+
         RotateAnimation rotate = new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(2200);
         rotate.setInterpolator(new LinearInterpolator());
@@ -43,6 +67,10 @@ public class SplashScreenActivity extends AppCompatActivity {
         ImageView image= (ImageView) findViewById(R.id.splash_logo);
         version.setText("Version : "+BuildConfig.VERSION_NAME);
         image.startAnimation(rotate);
+
+
+
+
       //  System.out.println("Hello main");
         new Handler().postDelayed(new Runnable() {
             public void run() {
