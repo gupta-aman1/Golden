@@ -213,6 +213,7 @@ class MoneyTransferHomeActivity : BaseActivity(),CommonInterface {
 
         })
 
+
         binding.btnProceed.setOnClickListener {
 
             if(binding.etRechargeNumber.text.toString().trim().equals("") || binding.etRechargeNumber.text.toString().length!=10)
