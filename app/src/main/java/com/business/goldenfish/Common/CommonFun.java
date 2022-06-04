@@ -37,7 +37,8 @@ public class CommonFun {
                 .withPermissions(
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CAMERA)
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_CONTACTS)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {

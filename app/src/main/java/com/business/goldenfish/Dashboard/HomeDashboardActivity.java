@@ -59,6 +59,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.business.goldenfish.Retrofit.RetrofitClient;
 import com.business.goldenfish.ledgerreopt.LedgerReportActivity;
+import com.business.goldenfish.moneyTransfer.MoneyTransferHomeActivity;
 import com.business.goldenfish.recharges.RechargeMainActivity;
 import com.business.goldenfish.services.SharedPrefHelper;
 import com.business.goldenfish.sidebar.allReports.GetServices;
@@ -1084,12 +1085,12 @@ public class HomeDashboardActivity extends AppCompatActivity implements Navigati
 
         else if(val.equalsIgnoreCase("Money Transfer"))
         {
-            Toast.makeText(HomeDashboardActivity.this, "Coming Soon !!!", Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(HomeDashboardActivity.this, "Coming Soon !!!", Toast.LENGTH_SHORT).show();
            /* String webViewURL="https://uat.goldenfishdigital.co.in/MoneyTransfer.aspx?UserName="+OwnerName+"&PanNo="+PANCard;
-            String url = webViewURL.replaceAll(" ","%20");
-            Intent intent = new Intent(HomeDashboardActivity.this, WebviewAeps.class);
-            intent.putExtra("url",url);
-            startActivity(intent);*/
+            String url = webViewURL.replaceAll(" ","%20");*/
+            Intent intent = new Intent(HomeDashboardActivity.this, MoneyTransferHomeActivity.class);
+           // intent.putExtra("url",url);
+            startActivity(intent);
         }
         else if(val.equalsIgnoreCase("AEPS"))
         {

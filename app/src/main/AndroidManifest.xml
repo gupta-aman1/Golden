@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -25,25 +26,43 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoldenFish"
         android:usesCleartextTraffic="false">
-        <activity android:name=".AddFund.AddFundActivity"
-            android:exported="true"
+        <activity
+            android:name=".moneyTransfer.PayNowActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:label="Offline - Add Fund">
+            android:exported="false" />
+        <activity
+            android:name=".moneyTransfer.RecipintListActivity"
+            android:exported="true"
+            android:label="Money Transfer"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".moneyTransfer.MoneyTransferHomeActivity"
+            android:exported="true"
+            android:label="Money Transfer"
+            android:theme="@style/AppTheme.NoActionBar">
 
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+        </activity>
+        <activity
+            android:name=".AddFund.AddFundActivity"
+            android:exported="true"
+            android:label="Offline - Add Fund"
+            android:theme="@style/AppTheme.NoActionBar">
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".recharges.SelectOperatorActivity"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".recharges.RechargeMainActivity"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".updatempin.UpdateMpinActivity"
             android:exported="true"
@@ -92,7 +111,6 @@
             android:name=".MoveToBank.MoveToBankActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".sidebar.allReports.AllReportsActivity"
             android:exported="true"

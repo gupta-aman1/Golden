@@ -257,7 +257,7 @@ class PsaRegistrationActivity : AppCompatActivity(),CommonInterface {
                     var fullRes: String? = null
                     try {
                         fullRes = response.body()!!.string()
-                        System.out.println("FINAL RESULT $fullRes")
+                     //   System.out.println("FINAL RESULT $fullRes")
                         val jsonObject1 = JSONObject(fullRes)
                         val stCode = jsonObject1.getString(Constant.StatusCode)
                         if (stCode.equals(ConstantsValue.successful, ignoreCase = true)) {
@@ -271,8 +271,8 @@ class PsaRegistrationActivity : AppCompatActivity(),CommonInterface {
                                 val key: Iterator<*> = inn_obj.keys()
                                 while (key.hasNext()) {
                                     val k = key.next().toString()
-                                    println("Key : " + k + ", value : "
-                                            + inn_obj.getString(k))
+//                                    println("Key : " + k + ", value : "
+//                                            + inn_obj.getString(k))
                                     if (k.equals("ReqDate", ignoreCase = true)) {
                                         val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                                         // SimpleDateFormat destFormat = new SimpleDateFormat("dd MMM yyyy hh:mm:ss a"); //here 'a' for AM/PM
@@ -293,7 +293,7 @@ class PsaRegistrationActivity : AppCompatActivity(),CommonInterface {
 //                                        array.add(model);
                                 }
                             }
-                            println("Array Data $array")
+                           // println("Array Data $array")
                             val intent = Intent(this@PsaRegistrationActivity, SuceessScreen::class.java)
                             intent.putExtra("list_data", Gson().toJson(array))
                             intent.putExtra("Head1", Head1)

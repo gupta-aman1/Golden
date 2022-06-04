@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".moneyTransfer.RecipintListActivity">
+
+    <include
+        android:id="@+id/tool_bar_container12"
+        layout="@layout/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <androidx.cardview.widget.CardView
+            android:elevation="10dp"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="@dimen/_65dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:id="@+id/img1"
+                android:src="@drawable/userdmt"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey"
+                android:text="Name "
+                android:textSize="12dp"
+                android:id="@+id/name"
+                android:textAlignment="center"
+                android:fontFamily="@font/cutive"
+                android:layout_marginBottom="@dimen/tendp"
+                android:layout_marginTop="10dp" />
+
+
+            <TextView
+                android:id="@+id/senderNameTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:fontFamily="@font/cutive"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="12dp"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="@dimen/_65dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/totallimit"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey"
+                android:text="Monthly Limit "
+                android:textSize="12dp"
+                android:layout_marginBottom="@dimen/tendp"
+                android:layout_alignParentBottom="true"
+                android:textAlignment="center"
+                android:fontFamily="@font/cutive"
+                android:layout_marginTop="10dp"
+                />
+
+            <TextView
+                android:id="@+id/montlyLimitTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:fontFamily="@font/cutive"
+                android:text="₹ 0"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="12dp"
+
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="@dimen/_65dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/availlimit"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/cutive"
+                android:text="Available Limit"
+                android:layout_marginBottom="@dimen/tendp"
+                android:textAlignment="center"
+                android:textColor="@color/grey"
+                android:textSize="12dp"
+                />
+
+            <TextView
+                android:id="@+id/availableLimit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:fontFamily="@font/cutive"
+                android:text="₹ 0"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="12dp"
+                />
+
+        </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/fivedp"
+        app:cardBackgroundColor="@color/grey4"
+        android:layout_height="1dp"/>
+
+    <Button
+        android:id="@+id/addBeneficieryBtn"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/fifteen"
+        android:text="Add Beneficiary"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_back_round"
+        android:layout_height="wrap_content"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/tendp"
+        app:cardBackgroundColor="@color/grey4"
+        android:layout_height="1dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Recipient List"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginBottom="@dimen/tendp"
+        android:layout_marginTop="@dimen/tendp"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/beneficieryRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="@dimen/tendp"
+        android:layout_marginTop="@dimen/tendp"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>

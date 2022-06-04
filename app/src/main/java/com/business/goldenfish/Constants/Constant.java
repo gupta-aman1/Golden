@@ -30,6 +30,16 @@ public class Constant {
     public static final String  aadharcard="aadharcard";
     public static final String  Token="Target";
     public static String Value ="value";
+    public static String RemitterId ="RemitterId";
+    public static String RemitterName ="RemitterName";
+    public static String RemitterMobile ="RemitterMobile";
+    public static String RemitterTotalBal ="RemitterTotalBal";
+    public static String RemitterAvBal ="RemitterAvBal";
+    public static String RemitterBeniList ="RemitterBeniList";
+    public static String BenificiaryId ="BenificiaryId";
+    public static String BeniAccountNo ="BeniAccountNo";
+    public static String BenificiaryIFSC ="BenificiaryIFSC";
+    public static String BankName ="BankName";
     //public static final String PANCard="PANCard";
 
 }

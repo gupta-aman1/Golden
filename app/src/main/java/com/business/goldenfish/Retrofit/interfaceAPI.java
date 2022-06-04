@@ -128,4 +128,8 @@ public interface interfaceAPI {
 
     @POST("MakeAddFundRequest")
     Call<ModelAddFundCommon> MakeAddFundRequest(@Body JsonObject object);
+
+
+    @POST("MakeDMTTransaction")
+    Call<ResponseBody> MakeDMTTransaction(@Body JsonObject object);
 }

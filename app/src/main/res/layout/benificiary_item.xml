@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="beni"
+            type="com.business.goldenfish.moneyTransfer.modeldmt.Beneficiary" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/tendp"
+        app:cardElevation="@dimen/tendp"
+        android:layout_marginBottom="@dimen/fifteen"
+        android:layout_marginTop="@dimen/fivedp"
+        android:layout_marginRight="@dimen/fifteen"
+        android:layout_marginLeft="@dimen/fifteen"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginBottom="@dimen/tendp"
+            android:layout_marginLeft="@dimen/tendp"
+            android:layout_marginRight="@dimen/tendp"
+            android:layout_marginTop="@dimen/tendp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tendp"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="0.5"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/verifiedImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/twentyfive" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="0.5"
+                    android:gravity="right"
+                    android:layout_marginRight="@dimen/fifteen"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/deleteNow"
+                        android:layout_width="@dimen/_55dp"
+                        android:layout_height="@dimen/twentyfive"
+                        android:layout_gravity="center"
+                        android:background="@drawable/blueroundbtn"
+                        android:text="Delete"
+                        android:visibility="gone"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/twelevesp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/twentyfive"
+                android:layout_marginTop="@dimen/tendp"
+                android:layout_weight="2"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/tendp"
+                        android:text="A/C Holder Name"
+                        android:textColor="@color/common_google_signin_btn_text_light_default"
+                        android:textSize="@dimen/fourteensp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/tendp"
+                        android:paddingTop="@dimen/fivedp"
+                        android:text="A/C Number"
+                        android:textColor="@color/common_google_signin_btn_text_light_default"
+                        android:textSize="@dimen/fourteensp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/tendp"
+                        android:paddingTop="@dimen/fivedp"
+                        android:text="Bank Name"
+                        android:textColor="@color/common_google_signin_btn_text_light_default"
+                        android:textSize="@dimen/fourteensp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/accountHolderName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/tendp"
+                        android:textColor="@color/black"
+                        android:text="@{beni.name}"
+                        android:textSize="@dimen/fourteensp" />
+
+                    <TextView
+                        android:id="@+id/accountNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/tendp"
+                        android:text="@{beni.account}"
+                        android:paddingTop="@dimen/fivedp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/fourteensp" />
+
+                    <TextView
+                        android:id="@+id/bankName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/tendp"
+                        android:paddingTop="@dimen/fivedp"
+                        android:text="@{beni.bank}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/fourteensp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twentydp"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/tendp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/payNow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/new_round"
+                    android:text="Pay"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/verifiedBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:layout_marginLeft="@dimen/twentydp"
+                    android:background="@drawable/new_round"
+                    android:text="Verify"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

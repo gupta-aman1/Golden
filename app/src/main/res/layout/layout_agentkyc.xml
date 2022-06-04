@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/twentyfive"
+    android:layout_marginRight="@dimen/twentyfive"
+    android:background="@drawable/white_round"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/closedmt"
+            android:layout_width="@dimen/twentyfive"
+            android:layout_height="@dimen/twentyfive"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_baseline_close_24" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Sender Details"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/et_mobiledmt"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_margin="@dimen/_20dp"
+            android:background="@drawable/bordered_back"
+            android:hint="Mobile Number"
+            android:gravity="center"
+            android:inputType="number"
+            android:enabled="false"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp" />
+
+        <EditText
+            android:id="@+id/et_namedmt"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_margin="@dimen/_20dp"
+            android:background="@drawable/bordered_back"
+            android:hint="Name"
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp" />
+        <EditText
+            android:id="@+id/et_sur_namedmt"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_margin="@dimen/_20dp"
+            android:background="@drawable/bordered_back"
+            android:hint="Surname"
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp" />
+
+        <EditText
+            android:id="@+id/et_pinCodedmt"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_margin="@dimen/_20dp"
+            android:background="@drawable/bordered_back"
+            android:hint="Pin Code"
+            android:maxLength="6"
+            android:inputType="number"
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp" />
+        <Button
+            android:id="@+id/proceed_Btndmt"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/_35dp"
+            android:layout_marginTop="@dimen/twentyfive"
+            android:layout_marginRight="@dimen/_35dp"
+            android:layout_marginBottom="@dimen/tendp"
+            android:background="@drawable/blue_back"
+            android:text="Proceed to E-KYC"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</ScrollView>
