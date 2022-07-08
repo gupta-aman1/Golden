@@ -42,6 +42,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         sharedPref = SharedPref.getInstance(SplashScreenActivity.this);
         sharedPrefHelper = new SharedPrefHelper(SplashScreenActivity.this);
         device_token = sharedPrefHelper.getString("token", null);
+
        // this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (device_token == null || device_token.equals("") || device_token.equalsIgnoreCase("null"))   {
