@@ -367,8 +367,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationCompat.BigPictureStyle bpStyle = null;
 
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+//                PendingIntent.FLAG_ONE_SHOT);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent.FLAG_IMMUTABLE);
         String channelId = "1";
 
         if (!image.equalsIgnoreCase("No")) {

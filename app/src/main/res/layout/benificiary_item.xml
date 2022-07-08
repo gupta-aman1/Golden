@@ -57,14 +57,14 @@
                     android:layout_marginRight="@dimen/fifteen"
                     android:layout_height="wrap_content">
 
-                    <Button
+                    <ImageView
                         android:id="@+id/deleteNow"
-                        android:layout_width="@dimen/_55dp"
-                        android:layout_height="@dimen/twentyfive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@drawable/blueroundbtn"
+                        android:src="@drawable/ic_baseline_delete_24"
                         android:text="Delete"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="@dimen/twelevesp" />
@@ -77,7 +77,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/twentyfive"
                 android:layout_marginTop="@dimen/tendp"
                 android:layout_weight="2"
                 android:orientation="horizontal">

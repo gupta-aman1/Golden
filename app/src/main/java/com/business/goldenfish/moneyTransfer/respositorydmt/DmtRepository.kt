@@ -22,6 +22,10 @@ class DmtRepository(private val ApiInterface : ApiInterface) {
 
     private var validateAccBeni= MutableLiveData<ModelAccValidation>()
 
+    private var deleteAccBeni= MutableLiveData<ModelDeleteBEni>()
+
+    private var deleteAccBeniValidate= MutableLiveData<ModelDeleteBeniValidate>()
+
     val loading = MutableLiveData<ModelProgress>()
 
     val finalRemitterData :LiveData<ModelRemitterDetails>
@@ -41,6 +45,12 @@ class DmtRepository(private val ApiInterface : ApiInterface) {
 
     val finalvalidateAccBeni :LiveData<ModelAccValidation>
     get() = validateAccBeni
+
+    val finaldeleteAccBeni :LiveData<ModelDeleteBEni>
+    get() = deleteAccBeni
+
+    val finaldeleteAccBeniValidate :LiveData<ModelDeleteBeniValidate>
+    get() = deleteAccBeniValidate
 
     suspend fun getRemitterFromApi(jsonObject:JsonObject)
     {
@@ -146,6 +156,50 @@ class DmtRepository(private val ApiInterface : ApiInterface) {
             if(result.body()!=null)
             {
                 validateAccBeni.postValue(result.body())
+            }
+            else
+            {
+                loading.postValue(ModelProgress(false,"Unable to Processs !!!"))
+            }
+        }
+        catch (e:Exception)
+        {
+            progress.dismiss()
+            System.out.println("FINAL DATA "+e.message)
+            loading.postValue(ModelProgress(false,"Something went wrong !!!"))
+        }
+    }
+
+    suspend fun deleteAccBeni(jsonObject: JsonObject,progress: ProgressDialog)
+    {
+        try {
+            loading.postValue(ModelProgress(true,"Validating...."))
+            val result = ApiInterface.BenificiaryRemove(jsonObject)
+            if(result.body()!=null)
+            {
+                deleteAccBeni.postValue(result.body())
+            }
+            else
+            {
+                loading.postValue(ModelProgress(false,"Unable to Processs !!!"))
+            }
+        }
+        catch (e:Exception)
+        {
+            progress.dismiss()
+            System.out.println("FINAL DATA "+e.message)
+            loading.postValue(ModelProgress(false,"Something went wrong !!!"))
+        }
+    }
+
+    suspend fun deleteAccBeniValidate(jsonObject: JsonObject,progress: ProgressDialog)
+    {
+        try {
+            loading.postValue(ModelProgress(true,"Validating...."))
+            val result = ApiInterface.BenificiaryRemoveValidate(jsonObject)
+            if(result.body()!=null)
+            {
+                deleteAccBeniValidate.postValue(result.body())
             }
             else
             {

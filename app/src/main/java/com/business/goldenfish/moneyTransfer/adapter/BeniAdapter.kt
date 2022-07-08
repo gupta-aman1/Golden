@@ -22,6 +22,9 @@ class BeniAdapter : BaseRecyclerViewAdapter<Beneficiary,BenificiaryItemBinding>(
         holder.binding.payNow.setOnClickListener {
             listener?.invoke(it, items[position], position)
         }
+        holder.binding.deleteNow.setOnClickListener {
+            listener?.invoke(it, items[position], position)
+        }
         holder.binding.root.setOnClickListener {
             listener?.invoke(it, items[position], position)
         }

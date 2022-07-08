@@ -62,7 +62,7 @@ class MoneyTransferHomeActivity : BaseActivity(),CommonInterface {
         }
 
 
-            val apiInt = ApiUtilities.getInstance().create(ApiInterface::class.java)
+        val apiInt = ApiUtilities.getInstance().create(ApiInterface::class.java)
 
         val repo = DmtRepository(apiInt)
 
@@ -85,6 +85,7 @@ class MoneyTransferHomeActivity : BaseActivity(),CommonInterface {
                 }
             }
         })
+
         viewModel.data.observe(this, { ModelRedmitterData ->
 
             System.out.println("FINAL DATA "+ModelRedmitterData)

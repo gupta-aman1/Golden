@@ -53,17 +53,20 @@ class RecipintListActivity : BaseActivity(),CommonInterface, OnDataReceiverListe
     private lateinit var viewModel1 :RemiterDataViewModel
     val gson = Gson()
     private val adapter by lazy {
-        BeniAdapter()
+       BeniAdapter()
     }
     lateinit var binding:ActivityRecipintListBinding
     var RemitterId:String?=null
     var RemitterMobile:String?=null
     var benificiaryId:String?=null
+    var SelectedbenificiaryId:String?=null
     var locationManager: LocationManager? = null
     var latitude = ""
     var longitude = ""
     var bc_Address = ""
     //var gps: GPSTracker?=null
+
+    var otpStatus:Boolean=true
     var isGPSEnabled:Boolean=false
     var geoLocation: GeoLocation? = null
     private var gpsListener: GpsListener? = null
@@ -81,6 +84,9 @@ class RecipintListActivity : BaseActivity(),CommonInterface, OnDataReceiverListe
         binding= ActivityRecipintListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.toolBarContainer12.backButton.setOnClickListener {
+            finish()
+        }
         sharedPref = SharedPref.getInstance(this)
         userid = sharedPref?.getStringWithNull(Constant.userId)
         OutletId = sharedPref?.getStringWithNull(Constant.OutletId)
@@ -130,13 +136,22 @@ class RecipintListActivity : BaseActivity(),CommonInterface, OnDataReceiverListe
                             .putExtra(Constant.BenificiaryId,item.id)
                             .putExtra(Constant.RemitterMobile,RemitterMobile))
                     }
+
+                    R.id.deleteNow ->{
+
+                        SelectedbenificiaryId= item.id;
+                        showProgressDialog("Loading...")
+                        val jsonObject = JsonObject()
+                        jsonObject.addProperty("Userid",userid)
+                        jsonObject.addProperty("RemitterId",RemitterId)
+                        jsonObject.addProperty("BenificiaryId",item.id)
+                        jsonObject.addProperty("OutletId",OutletId)
+                        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("BenificiaryRemove",RemitterId+"|"+item.id+"|"+OutletId, userid))
+                        viewModel.deleteAccBeni(jsonObject,mProgressDialog!!)
+
+                    }
                 }
-               // Toast.makeText(this, item.name, Toast.LENGTH_SHORT).show()
-//                val jsonObject = JsonObject()
-//                jsonObject.addProperty("Userid", userid)
-//                jsonObject.addProperty("OpId", "0")
-//                jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetSurchargeUsingOpId","0", userid))
-//                CommonApi.getSurchargeByOperator(this, jsonObject, this)
+
 
             }
 
@@ -250,6 +265,67 @@ class RecipintListActivity : BaseActivity(),CommonInterface, OnDataReceiverListe
             }
         })
 
+        viewModel.ModelDeleteBEni.observe(this,{ ModelDeleteBeni->
+            hideProgressDialog()
+            System.out.println("FINAL DATA "+ModelDeleteBeni)
+
+            if(ModelDeleteBeni.Statuscode.equals("TXN"))
+            {
+                val statuscode= ModelDeleteBeni.Data.get(0).statuscode
+
+                if(statuscode.equals("TXN",true))
+                {
+                    otpStatus=false
+                    CommonFun.showOTPDialog(this, this)
+                }
+                else
+                {
+                    Toast.makeText(this,ModelDeleteBeni.Message,Toast.LENGTH_SHORT).show()
+                }
+            }
+            else
+            {
+                Toast.makeText(this,ModelDeleteBeni.Message,Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        viewModel.ModelDeleteBeniValidate.observe(this,{ ModelDeleteBeni->
+            hideProgressDialog()
+            System.out.println("FINAL DATA "+ModelDeleteBeni)
+
+            if(ModelDeleteBeni.Statuscode.equals("TXN"))
+            {
+                val statuscode= ModelDeleteBeni.Data.get(0).statuscode
+
+                if(statuscode.equals("TXN",true))
+                {
+                    val jsonObject = JsonObject()
+                    jsonObject.addProperty("Userid",userid)
+                    jsonObject.addProperty("RemitterMobile",RemitterMobile)
+                    jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetRemitterDetails",RemitterMobile, userid))
+                    viewModel1.getdata(jsonObject)
+                }
+                else
+                {
+                    //Toast.makeText(this,ModelDeleteBeni.Message,Toast.LENGTH_SHORT).show()
+                    val jsonObject = JsonObject()
+                    jsonObject.addProperty("Userid",userid)
+                    jsonObject.addProperty("RemitterMobile",RemitterMobile)
+                    jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetRemitterDetails",RemitterMobile, userid))
+                    viewModel1.getdata(jsonObject)
+                }
+            }
+            else
+            {
+               // Toast.makeText(this,ModelDeleteBeni.Message,Toast.LENGTH_SHORT).show()
+                val jsonObject = JsonObject()
+                jsonObject.addProperty("Userid",userid)
+                jsonObject.addProperty("RemitterMobile",RemitterMobile)
+                jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("GetRemitterDetails",RemitterMobile, userid))
+                viewModel1.getdata(jsonObject)
+            }
+        })
+
         binding.addBeneficieryBtn.setOnClickListener {
             addBeneficieryDialog()
         }
@@ -266,6 +342,7 @@ class RecipintListActivity : BaseActivity(),CommonInterface, OnDataReceiverListe
         registerReceiver(gpsListener, mfilter)
     }
 
+ 
     override fun getMoveToBankSurcharge(CommPer: String?, CommType: String?, ChargePer: String?, ChargeType: String?)
     {
         super.getMoveToBankSurcharge(CommPer, CommType, ChargePer, ChargeType)
@@ -314,15 +391,31 @@ class RecipintListActivity : BaseActivity(),CommonInterface, OnDataReceiverListe
 
     override fun getEnteredOTP(otp: String?) {
         super.getEnteredOTP(otp)
-        showProgressDialog("Validating...")
-        val jsonObject = JsonObject()
-        jsonObject.addProperty("Userid",userid)
-        jsonObject.addProperty("RemitterId",RemitterId)
-        jsonObject.addProperty("BenificiaryId",benificiaryId)
-        jsonObject.addProperty("BenificiaryOTP",otp)
-        jsonObject.addProperty("OutletId",OutletId)
-        jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("BenificiaryValidate",RemitterId+"|"+benificiaryId+"|"+otp+"|"+OutletId, userid))
-        viewModel.validateOtpBeni(jsonObject,mProgressDialog!!)
+        if(otpStatus) {
+            showProgressDialog("Validating...")
+            val jsonObject = JsonObject()
+            jsonObject.addProperty("Userid", userid)
+            jsonObject.addProperty("RemitterId", RemitterId)
+            jsonObject.addProperty("BenificiaryId", benificiaryId)
+            jsonObject.addProperty("BenificiaryOTP", otp)
+            jsonObject.addProperty("OutletId", OutletId)
+            jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("BenificiaryValidate", RemitterId + "|" + benificiaryId + "|" + otp + "|" + OutletId, userid))
+            viewModel.validateOtpBeni(jsonObject, mProgressDialog!!)
+        }
+        else
+        {
+            otpStatus=true
+
+            showProgressDialog("Validating...")
+            val jsonObject = JsonObject()
+            jsonObject.addProperty("Userid",userid)
+            jsonObject.addProperty("RemitterId",RemitterId)
+            jsonObject.addProperty("BenificiaryId",SelectedbenificiaryId)
+            jsonObject.addProperty("BenificiaryOTP", otp)
+            jsonObject.addProperty("OutletId", OutletId)
+            jsonObject.addProperty(Constant.Checksum, MyUtils.encryption("BenificiaryRemoveValidate", RemitterId + "|" + SelectedbenificiaryId + "|" + OutletId + "|" + otp, userid))
+            viewModel.deleteAccBeniValidate(jsonObject, mProgressDialog!!)
+        }
 
     }
 

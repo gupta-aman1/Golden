@@ -28,4 +28,10 @@ interface ApiInterface {
 
     @POST("BenificiaryAccountValidation")
     suspend fun BenificiaryAccountValidation(@Body jsonObject:JsonObject) : Response<ModelAccValidation>
+
+    @POST("BenificiaryRemove")
+    suspend fun BenificiaryRemove(@Body jsonObject:JsonObject) : Response<ModelDeleteBEni>
+
+    @POST("BenificiaryRemoveValidate")
+    suspend fun BenificiaryRemoveValidate(@Body jsonObject:JsonObject) : Response<ModelDeleteBeniValidate>
 }

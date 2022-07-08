@@ -4,9 +4,7 @@ import android.app.ProgressDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.business.goldenfish.moneyTransfer.modeldmt.ModelAccValidation
-import com.business.goldenfish.moneyTransfer.modeldmt.ModelRegisterBeni
-import com.business.goldenfish.moneyTransfer.modeldmt.ModelValidateOtpBeni
+import com.business.goldenfish.moneyTransfer.modeldmt.*
 import com.business.goldenfish.moneyTransfer.respositorydmt.DmtRepository
 import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
@@ -40,6 +38,22 @@ class RecipintListViewModel(private val repo:DmtRepository) :ViewModel() {
 
     }
 
+    fun deleteAccBeni(jsonObject: JsonObject,mProgressDialog: ProgressDialog)
+    {
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.deleteAccBeni(jsonObject,mProgressDialog)
+        }
+
+    }
+
+    fun deleteAccBeniValidate(jsonObject: JsonObject,mProgressDialog: ProgressDialog)
+    {
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.deleteAccBeniValidate(jsonObject,mProgressDialog)
+        }
+
+    }
+
     val ModelRegisterBeni : LiveData<ModelRegisterBeni>
     get() = repo.finalregBeni
 
@@ -48,4 +62,11 @@ class RecipintListViewModel(private val repo:DmtRepository) :ViewModel() {
 
     val ModelAccValidation : LiveData<ModelAccValidation>
     get() = repo.finalvalidateAccBeni
+
+    val ModelDeleteBEni : LiveData<ModelDeleteBEni>
+    get() = repo.finaldeleteAccBeni
+
+    val ModelDeleteBeniValidate : LiveData<ModelDeleteBeniValidate>
+    get() = repo.finaldeleteAccBeniValidate
+
 }
